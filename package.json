@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "RSS React Course 2026 Final Task",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
