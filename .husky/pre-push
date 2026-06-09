@@ -27,4 +27,5 @@ echo "-"
 echo "Your branch name is OK 😎"
 echo "-"
 
+# npm run build
 # npm run test

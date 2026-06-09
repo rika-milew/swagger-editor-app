@@ -7,12 +7,8 @@ import eslintPluginPrettier from 'eslint-plugin-prettier/recommended';
 import eslintPluginUnicorn from 'eslint-plugin-unicorn';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
-import nextVitals from "eslint-config-next/core-web-vitals";
-import nextTs from "eslint-config-next/typescript";
 
 export default defineConfig([
-  ...nextVitals,
-  ...nextTs,
   js.configs.recommended,
   tseslint.configs.strictTypeChecked,
   tseslint.configs.stylisticTypeChecked,
@@ -107,6 +103,13 @@ export default defineConfig([
       'unicorn/prefer-node-protocol': 'error',
       'unicorn/prefer-top-level-await': 'error',
 
+      "react-refresh/only-export-components": [
+      "warn",
+      {
+        "allowConstantExport": true,
+        "allowExportNames": ["metadata", "viewport", "generateMetadata"]
+      }
+    ],
       // 🎨 Styles
       quotes: ['error', 'single', { avoidEscape: true }],
       semi: ['error', 'always'],
