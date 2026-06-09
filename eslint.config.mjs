@@ -103,13 +103,13 @@ export default defineConfig([
       'unicorn/prefer-node-protocol': 'error',
       'unicorn/prefer-top-level-await': 'error',
 
-      "react-refresh/only-export-components": [
-      "warn",
-      {
-        "allowConstantExport": true,
-        "allowExportNames": ["metadata", "viewport", "generateMetadata"]
-      }
-    ],
+      'react-refresh/only-export-components': [
+        'warn',
+        {
+          allowConstantExport: true,
+          allowExportNames: ['metadata', 'viewport', 'generateMetadata'],
+        },
+      ],
       // 🎨 Styles
       quotes: ['error', 'single', { avoidEscape: true }],
       semi: ['error', 'always'],
@@ -162,19 +162,19 @@ export default defineConfig([
     },
   },
   {
-  files: [
-    'src/app/**/page.tsx',
-    'src/app/**/layout.tsx',
-    'src/app/**/loading.tsx',
-    'src/app/**/error.tsx',
-    'src/app/**/not-found.tsx',
-    'src/app/global-error.tsx',
-  ],
+    files: [
+      'src/app/**/page.tsx',
+      'src/app/**/layout.tsx',
+      'src/app/**/loading.tsx',
+      'src/app/**/error.tsx',
+      'src/app/**/not-found.tsx',
+      'src/app/global-error.tsx',
+    ],
 
-  rules: {
-    'import-x/no-default-export': 'off',
+    rules: {
+      'import-x/no-default-export': 'off',
+    },
   },
-},
   {
     ignores: [
       '**/node_modules/**',
