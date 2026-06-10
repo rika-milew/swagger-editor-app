@@ -1,0 +1,9 @@
+:root {
+  /* COLORS */
+
+  /* White colors */
+  --color-white: hsl(0deg 0% 100%);
+
+  /* Gray colors */
+  --color-gray-900: hsl(240deg 9% 4%);
+}
