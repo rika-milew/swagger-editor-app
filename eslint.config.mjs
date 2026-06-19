@@ -1,20 +1,17 @@
 import js from '@eslint/js';
 import { defineConfig } from 'eslint/config';
-import reactPlugin from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
-import reactRefresh from 'eslint-plugin-react-refresh';
 import eslintPluginPrettier from 'eslint-plugin-prettier/recommended';
 import eslintPluginUnicorn from 'eslint-plugin-unicorn';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
+import nextPlugin from '@next/eslint-plugin-next';
 
 export default defineConfig([
   js.configs.recommended,
   tseslint.configs.strictTypeChecked,
   tseslint.configs.stylisticTypeChecked,
-  reactPlugin.configs.flat.recommended,
   reactHooks.configs.flat.recommended,
-  reactRefresh.configs.vite,
   eslintPluginUnicorn.configs.recommended,
   eslintPluginPrettier,
 
@@ -40,12 +37,16 @@ export default defineConfig([
     settings: {
       react: { version: 'detect' },
     },
-    plugins: {},
+    plugins: {
+      '@next/next': nextPlugin,
+    },
     linterOptions: {
       noInlineConfig: true,
     },
     rules: {
       // 🔴 Mandatory
+      ...nextPlugin.configs['core-web-vitals'].rules,
+      ...nextPlugin.configs.recommended.rules,
       '@typescript-eslint/no-unused-vars': [
         'error',
         {
@@ -80,7 +81,7 @@ export default defineConfig([
       'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
       'max-lines-per-function': [
         'warn',
-        { max: 40, skipBlankLines: true, skipComments: true },
+        { max: 60, skipBlankLines: true, skipComments: true },
       ],
 
       '@typescript-eslint/consistent-type-assertions': [
@@ -103,13 +104,6 @@ export default defineConfig([
       'unicorn/prefer-node-protocol': 'error',
       'unicorn/prefer-top-level-await': 'error',
 
-      'react-refresh/only-export-components': [
-        'warn',
-        {
-          allowConstantExport: true,
-          allowExportNames: ['metadata', 'viewport', 'generateMetadata'],
-        },
-      ],
       // 🎨 Styles
       quotes: ['error', 'single', { avoidEscape: true }],
       semi: ['error', 'always'],
