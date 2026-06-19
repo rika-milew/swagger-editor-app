@@ -1,4 +1,8 @@
 import { defineConfig } from 'vitest/config';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   test: {
@@ -26,7 +30,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': new URL('src', import.meta.url).pathname,
+      '@': path.resolve(__dirname, './src'),
     },
   },
 });
