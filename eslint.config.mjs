@@ -16,7 +16,7 @@ export default defineConfig([
   eslintPluginPrettier,
 
   {
-    files: ['**/*.{ts,tsx,js,jsx}'],
+    files: ['**/*.{ts,tsx}'],
     languageOptions: {
       globals: {
         ...globals.browser,
