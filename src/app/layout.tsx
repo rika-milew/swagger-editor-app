@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { Inter, JetBrains_Mono } from 'next/font/google';
-import '../styles/globals.css';
+import '@/styles/index.css';
 
 const inter = Inter({
   variable: '--font-inter',
