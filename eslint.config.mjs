@@ -1,5 +1,7 @@
 import js from '@eslint/js';
 import { defineConfig } from 'eslint/config';
+import nextTs from 'eslint-config-next/typescript';
+import nextVitals from 'eslint-config-next/core-web-vitals';
 import reactHooks from 'eslint-plugin-react-hooks';
 import eslintPluginPrettier from 'eslint-plugin-prettier/recommended';
 import eslintPluginUnicorn from 'eslint-plugin-unicorn';
@@ -11,6 +13,8 @@ export default defineConfig([
   js.configs.recommended,
   tseslint.configs.strictTypeChecked,
   tseslint.configs.stylisticTypeChecked,
+  nextVitals,
+  nextTs,
   reactHooks.configs.flat.recommended,
   eslintPluginUnicorn.configs.recommended,
   eslintPluginPrettier,
