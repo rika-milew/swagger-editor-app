@@ -7,7 +7,6 @@ import eslintPluginPrettier from 'eslint-plugin-prettier/recommended';
 import eslintPluginUnicorn from 'eslint-plugin-unicorn';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
-import nextPlugin from '@next/eslint-plugin-next';
 
 export default defineConfig([
   js.configs.recommended,
@@ -41,16 +40,12 @@ export default defineConfig([
     settings: {
       react: { version: 'detect' },
     },
-    plugins: {
-      '@next/next': nextPlugin,
-    },
+    plugins: {},
     linterOptions: {
       noInlineConfig: true,
     },
     rules: {
       // 🔴 Mandatory
-      ...nextPlugin.configs['core-web-vitals'].rules,
-      ...nextPlugin.configs.recommended.rules,
       '@typescript-eslint/no-unused-vars': [
         'error',
         {
