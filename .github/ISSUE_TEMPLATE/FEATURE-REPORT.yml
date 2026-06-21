@@ -2,7 +2,7 @@ name: Feature Report
 description: File a feature report.
 title: '[🚀 Feat]: '
 labels: ['feature']
-projects: ['<PROJECT_ID>']
+projects: ['1']
 body:
   - type: textarea
     id: feature-description
