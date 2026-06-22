@@ -20,10 +20,13 @@ RS School React Course Final Project.
   git clone https://github.com/rika-milew/swagger-editor-app.git
   ```
 - **Install dependencies**
+
   ```
   npm install
   ```
+
   or
+
   ```
   yarn install
   ```
@@ -32,7 +35,6 @@ RS School React Course Final Project.
   ```
   npm run dev
   ```
-
 
 ## Tech Stack
 
