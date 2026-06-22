@@ -17,7 +17,7 @@ RS School React Course Final Project.
 
 - **Clone this repository**
   ```
-  git clone https://github.com/your-username/swagger-editor-app.git
+  git clone https://github.com/rika-milew/swagger-editor-app.git
   ```
 - **Install dependencies**
   ```
