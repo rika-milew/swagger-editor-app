@@ -11,10 +11,12 @@ type ButtonSize = 'small' | 'medium';
 
 type ButtonShape = 'rounded' | 'square';
 
+type ButtonType = 'button' | 'submit';
+
 type ButtonProps = {
   children: ReactNode;
   className?: string;
-  type?: 'button' | 'submit';
+  type?: ButtonType;
   color?: ButtonColor;
   size?: ButtonSize;
   shape?: ButtonShape;
