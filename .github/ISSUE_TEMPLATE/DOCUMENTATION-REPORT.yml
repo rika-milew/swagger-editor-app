@@ -2,7 +2,7 @@ name: Documentation Report
 description: File a documentation report.
 title: '[📘 Docs]: '
 labels: ['documentation']
-projects: ['<PROJECT_ID>']
+projects: ['1']
 body:
   - type: textarea
     id: documentation-description

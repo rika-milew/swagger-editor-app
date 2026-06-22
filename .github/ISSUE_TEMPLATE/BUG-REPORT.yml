@@ -2,7 +2,7 @@ name: Bug Report
 description: File a bug report.
 title: '[🐞 Fix]: '
 labels: ['bug', 'triage']
-projects: ['<PROJECT_ID>']
+projects: ['1']
 body:
   - type: textarea
     id: what-happened

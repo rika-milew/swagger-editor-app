@@ -2,7 +2,7 @@ name: Refactoring Report
 description: File a refactoring report.
 title: '[🔄 Refactor]: '
 labels: ['refactor']
-projects: projects: ['<PROJECT_ID>']
+projects: projects: ['1']
 body:
   - type: textarea
     id: refactor-description
