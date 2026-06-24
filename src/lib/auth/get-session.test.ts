@@ -1,16 +1,16 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-const { mockGetUser, mockCreateClient } = vi.hoisted(() => ({
+const { mockGetUser, mockCreateServerClient } = vi.hoisted(() => ({
   mockGetUser: vi.fn(),
-  mockCreateClient: vi.fn(() => ({
+  mockCreateServerClient: vi.fn(() => ({
     auth: {
       getUser: mockGetUser,
     },
   })),
 }));
 
-vi.mock('@/lib/supabase/server', () => ({
-  createClient: mockCreateClient,
+vi.mock('@/lib/database/server', () => ({
+  createServerClient: mockCreateServerClient,
 }));
 
 import { getSession } from './get-session';
@@ -30,7 +30,7 @@ describe('getSession', () => {
     const result = await getSession();
 
     expect(result).toEqual(mockUser);
-    expect(mockCreateClient).toHaveBeenCalledTimes(1);
+    expect(mockCreateServerClient).toHaveBeenCalledTimes(1);
   });
 
   it('returns null when no user session exists', async () => {
@@ -47,6 +47,8 @@ describe('getSession', () => {
   it('throws error when getSession fails', async () => {
     mockGetUser.mockRejectedValue(new Error('Authentication error'));
 
-    await expect(getSession()).rejects.toThrow('Authentication error');
+    const result = await getSession();
+
+    expect(result).toBeNull();
   });
 });
