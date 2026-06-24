@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server';
+import { createClient } from '@/lib/database/server';
 import type { User } from '@supabase/supabase-js';
 
 export async function getSession(): Promise<User | null> {
