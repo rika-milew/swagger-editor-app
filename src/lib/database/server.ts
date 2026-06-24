@@ -4,30 +4,35 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from '@/types/database.types';
 
 export async function createServerClient(): Promise<SupabaseClient<Database>> {
-  const cookieStore = await cookies();
+  try {
+    const cookieStore = await cookies();
 
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
-  if (!url || !key) {
-    throw new Error('Missing Supabase environment variables');
+    if (!url || !key) {
+      throw new Error('Missing Supabase environment variables');
+    }
+
+    return serverClient<Database>(url, key, {
+      cookies: {
+        getAll() {
+          return cookieStore.getAll();
+        },
+
+        setAll(cookiesToSet, _headers) {
+          try {
+            cookiesToSet.forEach(({ name, value, options }) =>
+              cookieStore.set(name, value, options),
+            );
+          } catch (error) {
+            console.error(error);
+          }
+        },
+      },
+    });
+  } catch (error) {
+    console.error('Error creating server client:', error);
+    throw new Error('Failed to create Supabase server client');
   }
-
-  return serverClient<Database>(url, key, {
-    cookies: {
-      getAll() {
-        return cookieStore.getAll();
-      },
-
-      setAll(cookiesToSet, _headers) {
-        try {
-          cookiesToSet.forEach(({ name, value, options }) =>
-            cookieStore.set(name, value, options),
-          );
-        } catch (error) {
-          console.error(error);
-        }
-      },
-    },
-  });
 }
