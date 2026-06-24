@@ -46,7 +46,7 @@ type ButtonProps = {
 export const Button = ({
   children,
   className,
-  type,
+  type = 'button',
   color,
   size,
   shape,

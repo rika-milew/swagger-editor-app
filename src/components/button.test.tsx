@@ -1,5 +1,5 @@
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { render, screen, cleanup } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 import { describe, it, expect, vi } from 'vitest';
 import { Button } from './button';
 import styles from './button.module.css';
@@ -25,34 +25,40 @@ describe('Button Component', () => {
   });
 });
 
-it('applies primary color class', () => {
-  render(<Button color="primary">Primary</Button>);
-  expect(screen.getByRole('button')).toHaveClass(styles.primary);
+it('applies correcy color classes when specified', () => {
+  const colors = ['basic', 'primary', 'secondary', 'transparent'] as const;
+
+  colors.forEach((color) => {
+    const { getByRole } = render(<Button color={color}>Colored</Button>);
+    const button = getByRole('button', { name: /colored/i });
+
+    expect(button).toHaveClass(styles[color]);
+    cleanup();
+  });
 });
 
-it('applies secondary color class', () => {
-  render(<Button color="secondary">Secondary</Button>);
-  expect(screen.getByRole('button')).toHaveClass(styles.secondary);
+it('applies correcy size classes when specified', () => {
+  const colors = ['small', 'medium'] as const;
+
+  colors.forEach((size) => {
+    const { getByRole } = render(<Button size={size}>Size</Button>);
+    const button = getByRole('button', { name: /size/i });
+
+    expect(button).toHaveClass(styles[size]);
+    cleanup();
+  });
 });
 
-it('applies transparent color class', () => {
-  render(<Button color="transparent">Transparent</Button>);
-  expect(screen.getByRole('button')).toHaveClass(styles.transparent);
-});
+it('applies correcy shape classes when specified', () => {
+  const colors = ['rounded', 'square'] as const;
 
-it('applies small size class', () => {
-  render(<Button size="small">Small</Button>);
-  expect(screen.getByRole('button')).toHaveClass(styles.small);
-});
+  colors.forEach((shape) => {
+    const { getByRole } = render(<Button shape={shape}>Shape</Button>);
+    const button = getByRole('button', { name: /shape/i });
 
-it('applies rounded shape class', () => {
-  render(<Button shape="rounded">Rounded</Button>);
-  expect(screen.getByRole('button')).toHaveClass(styles.rounded);
-});
-
-it('applies square shape class', () => {
-  render(<Button shape="square">Square</Button>);
-  expect(screen.getByRole('button')).toHaveClass(styles.square);
+    expect(button).toHaveClass(styles[shape]);
+    cleanup();
+  });
 });
 
 it('applies active class when isActive is true', () => {
