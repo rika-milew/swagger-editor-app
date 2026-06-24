@@ -10,7 +10,7 @@
   border: none;
 
   font-family: var(--font-inter), sans-serif;
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-bold);
 
   transition: all var(--transition-default) var(--ease-in-cubic);
 
