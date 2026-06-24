@@ -5,7 +5,7 @@ import styles from './button.module.css';
 
 const cx = classNames.bind(styles);
 
-type ButtonColor = 'basic' | 'primary' | 'secondary' | 'toggle';
+type ButtonColor = 'basic' | 'primary' | 'secondary' | 'transparent';
 
 type ButtonSize = 'small' | 'medium';
 

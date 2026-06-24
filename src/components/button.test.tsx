@@ -42,9 +42,9 @@ describe('Button Component', () => {
       expect(screen.getByRole('button')).toHaveClass(styles.secondary);
     });
 
-    it('applies toggle color class', () => {
-      render(<Button color="toggle">Toggle</Button>);
-      expect(screen.getByRole('button')).toHaveClass(styles.toggle);
+    it('applies transparent color class', () => {
+      render(<Button color="transparent">Transparent</Button>);
+      expect(screen.getByRole('button')).toHaveClass(styles.transparent);
     });
   });
 
