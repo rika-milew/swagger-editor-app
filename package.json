@@ -29,6 +29,7 @@
     ]
   },
   "dependencies": {
+    "class-variance-authority": "^0.7.1",
     "classnames": "^2.5.1",
     "next": "^16.2.9",
     "react": "^19.2.7",
