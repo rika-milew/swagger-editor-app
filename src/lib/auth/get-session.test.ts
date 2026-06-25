@@ -47,8 +47,6 @@ describe('getSession', () => {
   it('throws error when getSession fails', async () => {
     mockGetUser.mockRejectedValue(new Error('Authentication error'));
 
-    const result = await getSession();
-
-    expect(result).toBeNull();
+    await expect(getSession()).rejects.toThrow('Authentication error');
   });
 });
