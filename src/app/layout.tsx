@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
+import { ChakraUIProvider } from '@/providers/chakra-provider';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import '@/styles/index.css';
 
@@ -25,7 +26,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
-      <body>{children}</body>
+      <body>
+        <ChakraUIProvider>{children}</ChakraUIProvider>
+      </body>
     </html>
   );
 }
