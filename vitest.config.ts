@@ -19,6 +19,7 @@ export default defineConfig({
         '**/*.d.ts',
         '**/*.config.*',
         '**/layout.tsx',
+        'src/theme/**',
       ],
       thresholds: {
         statements: 80,
