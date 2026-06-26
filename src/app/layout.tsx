@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import '@/styles/index.css';
+import { Provider } from '@/components/ui/provider';
+import Header from '@/components/layout/header/header';
 
 const inter = Inter({
   variable: '--font-inter',
@@ -24,8 +26,17 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
-      <body>{children}</body>
+    <html
+      suppressHydrationWarning
+      lang="en"
+      className={`${inter.variable} ${jetbrainsMono.variable}`}
+    >
+      <body>
+        <Provider>
+          <Header />
+          {children}
+        </Provider>
+      </body>
     </html>
   );
 }
