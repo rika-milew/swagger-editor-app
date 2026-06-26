@@ -30,6 +30,9 @@ export const colors = {
   destructiveForeground: 'oklch(98% 0 0)',
   input: 'oklch(27% .005 285)',
 
+  colorZinc600: 'oklch(44.2% .017 285.786)',
+  colorAuth: 'color-mix(in oklab, oklch(86% .18 200) 60%, transparent)',
+
   logoGlow: `
     0 0 0 1px rgba(255,255,255,.35),
     0 0 10px oklch(86% .18 200 / .55),

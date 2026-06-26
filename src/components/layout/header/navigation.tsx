@@ -9,10 +9,10 @@ export default function Navigation() {
     <HStack gap="6">
       <Link
         as={NextLink}
-        href="/editor"
-        color={pathname === '/editor' ? colors.nav.active : colors.nav.inactive}
+        href="/"
+        color={pathname === '/' ? colors.nav.active : colors.nav.inactive}
         _hover={
-          pathname === '/editor'
+          pathname === '/'
             ? undefined
             : { color: colors.colorWhite, textDecoration: 'none' }
         }

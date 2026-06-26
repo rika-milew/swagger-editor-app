@@ -25,4 +25,29 @@ export const buttons = {
       bg: colors.brandPrimary,
     },
   },
+  languageSwitcher: {
+    variant: 'ghost',
+    bg: 'transparent',
+    color: colors.colorZinc600,
+
+    _hover: {
+      bg: 'transparent',
+      color: colors.colorWhite,
+    },
+  },
+  auth: {
+    variant: 'ghost',
+    bg: 'transparent',
+    color: colors.colorAuth,
+    border: '1px solid',
+    borderColor: colors.border,
+    borderRadius: 'sm',
+    fontWeight: '500',
+    px: 4,
+
+    _hover: {
+      bg: 'transparent',
+      color: colors.brandPrimary,
+    },
+  },
 } as const;

@@ -12,8 +12,10 @@ export const typography = {
     letterSpacing: '0.02em',
   },
 
-  h1: {
-    fontSize: '4xl',
-    fontWeight: '700',
+  authButton: {
+    fontSize: 'xs',
+    fontWeight: '600',
+    textTransform: 'uppercase',
+    letterSpacing: '0.08em',
   },
 } as const;

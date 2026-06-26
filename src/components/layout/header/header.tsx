@@ -1,12 +1,15 @@
 'use client';
 
-import { Box, Button, Flex, HStack } from '@chakra-ui/react';
+import { useState } from 'react';
+import { Box, Button, Flex, HStack, Separator } from '@chakra-ui/react';
 import { colors } from '@/shared/theme/colors';
 import { buttons } from '@/shared/theme/buttons';
+import { typography } from '@/shared/theme/typography';
 import Navigation from './navigation';
 import Logo from './Logo';
 
 export default function Header() {
+  const [isAuth, setIsAuth] = useState(false);
   return (
     <Box
       as="header"
@@ -31,22 +34,23 @@ export default function Header() {
         </HStack>
 
         <HStack gap="4">
-          <Button
-            size="sm"
-            variant="ghost"
-            color="gray.300"
-            _hover={{ bg: 'whiteAlpha.100', color: 'white' }}
-          >
+          <Button size="sm" {...buttons.languageSwitcher}>
             EN / RU
           </Button>
 
+          <Separator
+            orientation="vertical"
+            height="20px"
+            borderColor={colors.border}
+          />
+
           <Button
             size="sm"
-            variant="ghost"
-            color="gray.300"
-            _hover={{ bg: 'whiteAlpha.100', color: 'white' }}
+            {...buttons.auth}
+            {...typography.authButton}
+            onClick={() => setIsAuth((prev) => !prev)}
           >
-            Auth
+            Auth: {isAuth ? 'On' : 'Off'}
           </Button>
 
           <Button size="sm" {...buttons.signIn}>
