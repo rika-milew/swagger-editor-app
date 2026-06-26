@@ -5,7 +5,7 @@ import { colors } from '@/theme/colors';
 export default function AuthLayout({ children }: { children: ReactNode }) {
   return (
     <Box
-      flex="1"
+      minH="100dvh"
       bg={colors.background}
       display="flex"
       alignItems="center"

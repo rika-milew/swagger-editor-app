@@ -96,6 +96,6 @@ describe('AuthInput', () => {
       </ChakraProvider>,
     );
 
-    expect(screen.queryByText('Some error')).not.toBeInTheDocument();
+    expect(screen.queryByText('Test error')).not.toBeInTheDocument();
   });
 });

@@ -46,7 +46,7 @@ export function SignUpView() {
         >
           Already have an account?{' '}
           <Link asChild {...typography.textLink} color={colors.brandPrimary}>
-            <NextLink href="/sign-in">Create one</NextLink>
+            <NextLink href="/sign-in">Sign in</NextLink>
           </Link>
         </Text>
       }
