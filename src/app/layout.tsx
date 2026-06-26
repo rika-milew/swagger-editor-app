@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import { Box, Flex } from '@chakra-ui/react';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import '@/styles/index.css';
-import { Provider } from '@/components/ui/provider';
+import { Provider } from '@/providers/chakraProvider';
 import Header from '@/components/layout/header/header';
 import Footer from '@/components/layout/footer/footer';
 

@@ -2,32 +2,18 @@
 
 import { useState } from 'react';
 import { Box, Button, Flex, HStack, Separator } from '@chakra-ui/react';
-import { colors } from '@/shared/theme/colors';
-import { buttons } from '@/shared/theme/buttons';
-import { typography } from '@/shared/theme/typography';
+import { colors } from '@/theme/colors';
+import { buttons } from '@/theme/buttons';
+import { container } from '@/theme/container';
+import { typography } from '@/theme/typography';
 import Navigation from './navigation';
-import Logo from './Logo';
+import Logo from '../logo/logo';
 
 export default function Header() {
   const [isAuth, setIsAuth] = useState(false);
   return (
-    <Box
-      as="header"
-      position="sticky"
-      top="0"
-      zIndex="1000"
-      bg={colors.background}
-      borderBottom="1px solid"
-      borderColor={colors.border}
-    >
-      <Flex
-        maxW="1200px"
-        mx="auto"
-        px="6"
-        py="4"
-        align="center"
-        justify="space-between"
-      >
+    <Box as="header" {...container.headerBox}>
+      <Flex px="6" py="4" {...container.layoutContainer}>
         <HStack gap="10">
           <Logo />
           <Navigation />

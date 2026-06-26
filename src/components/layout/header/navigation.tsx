@@ -1,7 +1,7 @@
 import { Link, HStack } from '@chakra-ui/react';
 import { usePathname } from 'next/navigation';
 import NextLink from 'next/link';
-import { colors } from '@/shared/theme/colors';
+import { colors } from '@/theme/colors';
 
 export default function Navigation() {
   const pathname = usePathname();

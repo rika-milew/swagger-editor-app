@@ -1,7 +1,7 @@
 import NextLink from 'next/link';
 import { Box, HStack, Link, Text } from '@chakra-ui/react';
-import { colors } from '@/shared/theme/colors';
-import { typography } from '@/shared/theme/typography';
+import { colors } from '@/theme/colors';
+import { typography } from '@/theme/typography';
 
 export default function Logo() {
   return (
