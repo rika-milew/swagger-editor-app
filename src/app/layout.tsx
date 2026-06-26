@@ -1,9 +1,11 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
+import { Box, Flex } from '@chakra-ui/react';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import '@/styles/index.css';
 import { Provider } from '@/components/ui/provider';
 import Header from '@/components/layout/header/header';
+import Footer from '@/components/layout/footer/footer';
 
 const inter = Inter({
   variable: '--font-inter',
@@ -33,8 +35,13 @@ export default function RootLayout({
     >
       <body>
         <Provider>
-          <Header />
-          {children}
+          <Flex direction="column" minH="100vh">
+            <Header />
+
+            <Box flex="1">{children}</Box>
+
+            <Footer />
+          </Flex>
         </Provider>
       </body>
     </html>

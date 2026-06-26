@@ -6,10 +6,11 @@ export const typography = {
     lineHeight: '1',
   },
 
-  nav: {
-    fontSize: 'md',
+  navFooter: {
+    fontSize: 'sm',
     fontWeight: '500',
     letterSpacing: '0.02em',
+    textTransform: 'uppercase',
   },
 
   authButton: {
