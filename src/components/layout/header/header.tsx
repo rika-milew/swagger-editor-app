@@ -13,7 +13,7 @@ export default function Header() {
   const [isAuth, setIsAuth] = useState(false);
   return (
     <Box as="header" {...container.headerBox}>
-      <Flex px="6" py="4" {...container.layoutContainer}>
+      <Flex px="6" py="4" {...container.flexContainer}>
         <HStack gap="10">
           <Logo />
           <Navigation />

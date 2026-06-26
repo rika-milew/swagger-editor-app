@@ -15,7 +15,7 @@ export const container = {
     borderTop: '1px solid',
     borderColor: colors.border,
   },
-  layoutContainer: {
+  flexContainer: {
     maxW: '1200px',
     mx: 'auto',
     align: 'center',
