@@ -1,6 +1,8 @@
 import { Text, Link } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import { AuthForm } from '@/components/auth-form/auth-form';
+import { typography } from '@/theme/typography';
+import { colors } from '@/theme/colors';
 
 const SIGN_UP_FIELDS = [
   {
@@ -31,21 +33,20 @@ export function SignUpView() {
       submitLabel="Sign Up"
       fields={SIGN_UP_FIELDS}
       helperContent={
-        <Text textAlign="center" color="gray.400" fontSize="xs">
+        <Text textAlign="center" color={colors.colorZinc500} fontSize="xs">
           Min 8 characters, at least one letter, one digit and one special
           character.
         </Text>
       }
       bottomContent={
-        <Text textAlign="center" color="gray.600" fontSize="sm">
+        <Text
+          textAlign="center"
+          {...typography.text}
+          color={colors.colorZinc500}
+        >
           Already have an account?{' '}
-          <Link
-            asChild
-            color="blue.500"
-            fontWeight="medium"
-            _hover={{ textDecoration: 'underline' }}
-          >
-            <NextLink href="/sign-in">Sign in</NextLink>
+          <Link asChild {...typography.textLink} color={colors.brandPrimary}>
+            <NextLink href="/sign-in">Create one</NextLink>
           </Link>
         </Text>
       }

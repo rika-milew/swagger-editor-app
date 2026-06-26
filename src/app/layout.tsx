@@ -25,7 +25,11 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
+    <html
+      suppressHydrationWarning
+      lang="en"
+      className={`${inter.variable} ${jetbrainsMono.variable}`}
+    >
       <body>
         <ChakraUIProvider>{children}</ChakraUIProvider>
       </body>

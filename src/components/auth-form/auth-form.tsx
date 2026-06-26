@@ -1,6 +1,8 @@
 import type { ReactNode } from 'react';
 import { Box, VStack, Heading, Button, Text } from '@chakra-ui/react';
-import { AuthInput } from './auth-input';
+import { AuthInput } from './auth-input/auth-input';
+import { formStyles } from '@/theme/form';
+import { buttons } from '@/theme/buttons';
 
 type FieldConfig = {
   id: string;
@@ -31,29 +33,13 @@ export function AuthForm({
   onSubmit,
 }: AuthFormProps) {
   return (
-    <Box
-      w="full"
-      bg="gray.850"
-      borderWidth="1px"
-      borderStyle="solid"
-      borderColor="gray.800"
-      borderRadius="1rem"
-      p={8}
-      boxShadow="lg"
-    >
-      <VStack gap={6} align="stretch">
-        <VStack gap={1.5}>
-          <Heading as="h1" size="2xl" textAlign="center" color="white">
-            {title}
-          </Heading>
-          {subtitle && (
-            <Text color="gray.400" fontSize="sm" textAlign="center">
-              {subtitle}
-            </Text>
-          )}
+    <Box {...formStyles.wrapper}>
+      <VStack {...formStyles.content}>
+        <VStack {...formStyles.header}>
+          <Heading {...formStyles.title}>{title}</Heading>
+          {subtitle && <Text {...formStyles.subtitle}>{subtitle}</Text>}
         </VStack>
-
-        <VStack gap={3} align="stretch">
+        <VStack {...formStyles.fields}>
           {fields.map((field) => (
             <AuthInput
               key={field.id}
@@ -66,27 +52,10 @@ export function AuthForm({
             />
           ))}
           {helperContent}
-          <Button
-            bg="blue.500"
-            color="gray.900"
-            h={12}
-            px={3}
-            w="100%"
-            mt={2}
-            fontWeight="semibold"
-            fontSize="sm"
-            _hover={{
-              filter: 'brightness(1.1)',
-            }}
-            _focus={{
-              filter: 'brightness(1.1)',
-            }}
-            onClick={onSubmit}
-          >
+          <Button {...buttons.submit} onClick={onSubmit}>
             {submitLabel}
           </Button>
         </VStack>
-
         {bottomContent}
       </VStack>
     </Box>

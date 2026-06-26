@@ -1,17 +1,18 @@
 import type { ReactNode } from 'react';
 import { Box, Container } from '@chakra-ui/react';
+import { colors } from '@/theme/colors';
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
   return (
     <Box
       flex="1"
-      bg="gray.900"
+      bg={colors.background}
       display="flex"
       alignItems="center"
       justifyContent="center"
       p={4}
     >
-      <Container maxW="container.md" w="full">
+      <Container maxW="md" w="full">
         {children}
       </Container>
     </Box>

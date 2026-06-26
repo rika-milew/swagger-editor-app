@@ -1,6 +1,8 @@
 import { Text, Link } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import { AuthForm } from '@/components/auth-form/auth-form';
+import { typography } from '@/theme/typography';
+import { colors } from '@/theme/colors';
 
 const SIGN_IN_FIELDS = [
   {
@@ -25,14 +27,13 @@ export function SignInView() {
       submitLabel="Sign In"
       fields={SIGN_IN_FIELDS}
       bottomContent={
-        <Text textAlign="center" color="gray.600" fontSize="sm">
+        <Text
+          textAlign="center"
+          {...typography.text}
+          color={colors.colorZinc500}
+        >
           No account?{' '}
-          <Link
-            asChild
-            color="blue.500"
-            fontWeight="medium"
-            _hover={{ textDecoration: 'underline' }}
-          >
+          <Link asChild {...typography.textLink} color={colors.brandPrimary}>
             <NextLink href="/sign-up">Create one</NextLink>
           </Link>
         </Text>
