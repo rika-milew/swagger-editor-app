@@ -5,7 +5,7 @@ export const authInputStyles = {
     color: colors.colorZinc500,
     fontSize: 'xs',
     mb: 1,
-    fontWeight: '500',
+    fontWeight: 'var(--font-weight-medium)',
     letterSpacing: '.05em',
     fontFamily: 'var(--font-jetbrains-mono)',
     textTransform: 'uppercase',
@@ -26,7 +26,7 @@ export const authInputStyles = {
       boxShadow: `0 0 0 1px ${colors.brandPrimary}`,
     },
     _invalid: {
-      borderColor: 'red.500',
+      borderColor: colors.destructive,
       outline: 'none',
       boxShadow: 'none',
     },
