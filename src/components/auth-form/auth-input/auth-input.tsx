@@ -8,11 +8,10 @@ type AuthInputProps = {
   type: 'email' | 'password' | 'text';
   placeholder: string;
   error?: string;
-  helperText?: string;
 };
 
 export const AuthInput = forwardRef<HTMLInputElement, AuthInputProps>(
-  ({ id, label, type, placeholder, error, helperText, ...rest }, ref) => {
+  ({ id, label, type, placeholder, error, ...rest }, ref) => {
     return (
       <Field.Root key={id} invalid={!!error}>
         <Field.Label htmlFor={id} {...authInputStyles.label}>
@@ -28,13 +27,11 @@ export const AuthInput = forwardRef<HTMLInputElement, AuthInputProps>(
           {...rest}
         />
         <Box {...authInputStyles.errorContainer}>
-          {error ? (
+          {error && (
             <Field.ErrorText {...authInputStyles.errorText}>
               {error}
             </Field.ErrorText>
-          ) : helperText ? (
-            <Field.HelperText>{helperText}</Field.HelperText>
-          ) : null}
+          )}
         </Box>
       </Field.Root>
     );
