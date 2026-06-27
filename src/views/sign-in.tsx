@@ -1,5 +1,5 @@
-import { Text, Link } from '@chakra-ui/react';
-import NextLink from 'next/link';
+import { Text } from '@chakra-ui/react';
+import { TextLink } from '@/components/text-link/text-link';
 import { AuthForm } from '@/components/auth-form/auth-form';
 import { typography } from '@/theme/typography';
 import { colors } from '@/theme/colors';
@@ -32,10 +32,7 @@ export function SignInView() {
           {...typography.text}
           color={colors.colorZinc500}
         >
-          No account?{' '}
-          <Link asChild {...typography.textLink} color={colors.brandPrimary}>
-            <NextLink href="/sign-up">Create one</NextLink>
-          </Link>
+          No account? <TextLink href="/sign-up">Create one</TextLink>
         </Text>
       }
     />
