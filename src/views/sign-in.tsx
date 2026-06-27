@@ -3,16 +3,18 @@ import { TextLink } from '@/components/text-link/text-link';
 import { AuthForm } from '@/components/auth-form/auth-form';
 import { typography } from '@/theme/typography';
 import { colors } from '@/theme/colors';
+import { signInSchema } from '@/lib/validation/auth-schemas';
+import { signIn } from '@/app/actions/auth';
 
 const SIGN_IN_FIELDS = [
   {
-    id: 'email',
+    id: 'email' as const,
     label: 'Email',
     type: 'email' as const,
     placeholder: 'you@example.com',
   },
   {
-    id: 'password',
+    id: 'password' as const,
     label: 'Password',
     type: 'password' as const,
     placeholder: '••••••••',
@@ -26,6 +28,8 @@ export function SignInView() {
       subtitle="Sign in to your account to continue"
       submitLabel="Sign In"
       fields={SIGN_IN_FIELDS}
+      schema={signInSchema}
+      onSubmitAction={signIn}
       bottomContent={
         <Text
           textAlign="center"
