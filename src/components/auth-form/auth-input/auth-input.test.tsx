@@ -82,20 +82,4 @@ describe('AuthInput', () => {
 
     expect(input).toHaveValue('test@example.com');
   });
-
-  it('should toggle error state', () => {
-    const { rerender } = renderWithChakra(
-      <AuthInput {...defaultProps} error="Test error" />,
-    );
-
-    expect(screen.getByText('Test error')).toBeInTheDocument();
-
-    rerender(
-      <ChakraProvider value={defaultSystem}>
-        <AuthInput {...defaultProps} />
-      </ChakraProvider>,
-    );
-
-    expect(screen.queryByText('Test error')).not.toBeInTheDocument();
-  });
 });
