@@ -1,18 +1,18 @@
 import { Box, Input, Field } from '@chakra-ui/react';
 import { authInputStyles } from '@/theme/input';
 import { forwardRef } from 'react';
-import type { FieldError } from 'react-hook-form';
 
 type AuthInputProps = {
   id: string;
   label: string;
   type: 'email' | 'password' | 'text';
   placeholder: string;
-  error?: FieldError;
+  error?: string;
+  helperText?: string;
 };
 
 export const AuthInput = forwardRef<HTMLInputElement, AuthInputProps>(
-  ({ id, label, type, placeholder, error, ...rest }, ref) => {
+  ({ id, label, type, placeholder, error, helperText, ...rest }, ref) => {
     return (
       <Field.Root key={id} invalid={!!error}>
         <Field.Label htmlFor={id} {...authInputStyles.label}>
@@ -30,8 +30,10 @@ export const AuthInput = forwardRef<HTMLInputElement, AuthInputProps>(
         <Box {...authInputStyles.errorContainer}>
           {error ? (
             <Field.ErrorText {...authInputStyles.errorText}>
-              {error.message}
+              {error}
             </Field.ErrorText>
+          ) : helperText ? (
+            <Field.HelperText>{helperText}</Field.HelperText>
           ) : null}
         </Box>
       </Field.Root>
