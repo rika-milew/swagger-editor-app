@@ -19,7 +19,9 @@ export function AuthInput({
 }: AuthInputProps) {
   return (
     <Field.Root key={id} invalid={!!error}>
-      <Field.Label {...authInputStyles.label}>{label}</Field.Label>
+      <Field.Label htmlFor={id} {...authInputStyles.label}>
+        {label}
+      </Field.Label>
       <Input
         id={id}
         type={type}
