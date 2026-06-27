@@ -1,16 +1,15 @@
 export const colors = {
-  colorWhite: 'hsl(0, 0%, 100%)',
+  colorWhite: 'hsl(0deg 0% 100%)',
 
   background: 'hsl(240deg 9% 4%)',
   border: 'hsl(240deg 5% 16%)',
   panel: 'hsl(240deg 7% 8%)',
-  textPrimary: 'hsl(240deg 9% 4%)',
 
-  brandPrimary: 'oklch(86% .18 200)',
-  brandSecondary: 'oklch(70% .22 305)',
+  brandPrimary: 'hsl(183deg 100% 50%)',
+  brandSecondary: 'hsl(273deg 100% 72%)',
 
-  destructive: 'oklch(65% .22 25)',
+  destructive: 'hsl(359deg 94% 62%)',
 
-  colorZinc500: 'oklch(55.2% .016 285.938)',
-  colorZinc600: 'oklch(44.2% .017 285.786)',
+  colorZinc500: 'hsl(240deg 4% 46%)',
+  colorZinc600: 'hsl(240deg 6% 34%)',
 } as const;

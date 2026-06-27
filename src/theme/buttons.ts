@@ -8,7 +8,7 @@ export const buttons = {
     px: 3,
     w: '100%',
     mt: 2,
-    fontWeight: '600',
+    fontWeight: 'var(--font-weight-medium)',
     fontSize: 'sm',
     _hover: {
       filter: 'brightness(1.1)',
