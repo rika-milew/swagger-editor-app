@@ -10,7 +10,6 @@ type FieldConfig = {
   type: 'email' | 'password' | 'text';
   placeholder: string;
   error?: string;
-  helperText?: string;
 };
 
 type AuthFormProps = {
@@ -48,7 +47,6 @@ export function AuthForm({
               type={field.type}
               placeholder={field.placeholder}
               error={field.error}
-              helperText={field.helperText}
             />
           ))}
           {helperContent}
