@@ -1,0 +1,15 @@
+.preview-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 10px;
+
+  width: 100%;
+  height: auto;
+  min-height: 320px;
+  padding: var(--default-padding);
+  border: 1px solid var(--canvas-border);
+  border-radius: var(--border-radius);
+
+  background-color: var(--color-zinc-900);
+}

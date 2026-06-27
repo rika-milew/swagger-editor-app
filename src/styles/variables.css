@@ -1,9 +1,19 @@
 :root {
   /* COLORS */
+  --brand-primary: oklch(86% 0.18 200deg);
 
   /* White colors */
   --color-white: hsl(0deg 0% 100%);
+  --color-zinc-100: oklch(96.7% 0.001 286.375deg);
 
   /* Gray colors */
   --color-gray-900: hsl(240deg 9% 4%);
+  --color-zinc-900: oklch(21% 0.006 285.885deg);
+  --canvas-border: oklch(27% 0.005 285deg);
+  --color-zinc-500: oklch(55.2% 0.016 285.938deg);
+
+  /* sizes */
+  --border-radius: 12px;
+  --default-padding: 16px;
+  --text-sm: 0.875rem;
 }

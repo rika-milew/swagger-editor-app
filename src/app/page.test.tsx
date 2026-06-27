@@ -2,11 +2,14 @@ import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import Home from './page';
 
-describe('Home page', () => {
-  it('renders the main heading', () => {
+describe('Home page layout', () => {
+  it('renders with the editor and a viewer', () => {
     render(<Home />);
-    expect(
-      screen.getByRole('heading', { name: /swagger editor app/i }),
-    ).toBeInTheDocument();
+
+    const editor = screen.getByTestId('editor-block');
+    expect(editor).toBeInTheDocument();
+
+    const viewer = screen.getByTestId('viewer-block');
+    expect(viewer).toBeInTheDocument();
   });
 });
