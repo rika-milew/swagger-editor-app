@@ -162,4 +162,84 @@ describe('AuthForm', () => {
     expect(screen.getByText('No Fields')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Submit' })).toBeInTheDocument();
   });
+
+  it('should submit form with correct data', async () => {
+    const user = userEvent.setup();
+    const handleSubmit = vi.fn().mockResolvedValue({});
+
+    renderWithChakra(
+      <AuthForm {...defaultProps} onSubmitAction={handleSubmit} />,
+    );
+
+    await user.type(
+      screen.getByPlaceholderText('Enter email'),
+      'test@example.com',
+    );
+    await user.type(
+      screen.getByPlaceholderText('Enter password'),
+      'password123!',
+    );
+    await user.click(screen.getByRole('button', { name: 'Sign In' }));
+
+    await waitFor(() => {
+      expect(handleSubmit).toHaveBeenCalledWith({
+        email: 'test@example.com',
+        password: 'password123!',
+      });
+    });
+  });
+
+  it('should not display server error when onSubmitAction succeeds', async () => {
+    const user = userEvent.setup();
+    const handleSubmit = vi.fn().mockResolvedValue({});
+
+    renderWithChakra(
+      <AuthForm {...defaultProps} onSubmitAction={handleSubmit} />,
+    );
+
+    await user.type(
+      screen.getByPlaceholderText('Enter email'),
+      'test@example.com',
+    );
+    await user.type(
+      screen.getByPlaceholderText('Enter password'),
+      'password123!',
+    );
+    await user.click(screen.getByRole('button', { name: 'Sign In' }));
+
+    await waitFor(() => {
+      expect(screen.queryByText(/error/i)).not.toBeInTheDocument();
+    });
+  });
+
+  it('should log server error to console', async () => {
+    const user = userEvent.setup();
+    const consoleErrorSpy = vi
+      .spyOn(console, 'error')
+      .mockImplementation(vi.fn());
+    const handleSubmit = vi.fn().mockResolvedValue({ error: 'Server error' });
+
+    renderWithChakra(
+      <AuthForm {...defaultProps} onSubmitAction={handleSubmit} />,
+    );
+
+    await user.type(
+      screen.getByPlaceholderText('Enter email'),
+      'test@example.com',
+    );
+    await user.type(
+      screen.getByPlaceholderText('Enter password'),
+      'password123!',
+    );
+    await user.click(screen.getByRole('button', { name: 'Sign In' }));
+
+    await waitFor(() => {
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        'Server error:',
+        'Server error',
+      );
+    });
+
+    consoleErrorSpy.mockRestore();
+  });
 });

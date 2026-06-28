@@ -91,10 +91,9 @@ export function AuthForm<T extends FieldValues>({
               {...buttons.submit}
               type="submit"
               loading={isSubmitting}
-              loadingText="Please wait..."
+              disabled={isSubmitting}
             >
-              {' '}
-              {submitLabel}
+              {isSubmitting ? 'Please wait...' : submitLabel}
             </Button>
           </VStack>
         </form>
