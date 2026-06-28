@@ -11,7 +11,7 @@ type AuthFormProps = {
   submitLabel: string;
   fields: FieldConfig[];
   helperContent?: ReactNode;
-  bottomContent: ReactNode;
+  switchFormLink: ReactNode;
   onSubmit?: () => void;
 };
 
@@ -21,7 +21,7 @@ export function AuthForm({
   submitLabel,
   fields,
   helperContent,
-  bottomContent,
+  switchFormLink,
   onSubmit,
 }: AuthFormProps) {
   return (
@@ -47,7 +47,7 @@ export function AuthForm({
             {submitLabel}
           </Button>
         </VStack>
-        {bottomContent}
+        {switchFormLink}
       </VStack>
     </Box>
   );

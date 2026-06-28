@@ -27,7 +27,7 @@ export function SignIn() {
       subtitle="Sign in to your account to continue"
       submitLabel="Sign In"
       fields={SIGN_IN_FIELDS}
-      bottomContent={
+      switchFormLink={
         <Text
           textAlign="center"
           {...typography.text}

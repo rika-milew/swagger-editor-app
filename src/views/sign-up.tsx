@@ -39,7 +39,7 @@ export function SignUp() {
           character.
         </Text>
       }
-      bottomContent={
+      switchFormLink={
         <Text
           textAlign="center"
           {...typography.text}

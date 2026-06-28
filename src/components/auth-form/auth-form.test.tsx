@@ -28,7 +28,7 @@ const defaultProps = {
   title: 'Sign in to your account',
   submitLabel: 'Sign In',
   fields: defaultFields,
-  bottomContent: <div>Content</div>,
+  switchFormLink: <div>Content</div>,
 };
 
 describe('AuthForm', () => {
@@ -138,7 +138,7 @@ describe('AuthForm', () => {
         title="No Fields"
         submitLabel="Submit"
         fields={[]}
-        bottomContent={null}
+        switchFormLink={null}
       />,
     );
 
