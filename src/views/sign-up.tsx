@@ -25,7 +25,7 @@ const SIGN_UP_FIELDS = [
   },
 ];
 
-export function SignUpView() {
+export function SignUp() {
   return (
     <AuthForm
       title="Create Account"

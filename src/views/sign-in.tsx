@@ -19,7 +19,7 @@ const SIGN_IN_FIELDS = [
   },
 ];
 
-export function SignInView() {
+export function SignIn() {
   return (
     <AuthForm
       title="Welcome Back"
