@@ -2,7 +2,7 @@ import { colors } from './colors';
 
 export const authInputStyles = {
   label: {
-    color: colors.colorZinc500,
+    color: colors.colorZinc400,
     fontSize: 'xs',
     mb: 1,
     fontWeight: 'var(--font-weight-medium)',
@@ -18,7 +18,7 @@ export const authInputStyles = {
     px: 3,
     py: 2,
     outline: 'none',
-    _placeholder: { color: colors.colorZinc500 },
+    _placeholder: { color: colors.colorZinc400 },
     _focus: {
       borderColor: colors.brandPrimary,
       borderWidth: '1px',
@@ -34,7 +34,7 @@ export const authInputStyles = {
       '&:-webkit-autofill': {
         transition: 'background-color 9999s ease-in-out 0s',
         WebkitTextFillColor: `${colors.colorWhite} !important`,
-        caretColor: colors.colorZinc500,
+        caretColor: colors.colorZinc400,
       },
     },
   },

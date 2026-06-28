@@ -33,7 +33,7 @@ export function SignUpView() {
       submitLabel="Sign Up"
       fields={SIGN_UP_FIELDS}
       helperContent={
-        <Text textAlign="center" color={colors.colorZinc500} fontSize="xs">
+        <Text textAlign="center" color={colors.colorZinc400} fontSize="xs">
           Min 8 characters, at least one letter, one digit and one special
           character.
         </Text>
@@ -42,7 +42,7 @@ export function SignUpView() {
         <Text
           textAlign="center"
           {...typography.text}
-          color={colors.colorZinc500}
+          color={colors.colorZinc400}
         >
           Already have an account? <TextLink href="/sign-in">Sign in</TextLink>
         </Text>

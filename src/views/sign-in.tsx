@@ -30,7 +30,7 @@ export function SignInView() {
         <Text
           textAlign="center"
           {...typography.text}
-          color={colors.colorZinc500}
+          color={colors.colorZinc400}
         >
           No account? <TextLink href="/sign-up">Create one</TextLink>
         </Text>

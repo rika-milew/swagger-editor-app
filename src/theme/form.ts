@@ -25,7 +25,7 @@ export const formStyles = {
     color: colors.colorWhite,
   },
   subtitle: {
-    color: colors.colorZinc500,
+    color: colors.colorZinc400,
     fontSize: 'sm',
     textAlign: 'center',
   },
