@@ -11,10 +11,10 @@ export const buttons = {
     fontWeight: 'var(--font-weight-medium)',
     fontSize: 'sm',
     _hover: {
-      filter: 'brightness(1.1)',
+      bg: colors.methodPut,
     },
     _focus: {
-      filter: 'brightness(1.1)',
+      bg: colors.methodPut,
     },
   },
 } as const;
