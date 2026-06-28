@@ -4,7 +4,7 @@ export const typography = {
   },
   textLink: {
     fontSize: 'sm',
-    fontWeight: 'var(--font-weight-medium)',
+    fontWeight: 'var(--font-weight-extra-bold)',
     _hover: { textDecoration: 'underline' },
   },
 } as const;

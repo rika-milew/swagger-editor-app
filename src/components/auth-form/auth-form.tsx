@@ -43,7 +43,6 @@ export function AuthForm({
           {fields.map((field) => (
             <AuthInput
               key={field.id}
-              id={field.id}
               label={field.label}
               type={field.type}
               placeholder={field.placeholder}

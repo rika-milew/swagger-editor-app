@@ -5,7 +5,7 @@ export const authInputStyles = {
     color: colors.colorZinc400,
     fontSize: 'xs',
     mb: 1,
-    fontWeight: 'var(--font-weight-medium)',
+    fontWeight: 'var(--font-weight-extra-bold)',
     letterSpacing: '0.05em',
     fontFamily: 'var(--font-jetbrains-mono)',
     textTransform: 'uppercase',
