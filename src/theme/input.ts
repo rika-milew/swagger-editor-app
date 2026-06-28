@@ -6,7 +6,7 @@ export const authInputStyles = {
     fontSize: 'xs',
     mb: 1,
     fontWeight: 'var(--font-weight-medium)',
-    letterSpacing: '.05em',
+    letterSpacing: '0.05em',
     fontFamily: 'var(--font-jetbrains-mono)',
     textTransform: 'uppercase',
   },
