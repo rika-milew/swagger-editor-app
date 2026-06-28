@@ -33,7 +33,7 @@ export const authInputStyles = {
     css: {
       '&:-webkit-autofill': {
         transition: 'background-color 9999s ease-in-out 0s',
-        WebkitTextFillColor: `${colors.colorZinc500} !important`,
+        WebkitTextFillColor: `${colors.colorWhite} !important`,
         caretColor: colors.colorZinc500,
       },
     },
