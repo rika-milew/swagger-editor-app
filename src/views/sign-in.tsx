@@ -3,6 +3,7 @@ import { TextLink } from '@/components/text-link/text-link';
 import { AuthForm } from '@/components/auth-form/auth-form';
 import { typography } from '@/theme';
 import { colors } from '@/theme';
+import { ROUTES } from '@/constants/constants';
 
 const SIGN_IN_FIELDS = [
   {
@@ -32,7 +33,7 @@ export function SignIn() {
           {...typography.text}
           color={colors.colorZinc400}
         >
-          No account? <TextLink href="/sign-up">Create one</TextLink>
+          No account? <TextLink href={ROUTES.SIGN_UP}>Create one</TextLink>
         </Text>
       }
     />

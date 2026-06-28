@@ -3,6 +3,7 @@ import { TextLink } from '@/components/text-link/text-link';
 import { AuthForm } from '@/components/auth-form/auth-form';
 import { typography } from '@/theme';
 import { colors } from '@/theme';
+import { ROUTES } from '@/constants/constants';
 
 const SIGN_UP_FIELDS = [
   {
@@ -44,7 +45,8 @@ export function SignUp() {
           {...typography.text}
           color={colors.colorZinc400}
         >
-          Already have an account? <TextLink href="/sign-in">Sign in</TextLink>
+          Already have an account?{' '}
+          <TextLink href={ROUTES.SIGN_IN}>Sign in</TextLink>
         </Text>
       }
     />
