@@ -18,7 +18,7 @@ const SIGN_UP_FIELDS = [
     placeholder: '••••••••',
   },
   {
-    id: 'confirm-password',
+    name: 'confirm-password',
     label: 'Confirm Password',
     type: 'password' as const,
     placeholder: '••••••••',
