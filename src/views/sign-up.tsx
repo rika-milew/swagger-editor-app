@@ -1,18 +1,18 @@
 import { Text } from '@chakra-ui/react';
 import { TextLink } from '@/components/text-link/text-link';
 import { AuthForm } from '@/components/auth-form/auth-form';
-import { typography } from '@/theme/typography';
-import { colors } from '@/theme/colors';
+import { typography } from '@/theme';
+import { colors } from '@/theme';
 
 const SIGN_UP_FIELDS = [
   {
-    id: 'email',
+    name: 'email',
     label: 'Email',
     type: 'email' as const,
     placeholder: 'you@example.com',
   },
   {
-    id: 'password',
+    name: 'password',
     label: 'Password',
     type: 'password' as const,
     placeholder: '••••••••',

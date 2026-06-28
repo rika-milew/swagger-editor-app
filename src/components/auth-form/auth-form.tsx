@@ -1,17 +1,9 @@
 import type { ReactNode } from 'react';
 import { Box, VStack, Heading, Button, Text } from '@chakra-ui/react';
 import { AuthInput } from './auth-input/auth-input';
-import { formStyles } from '@/theme/form';
-import { buttons } from '@/theme/buttons';
-
-type FieldConfig = {
-  id: string;
-  label: string;
-  type: 'email' | 'password' | 'text';
-  placeholder: string;
-  error?: string;
-  helperText?: string;
-};
+import { formStyles } from '@/theme';
+import { buttons } from '@/theme';
+import type { FieldConfig } from '@/types/auth.types';
 
 type AuthFormProps = {
   title: string;
@@ -42,7 +34,7 @@ export function AuthForm({
         <VStack {...formStyles.fields}>
           {fields.map((field) => (
             <AuthInput
-              key={field.id}
+              key={field.name}
               label={field.label}
               type={field.type}
               placeholder={field.placeholder}

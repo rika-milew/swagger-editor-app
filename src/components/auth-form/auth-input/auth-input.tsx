@@ -1,14 +1,7 @@
 import { useId } from 'react';
 import { Box, Input, Field } from '@chakra-ui/react';
-import { authInputStyles } from '@/theme/input';
-
-type AuthInputProps = {
-  label: string;
-  type: 'email' | 'password' | 'text';
-  placeholder: string;
-  error?: string;
-  helperText?: string;
-};
+import { authInputStyles } from '@/theme';
+import type { AuthInputProps } from '@/types/auth.types';
 
 export function AuthInput({ label, type, placeholder, error }: AuthInputProps) {
   const id = useId();
