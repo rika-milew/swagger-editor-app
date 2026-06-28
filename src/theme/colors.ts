@@ -10,6 +10,9 @@ export const colors = {
 
   destructive: 'hsl(359deg 94% 62%)',
 
+  methodPut: 'hsl(202deg 93% 58%)',
+
+  colorZinc400: 'hsl(240deg 5% 64%)',
   colorZinc500: 'hsl(240deg 4% 46%)',
   colorZinc600: 'hsl(240deg 6% 34%)',
 } as const;

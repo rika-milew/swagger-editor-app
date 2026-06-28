@@ -20,13 +20,13 @@ const testSchema = z.object({
 
 const defaultFields = [
   {
-    id: 'email' as const,
+    name: 'email' as const,
     label: 'Email',
     type: 'email' as const,
     placeholder: 'Enter email',
   },
   {
-    id: 'password' as const,
+    name: 'password' as const,
     label: 'Password',
     type: 'password' as const,
     placeholder: 'Enter password',
@@ -37,7 +37,7 @@ const defaultProps = {
   title: 'Sign in to your account',
   submitLabel: 'Sign In',
   fields: defaultFields,
-  bottomContent: <div>Content</div>,
+  switchFormLink: <div>Content</div>,
   resolver: zodResolver(testSchema),
   onSubmitAction: vi.fn().mockResolvedValue({}),
 };
@@ -153,7 +153,7 @@ describe('AuthForm', () => {
         title="No Fields"
         submitLabel="Submit"
         fields={[]}
-        bottomContent={null}
+        switchFormLink={null}
         resolver={emptyResolver}
         onSubmitAction={vi.fn().mockResolvedValue({})}
       />,

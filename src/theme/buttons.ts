@@ -8,13 +8,13 @@ export const buttons = {
     px: 3,
     w: '100%',
     mt: 2,
-    fontWeight: 'var(--font-weight-medium)',
+    fontWeight: 'var(--font-weight-extra-bold)',
     fontSize: 'sm',
     _hover: {
-      filter: 'brightness(1.1)',
+      bg: colors.methodPut,
     },
     _focus: {
-      filter: 'brightness(1.1)',
+      bg: colors.methodPut,
     },
   },
 } as const;

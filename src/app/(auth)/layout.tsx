@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { Box, Container } from '@chakra-ui/react';
-import { colors } from '@/theme/colors';
+import { colors } from '@/theme';
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
   return (

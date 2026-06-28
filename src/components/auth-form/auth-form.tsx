@@ -3,15 +3,14 @@
 import type { ReactNode } from 'react';
 import { Box, VStack, Heading, Button, Text } from '@chakra-ui/react';
 import { AuthInput } from './auth-input/auth-input';
-import { formStyles } from '@/theme/form';
-import { buttons } from '@/theme/buttons';
+import { formStyles, buttons } from '@/theme';
 import { useForm } from 'react-hook-form';
 import type { Path, Resolver } from 'react-hook-form';
 import type { FieldValues } from 'react-hook-form';
 import { getErrorMessage } from '@/utils/get-error-message';
 
 type FieldConfig<T extends FieldValues> = {
-  id: Path<T>;
+  name: Path<T>;
   label: string;
   type: 'email' | 'password' | 'text';
   placeholder: string;
@@ -23,7 +22,7 @@ type AuthFormProps<T extends FieldValues> = {
   submitLabel: string;
   fields: FieldConfig<T>[];
   helperContent?: ReactNode;
-  bottomContent: ReactNode;
+  switchFormLink: ReactNode;
   resolver: Resolver<T>;
   onSubmitAction: (data: T) => Promise<{ error?: string }>;
 };
@@ -34,7 +33,7 @@ export function AuthForm<T extends FieldValues>({
   submitLabel,
   fields,
   helperContent,
-  bottomContent,
+  switchFormLink,
   resolver,
   onSubmitAction,
 }: AuthFormProps<T>) {
@@ -79,13 +78,12 @@ export function AuthForm<T extends FieldValues>({
           <VStack {...formStyles.fields}>
             {fields.map((field) => (
               <AuthInput
-                key={field.id}
-                id={field.id}
+                key={field.name}
                 label={field.label}
                 type={field.type}
                 placeholder={field.placeholder}
-                error={getErrorMessage(errors[field.id])}
-                {...register(field.id)}
+                error={getErrorMessage(errors[field.name])}
+                {...register(field.name)}
               />
             ))}
             {helperContent}
@@ -100,7 +98,7 @@ export function AuthForm<T extends FieldValues>({
             </Button>
           </VStack>
         </form>
-        {bottomContent}
+        {switchFormLink}
       </VStack>
     </Box>
   );

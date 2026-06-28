@@ -11,7 +11,6 @@ const renderWithChakra = (ui: ReactElement) => {
 
 describe('AuthInput', () => {
   const defaultProps = {
-    id: 'email',
     label: 'Email',
     type: 'email' as const,
     placeholder: 'Enter your email',
@@ -26,7 +25,7 @@ describe('AuthInput', () => {
     expect(label).toBeInTheDocument();
     expect(input).toBeInTheDocument();
     expect(input).toHaveAttribute('type', 'email');
-    expect(input).toHaveAttribute('id', 'email');
+    expect(label).toHaveAttribute('for', input.id);
   });
 
   it('should render different input types', () => {

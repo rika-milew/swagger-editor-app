@@ -3,35 +3,35 @@
 import { Text } from '@chakra-ui/react';
 import { TextLink } from '@/components/text-link/text-link';
 import { AuthForm } from '@/components/auth-form/auth-form';
-import { typography } from '@/theme/typography';
+import { typography, colors } from '@/theme';
 import { signUpSchema } from '@/lib/validation/auth-schemas';
 import type { SignUpFormData } from '@/lib/validation/auth-schemas';
-import { colors } from '@/theme/colors';
 import { signUp } from '@/app/actions/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { ROUTES } from '@/constants/constants';
 
 const SIGN_UP_FIELDS = [
   {
-    id: 'email' as const,
+    name: 'email' as const,
     label: 'Email',
     type: 'email' as const,
     placeholder: 'you@example.com',
   },
   {
-    id: 'password' as const,
+    name: 'password' as const,
     label: 'Password',
     type: 'password' as const,
     placeholder: '••••••••',
   },
   {
-    id: 'confirmPassword' as const,
+    name: 'confirmPassword' as const,
     label: 'Confirm Password',
     type: 'password' as const,
     placeholder: '••••••••',
   },
 ];
 
-export function SignUpView() {
+export function SignUp() {
   return (
     <AuthForm<SignUpFormData>
       title="Create Account"
@@ -41,18 +41,19 @@ export function SignUpView() {
       resolver={zodResolver(signUpSchema)}
       onSubmitAction={signUp}
       helperContent={
-        <Text textAlign="center" color={colors.colorZinc500} fontSize="xs">
+        <Text textAlign="center" color={colors.colorZinc400} fontSize="xs">
           Min 8 characters, at least one letter, one digit and one special
           character.
         </Text>
       }
-      bottomContent={
+      switchFormLink={
         <Text
           textAlign="center"
           {...typography.text}
-          color={colors.colorZinc500}
+          color={colors.colorZinc400}
         >
-          Already have an account? <TextLink href="/sign-in">Sign in</TextLink>
+          Already have an account?{' '}
+          <TextLink href={ROUTES.SIGN_IN}>Sign in</TextLink>
         </Text>
       }
     />
