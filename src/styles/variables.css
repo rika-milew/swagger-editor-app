@@ -6,4 +6,10 @@
 
   /* Gray colors */
   --color-gray-900: hsl(240deg 9% 4%);
+
+  /* FONTS */
+
+  /* Font Weight */
+  --font-weight-normal: 400;
+  --font-weight-extra-bold: 700;
 }
