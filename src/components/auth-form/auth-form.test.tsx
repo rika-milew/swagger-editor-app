@@ -11,13 +11,13 @@ const renderWithChakra = (ui: ReactElement) => {
 
 const defaultFields = [
   {
-    id: 'email',
+    name: 'email',
     label: 'Email',
     type: 'email' as const,
     placeholder: 'Enter email',
   },
   {
-    id: 'password',
+    name: 'password',
     label: 'Password',
     type: 'password' as const,
     placeholder: 'Enter password',
@@ -82,14 +82,14 @@ describe('AuthForm', () => {
   it('should display field errors', () => {
     const fieldsWithErrors = [
       {
-        id: 'email',
+        name: 'email',
         label: 'Email',
         type: 'email' as const,
         placeholder: 'Enter email',
         error: 'Invalid email',
       },
       {
-        id: 'password',
+        name: 'password',
         label: 'Password',
         type: 'password' as const,
         placeholder: 'Enter password',
