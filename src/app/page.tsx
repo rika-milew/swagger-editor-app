@@ -1,14 +1,18 @@
-import classNames from 'classnames';
-import styles from './page.module.css';
-
-const cx = classNames.bind(styles);
+import { Box, Flex, Heading } from '@chakra-ui/react';
+import { container } from '@/theme/container';
 
 export default function Home() {
   return (
-    <div className={cx('page')}>
-      <main className={cx('main')}>
-        <h1>Swagger Editor App</h1>
-      </main>
-    </div>
+    <Box as="main" flex="1" py="16">
+      <Flex
+        px="6"
+        py="4"
+        direction="column"
+        gap="6"
+        {...container.pageContainer}
+      >
+        <Heading size="2xl">Swagger Editor App</Heading>
+      </Flex>
+    </Box>
   );
 }

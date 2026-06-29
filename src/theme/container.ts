@@ -1,5 +1,7 @@
 import { colors } from './colors';
 
+const FOOTER_HEIGHT = '80px';
+
 export const container = {
   headerBox: {
     position: 'sticky',
@@ -10,15 +12,21 @@ export const container = {
     borderColor: colors.border,
   },
   footerBox: {
-    h: '80px',
+    h: FOOTER_HEIGHT,
     bg: colors.background,
     borderTop: '1px solid',
     borderColor: colors.border,
   },
   flexContainer: {
+    width: '100%',
     maxW: '1200px',
     mx: 'auto',
     align: 'center',
     justify: 'space-between',
+  },
+  pageContainer: {
+    w: '100%',
+    maxW: '1200px',
+    mx: 'auto',
   },
 };

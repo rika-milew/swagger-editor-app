@@ -1,11 +1,12 @@
 import { colors } from './colors';
+import { fontWeights } from './font';
 
 export const buttons = {
   signIn: {
     variant: 'ghost',
     bg: 'transparent',
     color: colors.nav.inactive,
-    fontWeight: '500',
+    fontWeight: fontWeights.medium,
     borderRadius: 'full',
 
     _hover: {
@@ -17,7 +18,7 @@ export const buttons = {
   signUp: {
     bg: colors.colorWhite,
     color: colors.background,
-    fontWeight: '600',
+    fontWeight: fontWeights.medium,
     borderRadius: 'full',
     px: 5,
 
@@ -42,7 +43,7 @@ export const buttons = {
     border: '1px solid',
     borderColor: colors.border,
     borderRadius: 'sm',
-    fontWeight: '500',
+    fontWeight: fontWeights.medium,
     px: 4,
 
     _hover: {

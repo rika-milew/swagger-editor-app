@@ -1,22 +1,20 @@
+import { fontWeights } from './font';
+
 export const typography = {
   logoText: {
     fontSize: 'xl',
-    fontWeight: '500',
-    letterSpacing: '0.03em',
-    lineHeight: '1',
+    fontWeight: fontWeights.medium,
   },
 
   navFooter: {
     fontSize: 'sm',
-    fontWeight: '500',
-    letterSpacing: '0.02em',
+    fontWeight: fontWeights.medium,
     textTransform: 'uppercase',
   },
 
   authButton: {
     fontSize: 'xs',
-    fontWeight: '600',
+    fontWeight: fontWeights.medium,
     textTransform: 'uppercase',
-    letterSpacing: '0.08em',
   },
 } as const;
