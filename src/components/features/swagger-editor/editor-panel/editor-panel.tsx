@@ -1,4 +1,5 @@
 'use client';
+
 import styles from './editor.module.css';
 import { EditorBlock } from '@/components/features/swagger-editor/editor-block/editor-block';
 import { EditorHeader } from '@/components/features/swagger-editor/editor-header/editor-header';
