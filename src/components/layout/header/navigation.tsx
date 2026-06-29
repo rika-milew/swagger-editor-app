@@ -1,14 +1,13 @@
-import { Link, HStack } from '@chakra-ui/react';
+import { HStack } from '@chakra-ui/react';
 import { usePathname } from 'next/navigation';
-import NextLink from 'next/link';
+import AppLink from '@/components/layout/AppLink/AppLink';
 import { colors } from '@/theme/colors';
 
 export default function Navigation() {
   const pathname = usePathname();
   return (
     <HStack gap="6">
-      <Link
-        as={NextLink}
+      <AppLink
         href="/"
         color={pathname === '/' ? colors.nav.active : colors.nav.inactive}
         _hover={
@@ -18,10 +17,9 @@ export default function Navigation() {
         }
       >
         Editor
-      </Link>
+      </AppLink>
 
-      <Link
-        as={NextLink}
+      <AppLink
         href="/about"
         color={pathname === '/about' ? colors.nav.active : colors.nav.inactive}
         _hover={
@@ -31,7 +29,7 @@ export default function Navigation() {
         }
       >
         About
-      </Link>
+      </AppLink>
     </HStack>
   );
 }

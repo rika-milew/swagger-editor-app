@@ -1,13 +1,12 @@
-import { Link, HStack } from '@chakra-ui/react';
-import NextLink from 'next/link';
+import { HStack } from '@chakra-ui/react';
+import AppLink from '@/components/layout/AppLink/AppLink';
 import { colors } from '@/theme/colors';
 import { typography } from '@/theme/typography';
 
 export default function Navigation() {
   return (
     <HStack gap="6">
-      <Link
-        as={NextLink}
+      <AppLink
         href="/about"
         color={colors.colorZinc600}
         {...typography.navFooter}
@@ -17,11 +16,9 @@ export default function Navigation() {
         }}
       >
         About
-      </Link>
-      <Link
+      </AppLink>
+      <AppLink
         href="https://rs.school/"
-        target="_blank"
-        rel="noopener noreferrer"
         color={colors.colorZinc600}
         {...typography.navFooter}
         _hover={{
@@ -30,11 +27,9 @@ export default function Navigation() {
         }}
       >
         RS SCHOOL
-      </Link>
-      <Link
+      </AppLink>
+      <AppLink
         href="https://github.com"
-        target="_blank"
-        rel="noopener noreferrer"
         color={colors.colorZinc600}
         {...typography.navFooter}
         _hover={{
@@ -43,7 +38,7 @@ export default function Navigation() {
         }}
       >
         GitHub
-      </Link>
+      </AppLink>
     </HStack>
   );
 }
