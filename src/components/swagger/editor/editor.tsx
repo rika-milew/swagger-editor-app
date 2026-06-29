@@ -5,7 +5,7 @@ import { yaml } from '@codemirror/lang-yaml';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { customTheme } from './editor-theme';
 
-export const EditorBlock = () => {
+export const Editor = () => {
   return (
     <CodeMirror
       value="# Write code here!"

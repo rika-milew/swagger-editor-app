@@ -6,7 +6,7 @@ describe('Home page layout', () => {
   it('renders with the editor and a viewer', () => {
     render(<Home />);
 
-    const editor = screen.getByTestId('editor-block');
+    const editor = screen.getByTestId('editor');
     expect(editor).toBeInTheDocument();
 
     const viewer = screen.getByTestId('viewer-block');
