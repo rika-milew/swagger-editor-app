@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import styles from '../../app/page.module.css';
-import { Main } from '@/components/swagger/editor-panel/editor-panel';
+import { Main } from '@/components/swagger/main/main';
 
 const cx = classNames.bind(styles);
 

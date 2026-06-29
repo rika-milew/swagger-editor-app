@@ -1,6 +1,6 @@
 'use client';
 
-import styles from './editor.module.css';
+import styles from './main.module.css';
 import { Editor } from '@/components/swagger/editor/editor';
 import { EditorHeader } from '@/components/swagger/editor-header/editor-header';
 import { Viewer } from '@/components/swagger/viewer/viewer';
@@ -14,7 +14,7 @@ export const Main = () => {
     <div className={cx('editor-wrapper')}>
       <section className={cx('editor-container')} data-testid="editor-block">
         <EditorHeader />
-        <Editor />
+        <Editor data-testid="editor" />
       </section>
       <section className={cx('viewer-container')} data-testid="viewer-block">
         <Viewer />
