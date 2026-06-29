@@ -13,23 +13,41 @@
 
 .editor-container {
   display: flex;
-  flex: 1;
+  flex: 1 1 550px;
   flex-direction: column;
 
-  min-width: 550px;
   height: 70vh;
   min-height: 500px;
 }
 
 .viewer-container {
   display: flex;
-  flex: 1;
+  flex: 1 1 550px;
   flex-direction: column;
   gap: 20px;
 
-  min-width: 550px;
   height: 50vh;
   min-height: 450px;
+}
+
+@media (width <= 1190px) {
+  .editor-wrapper {
+    overflow-y: auto;
+    flex-direction: column;
+    gap: 30px;
+    align-items: center;
+    justify-content: flex-start;
+
+    height: auto;
+  }
+
+  .editor-container,
+  .viewer-container {
+    width: 90vw;
+    max-width: 700px;
+    height: auto;
+    min-height: 350px;
+  }
 }
 
 @media (orientation: portrait) {
@@ -46,7 +64,6 @@
   .editor-container,
   .viewer-container {
     width: 90vw;
-    min-width: 0;
     max-width: 700px;
     height: auto;
     min-height: 350px;

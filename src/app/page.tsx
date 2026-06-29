@@ -8,6 +8,7 @@ export default function Home() {
   return (
     <div className={cx('page')}>
       <main className={cx('main')}>
+        <h1>Swagger Editor App</h1>
         <EditorPanel />
       </main>
     </div>
