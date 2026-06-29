@@ -1,4 +1,4 @@
-import styles from './resent-perfornams.module.css';
+import styles from './resent-performance.module.css';
 import classNames from 'classnames/bind';
 
 const cx = classNames.bind(styles);
