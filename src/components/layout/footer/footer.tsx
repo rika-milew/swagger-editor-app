@@ -11,7 +11,7 @@ export default function Footer() {
       <Flex px="6" py="6" {...container.flexContainer}>
         <HStack gap="3" opacity={0.6}>
           <Box w="24px" h="24px" borderRadius="md" bg={colors.colorWhite} />
-          <Text color={colors.colorWhite}>RS SCHOOL</Text>
+          <Text color={colors.colorWhite}>REACTful</Text>
         </HStack>
         <Navigation />
         <HStack gap="3">
