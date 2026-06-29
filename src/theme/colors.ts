@@ -6,8 +6,8 @@ export const colors = {
   textPrimary: 'hsl(240deg 9% 4%)',
   panel: 'hsl(240deg 7% 8%)',
 
-  //brandPrimary: 'hsl(195deg 70% 70%)',
-  //brandSecondary: 'hsl(305deg 60% 65%)',
+  brandPrimary: 'hsl(183deg 100% 50%)',
+  brandSecondary: 'hsl(273deg 100% 72%)',
 
   methodGet: 'hsl(145deg 60% 60%)',
   methodPost: 'hsl(80deg 70% 65%)',
@@ -47,7 +47,4 @@ export const colors = {
     active: 'hsl(0deg 0% 100%)',
     inactive: 'hsl(240deg 5% 65%)',
   },
-
-  brandPrimary: 'hsl(183deg 100% 50%)',
-  brandSecondary: 'hsl(273deg 100% 72%)',
 } as const;
