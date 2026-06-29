@@ -1,14 +1,14 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import Home from './page';
-import { Provider } from '@/providers/chakraProvider';
+import { ChakraUIProvider } from '@/providers/chakra-provider';
 
 describe('Home page', () => {
   it('renders the main heading', () => {
     render(
-      <Provider>
+      <ChakraUIProvider>
         <Home />
-      </Provider>,
+      </ChakraUIProvider>,
     );
     expect(
       screen.getByRole('heading', { name: /swagger editor app/i }),
