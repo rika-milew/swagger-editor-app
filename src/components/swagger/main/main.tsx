@@ -14,7 +14,7 @@ export const Main = () => {
     <div className={cx('editor-wrapper')}>
       <section className={cx('editor-container')} data-testid="editor-block">
         <EditorHeader />
-        <Editor data-testid="editor" />
+        <Editor />
       </section>
       <section className={cx('viewer-container')} data-testid="viewer-block">
         <Viewer />
