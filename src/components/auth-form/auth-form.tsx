@@ -58,6 +58,7 @@ export function AuthForm<T extends FieldValues>({
         type: 'server',
         message: actionResult.error,
       });
+      // TODO: Add server error display
     } else {
       console.log('Form submitted successfully');
     }
