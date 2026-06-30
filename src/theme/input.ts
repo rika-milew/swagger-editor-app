@@ -55,4 +55,16 @@ export const authInputStyles = {
     color: colors.destructive,
     fontSize: 'xs',
   },
+  passwordToggle: {
+    position: 'absolute',
+    right: '2',
+    top: '50%',
+    transform: 'translateY(-50%)',
+    bg: 'transparent',
+    color: colors.colorZinc400,
+    tabIndex: -1,
+    zIndex: 1,
+    _hover: { bg: 'transparent', color: colors.colorWhite },
+    _active: { bg: 'transparent' },
+  },
 };
