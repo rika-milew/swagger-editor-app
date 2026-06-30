@@ -47,10 +47,7 @@ export function AuthForm<T extends FieldValues>({
   });
 
   const onSubmit = async (data: T) => {
-    console.log('Form submitted with data:', data);
     const actionResult = await onSubmitAction(data);
-
-    console.log('Server action result:', actionResult);
 
     if (actionResult.error) {
       console.error('Server error:', actionResult.error);
@@ -59,8 +56,6 @@ export function AuthForm<T extends FieldValues>({
         message: actionResult.error,
       });
       // TODO: Add server error display
-    } else {
-      console.log('Form submitted successfully');
     }
   };
   return (
