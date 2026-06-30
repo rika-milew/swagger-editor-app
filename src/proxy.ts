@@ -4,7 +4,7 @@ import { getSession } from '@/lib/auth/get-session';
 
 const publicAuthRoutes = new Set(['/sign-in', '/sign-up']);
 
-export async function middleware(request: NextRequest): Promise<NextResponse> {
+export async function proxy(request: NextRequest): Promise<NextResponse> {
   const { pathname } = request.nextUrl;
 
   const isPublicAuthRoute = publicAuthRoutes.has(pathname);
@@ -22,7 +22,7 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
 
     return NextResponse.next();
   } catch (error) {
-    console.error('Database middleware error:', error);
+    console.error('Proxy error:', error);
     return NextResponse.next();
   }
 }
