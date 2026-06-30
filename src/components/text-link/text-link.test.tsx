@@ -2,9 +2,8 @@ import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { ChakraProvider, defaultSystem } from '@chakra-ui/react';
 import { TextLink } from './text-link';
-import { colors } from '@/theme';
+import { colors, typography } from '@/theme';
 import type { ReactElement } from 'react';
-import { typography } from '@/theme';
 
 const renderWithChakra = (ui: ReactElement) => {
   return render(<ChakraProvider value={defaultSystem}>{ui}</ChakraProvider>);

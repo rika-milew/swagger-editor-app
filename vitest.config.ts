@@ -16,6 +16,7 @@ export default defineConfig({
       exclude: [
         'node_modules/',
         'src/**/*.{test,spec}.{ts,tsx}',
+        '**/*.css',
         '**/*.d.ts',
         '**/*.config.*',
         '**/layout.tsx',
