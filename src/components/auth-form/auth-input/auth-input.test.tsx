@@ -81,4 +81,46 @@ describe('AuthInput', () => {
 
     expect(input).toHaveValue('test@example.com');
   });
+
+  it('should not render toggle button for non-password inputs', () => {
+    renderWithChakra(<AuthInput {...defaultProps} type="email" />);
+
+    const toggleButton = screen.queryByRole('button');
+    expect(toggleButton).not.toBeInTheDocument();
+  });
+
+  it('should toggle password visibility and icon on click', async () => {
+    const user = userEvent.setup();
+    renderWithChakra(<AuthInput {...defaultProps} type="password" />);
+
+    const input = screen.getByPlaceholderText('Enter your email');
+    const toggleButton = screen.getByRole('button');
+
+    expect(input).toHaveAttribute('type', 'password');
+    expect(toggleButton).toHaveAttribute('aria-label', 'Show password');
+    expect(toggleButton.innerHTML).toContain('svg');
+
+    await user.click(toggleButton);
+
+    expect(input).toHaveAttribute('type', 'text');
+    expect(toggleButton).toHaveAttribute('aria-label', 'Hide password');
+
+    await user.click(toggleButton);
+
+    expect(input).toHaveAttribute('type', 'password');
+    expect(toggleButton).toHaveAttribute('aria-label', 'Show password');
+  });
+
+  it('should preserve input value when toggling visibility', async () => {
+    const user = userEvent.setup();
+    renderWithChakra(<AuthInput {...defaultProps} type="password" />);
+
+    const input = screen.getByPlaceholderText('Enter your email');
+    const toggleButton = screen.getByRole('button');
+
+    await user.type(input, 'test123!');
+    await user.click(toggleButton);
+
+    expect(input).toHaveValue('test123!');
+  });
 });
