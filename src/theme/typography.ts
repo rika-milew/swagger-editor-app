@@ -12,12 +12,6 @@ export const typography = {
     textTransform: 'uppercase',
   },
 
-  authButton: {
-    fontSize: 'xs',
-    fontWeight: fontWeights.medium,
-    textTransform: 'uppercase',
-  },
-
   text: {
     fontSize: 'sm',
   },

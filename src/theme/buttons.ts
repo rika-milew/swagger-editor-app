@@ -36,21 +36,6 @@ export const buttons = {
       color: colors.colorWhite,
     },
   },
-  auth: {
-    variant: 'ghost',
-    bg: 'transparent',
-    color: colors.colorAuth,
-    border: '1px solid',
-    borderColor: colors.border,
-    borderRadius: 'sm',
-    fontWeight: fontWeights.medium,
-    px: 4,
-
-    _hover: {
-      bg: 'transparent',
-      color: colors.brandPrimary,
-    },
-  },
   submit: {
     bg: colors.brandPrimary,
     color: colors.background,

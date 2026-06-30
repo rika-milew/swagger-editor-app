@@ -1,6 +1,6 @@
 import { HStack } from '@chakra-ui/react';
 import { usePathname } from 'next/navigation';
-import AppLink from '@/components/layout/AppLink/AppLink';
+import AppLink from '@/components/layout/app-link/app-link';
 import { colors } from '@/theme/colors';
 
 export default function Navigation() {
