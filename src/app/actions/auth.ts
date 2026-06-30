@@ -18,14 +18,21 @@ export async function signIn(
     return { error: getErrorMessage(result.error) ?? 'Validation failed' };
   }
 
-  const supabase = await createServerClient();
-  const { error } = await supabase.auth.signInWithPassword({
-    email: data.email,
-    password: data.password,
-  });
+  try {
+    const supabase = await createServerClient();
+    const { error } = await supabase.auth.signInWithPassword({
+      email: data.email,
+      password: data.password,
+    });
 
-  if (error) {
-    return { error: getErrorMessage(error) ?? 'Authentication failed' };
+    if (error) {
+      return { error: getErrorMessage(error) ?? 'Authentication failed' };
+    }
+  } catch (error) {
+    return {
+      error:
+        getErrorMessage(error) ?? 'An unexpected authentication error occurred',
+    };
   }
 
   redirect('/');
@@ -39,14 +46,21 @@ export async function signUp(
     return { error: getErrorMessage(result.error) ?? 'Validation failed' };
   }
 
-  const supabase = await createServerClient();
-  const { error } = await supabase.auth.signUp({
-    email: data.email,
-    password: data.password,
-  });
+  try {
+    const supabase = await createServerClient();
+    const { error } = await supabase.auth.signUp({
+      email: data.email,
+      password: data.password,
+    });
 
-  if (error) {
-    return { error: getErrorMessage(error) ?? 'Registration failed' };
+    if (error) {
+      return { error: getErrorMessage(error) ?? 'Registration failed' };
+    }
+  } catch (error) {
+    return {
+      error:
+        getErrorMessage(error) ?? 'An unexpected registration error occurred',
+    };
   }
 
   redirect('/');
