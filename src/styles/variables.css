@@ -6,12 +6,12 @@
   --color-zinc-100: hsl(240deg 4% 96%);
 
   /* Gray colors */
-  --color-gray-900: hsl(240deg 9% 4%);
-  --color-zinc-900: hsl(240deg 6% 10%);
-  --canvas-border: hsl(239deg 4% 15%);
   --color-zinc-500: hsl(240deg 4% 46%);
+  --canvas-border: hsl(239deg 4% 15%);
+  --color-zinc-900: hsl(240deg 6% 10%);
+  --color-gray-900: hsl(240deg 9% 4%);
 
-  /* sizes */
+  /* Sizes */
   --border-radius: 12px;
   --default-padding: 16px;
   --text-sm: 0.875rem;
