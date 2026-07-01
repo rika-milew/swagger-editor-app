@@ -17,6 +17,7 @@ function createRequest(pathname: string): NextRequest {
 describe('Proxy Auth Redirects', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    mockGetSession.mockReset();
   });
 
   it('redirects authorized user from /sign-in to /', async () => {
@@ -56,6 +57,7 @@ describe('Proxy Auth Redirects', () => {
 
     expect(response.headers.get('location')).toBeNull();
     expect(response.status).toBe(HTTP_OK_STATUS);
+    expect(mockGetSession).not.toHaveBeenCalled();
   });
 
   it('passes through when getSession throws error', async () => {
