@@ -70,6 +70,7 @@ export function AuthForm<T extends FieldValues>({
             void handleSubmit(onSubmit)(event);
           }}
           style={{ width: '100%' }}
+          noValidate
         >
           <VStack {...formStyles.fields}>
             {fields.map((field) => (
