@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 import { signInSchema, signUpSchema } from '@/lib/validation/auth-schemas';
 import { getErrorMessage } from '@/utils/get-error-message';
 import type { z } from 'zod';
+import { ROUTES } from '@/constants/constants';
 
 type AuthenticationResult = {
   error: string;
@@ -35,7 +36,7 @@ export async function signIn(
     };
   }
 
-  redirect('/');
+  redirect(ROUTES.HOME);
 }
 
 export async function signUp(
@@ -63,5 +64,11 @@ export async function signUp(
     };
   }
 
-  redirect('/');
+  redirect(ROUTES.HOME);
+}
+
+export async function signOut(): Promise<void> {
+  const supabase = await createServerClient();
+  await supabase.auth.signOut();
+  redirect(ROUTES.HOME);
 }
