@@ -6,6 +6,8 @@ import '@/styles/index.css';
 import { ChakraUIProvider } from '@/providers/chakra-provider';
 import Header from '@/components/layout/header/header';
 import Footer from '@/components/layout/footer/footer';
+import { UserHydrator } from '@/components/user-hydrator/user-hydrator';
+import { getSession } from '@/lib/auth/get-session';
 
 const inter = Inter({
   variable: '--font-inter',
@@ -22,11 +24,13 @@ export const metadata: Metadata = {
   description: 'Online Swagger/OpenAPI editor and viewer',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: ReactNode;
 }>) {
+  const user = await getSession();
+
   return (
     <html
       suppressHydrationWarning
@@ -35,6 +39,7 @@ export default function RootLayout({
     >
       <body>
         <ChakraUIProvider>
+          <UserHydrator user={user} />
           <Flex direction="column" minH="100vh">
             <Header />
 
