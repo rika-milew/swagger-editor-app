@@ -15,15 +15,21 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
   }
 
   try {
-    const user = await Promise.race([
-      getSession(),
-      new Promise<never>((_, reject) =>
-        setTimeout(
-          () => reject(new Error('getSession timeout')),
-          SESSION_TIMEOUT_MS,
-        ),
-      ),
-    ]);
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
+    const timeoutPromise = new Promise<never>((_, reject) => {
+      timeoutId = setTimeout(
+        () => reject(new Error('getSession timeout')),
+        SESSION_TIMEOUT_MS,
+      );
+    });
+
+    const user = await Promise.race([getSession(), timeoutPromise]).finally(
+      () => {
+        if (timeoutId !== undefined) {
+          clearTimeout(timeoutId);
+        }
+      },
+    );
 
     if (user) {
       return NextResponse.redirect(new URL(ROUTES.HOME, request.url));
