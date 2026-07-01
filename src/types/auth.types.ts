@@ -4,3 +4,9 @@ export type AuthInputProps = {
   placeholder: string;
   error?: string;
 };
+
+export type AppUser = {
+  id: string;
+  email: string;
+  created_at: string;
+};

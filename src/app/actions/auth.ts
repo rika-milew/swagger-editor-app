@@ -4,8 +4,8 @@ import { createServerClient } from '@/lib/database/server';
 import { redirect } from 'next/navigation';
 import { signInSchema, signUpSchema } from '@/lib/validation/auth-schemas';
 import { getErrorMessage } from '@/utils/get-error-message';
-import type { z } from 'zod';
 import { ROUTES } from '@/constants/constants';
+import type { z } from 'zod';
 
 type AuthenticationResult = {
   error: string;
