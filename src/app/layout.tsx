@@ -24,6 +24,8 @@ export const metadata: Metadata = {
   description: 'Online Swagger/OpenAPI editor and viewer',
 };
 
+export const dynamic = 'force-dynamic';
+
 export default async function RootLayout({
   children,
 }: Readonly<{
