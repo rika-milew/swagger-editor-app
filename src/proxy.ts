@@ -58,5 +58,5 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
 }
 
 export const config = {
-  matcher: [ROUTES.SIGN_IN, ROUTES.SIGN_UP, ROUTES.HISTORY],
+  matcher: ['/sign-in', '/sign-up', '/history'],
 };
