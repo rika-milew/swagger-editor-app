@@ -49,7 +49,7 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
       }
       return NextResponse.next();
     } catch (error) {
-      console.error('Protected route error:', error);
+      console.error('Private route error:', error);
       return NextResponse.redirect(new URL(ROUTES.HOME, request.url));
     }
   }
