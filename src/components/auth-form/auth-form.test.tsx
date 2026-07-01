@@ -1,23 +1,32 @@
 import { describe, it, expect, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ChakraProvider, defaultSystem } from '@chakra-ui/react';
 import type { ReactElement } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import { AuthForm } from './auth-form';
 
 const renderWithChakra = (ui: ReactElement) => {
   return render(<ChakraProvider value={defaultSystem}>{ui}</ChakraProvider>);
 };
 
+const MIN_PASSWORD_LENGTH = 8;
+
+const testSchema = z.object({
+  email: z.email(),
+  password: z.string().min(MIN_PASSWORD_LENGTH, 'Password is too short'),
+});
+
 const defaultFields = [
   {
-    name: 'email',
+    name: 'email' as const,
     label: 'Email',
     type: 'email' as const,
     placeholder: 'Enter email',
   },
   {
-    name: 'password',
+    name: 'password' as const,
     label: 'Password',
     type: 'password' as const,
     placeholder: 'Enter password',
@@ -29,6 +38,8 @@ const defaultProps = {
   submitLabel: 'Sign In',
   fields: defaultFields,
   switchFormLink: <div>Content</div>,
+  resolver: zodResolver(testSchema),
+  onSubmitAction: vi.fn().mockResolvedValue({}),
 };
 
 describe('AuthForm', () => {
@@ -70,37 +81,38 @@ describe('AuthForm', () => {
 
   it('should call onSubmit when button is clicked', async () => {
     const user = userEvent.setup();
-    const handleSubmit = vi.fn();
+    const handleSubmit = vi.fn().mockResolvedValue({});
 
-    renderWithChakra(<AuthForm {...defaultProps} onSubmit={handleSubmit} />);
+    renderWithChakra(
+      <AuthForm {...defaultProps} onSubmitAction={handleSubmit} />,
+    );
+
+    await user.type(
+      screen.getByPlaceholderText('Enter email'),
+      'test@example.com',
+    );
+    await user.type(
+      screen.getByPlaceholderText('Enter password'),
+      'password123',
+    );
+    await user.click(screen.getByRole('button', { name: 'Sign In' }));
+
+    await waitFor(() => {
+      expect(handleSubmit).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should display field errors', async () => {
+    const user = userEvent.setup();
+
+    renderWithChakra(<AuthForm {...defaultProps} />);
 
     await user.click(screen.getByRole('button', { name: 'Sign In' }));
 
-    expect(handleSubmit).toHaveBeenCalledTimes(1);
-  });
-
-  it('should display field errors', () => {
-    const fieldsWithErrors = [
-      {
-        name: 'email',
-        label: 'Email',
-        type: 'email' as const,
-        placeholder: 'Enter email',
-        error: 'Invalid email',
-      },
-      {
-        name: 'password',
-        label: 'Password',
-        type: 'password' as const,
-        placeholder: 'Enter password',
-        error: 'Password is too short',
-      },
-    ];
-
-    renderWithChakra(<AuthForm {...defaultProps} fields={fieldsWithErrors} />);
-
-    expect(screen.getByText('Invalid email')).toBeInTheDocument();
-    expect(screen.getByText('Password is too short')).toBeInTheDocument();
+    await waitFor(() => {
+      const errorElements = screen.getAllByText(/invalid email|required/i);
+      expect(errorElements.length).toBeGreaterThan(0);
+    });
   });
 
   it('should render helper content', () => {
@@ -133,16 +145,101 @@ describe('AuthForm', () => {
   });
 
   it('should render with empty fields', () => {
+    const emptySchema = z.object({});
+    const emptyResolver = zodResolver(emptySchema);
+
     renderWithChakra(
       <AuthForm
         title="No Fields"
         submitLabel="Submit"
         fields={[]}
         switchFormLink={null}
+        resolver={emptyResolver}
+        onSubmitAction={vi.fn().mockResolvedValue({})}
       />,
     );
 
     expect(screen.getByText('No Fields')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Submit' })).toBeInTheDocument();
+  });
+
+  it('should submit form with correct data', async () => {
+    const user = userEvent.setup();
+    const handleSubmit = vi.fn().mockResolvedValue({});
+
+    renderWithChakra(
+      <AuthForm {...defaultProps} onSubmitAction={handleSubmit} />,
+    );
+
+    await user.type(
+      screen.getByPlaceholderText('Enter email'),
+      'test@example.com',
+    );
+    await user.type(
+      screen.getByPlaceholderText('Enter password'),
+      'password123!',
+    );
+    await user.click(screen.getByRole('button', { name: 'Sign In' }));
+
+    await waitFor(() => {
+      expect(handleSubmit).toHaveBeenCalledWith({
+        email: 'test@example.com',
+        password: 'password123!',
+      });
+    });
+  });
+
+  it('should not display server error when onSubmitAction succeeds', async () => {
+    const user = userEvent.setup();
+    const handleSubmit = vi.fn().mockResolvedValue({});
+
+    renderWithChakra(
+      <AuthForm {...defaultProps} onSubmitAction={handleSubmit} />,
+    );
+
+    await user.type(
+      screen.getByPlaceholderText('Enter email'),
+      'test@example.com',
+    );
+    await user.type(
+      screen.getByPlaceholderText('Enter password'),
+      'password123!',
+    );
+    await user.click(screen.getByRole('button', { name: 'Sign In' }));
+
+    await waitFor(() => {
+      expect(screen.queryByText(/error/i)).not.toBeInTheDocument();
+    });
+  });
+
+  it('should log server error to console', async () => {
+    const user = userEvent.setup();
+    const consoleErrorSpy = vi
+      .spyOn(console, 'error')
+      .mockImplementation(vi.fn());
+    const handleSubmit = vi.fn().mockResolvedValue({ error: 'Server error' });
+
+    renderWithChakra(
+      <AuthForm {...defaultProps} onSubmitAction={handleSubmit} />,
+    );
+
+    await user.type(
+      screen.getByPlaceholderText('Enter email'),
+      'test@example.com',
+    );
+    await user.type(
+      screen.getByPlaceholderText('Enter password'),
+      'password123!',
+    );
+    await user.click(screen.getByRole('button', { name: 'Sign In' }));
+
+    await waitFor(() => {
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        'Server error:',
+        'Server error',
+      );
+    });
+
+    consoleErrorSpy.mockRestore();
   });
 });

@@ -1,17 +1,15 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import Home from './page';
-import { ChakraUIProvider } from '@/providers/chakra-provider';
 
-describe('Home page', () => {
-  it('renders the main heading', () => {
-    render(
-      <ChakraUIProvider>
-        <Home />
-      </ChakraUIProvider>,
-    );
-    expect(
-      screen.getByRole('heading', { name: /swagger editor app/i }),
-    ).toBeInTheDocument();
+describe('Home page layout', () => {
+  it('renders with the editor and a viewer', () => {
+    render(<Home />);
+
+    const editor = screen.getByTestId('editor-block');
+    expect(editor).toBeInTheDocument();
+
+    const viewer = screen.getByTestId('viewer-block');
+    expect(viewer).toBeInTheDocument();
   });
 });
