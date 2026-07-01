@@ -4,3 +4,4 @@ build
 coverage
 src/routeTree.gen.ts
 *.yml
+src/types/database.types.ts
