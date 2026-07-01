@@ -1,8 +1,11 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
-import { ChakraUIProvider } from '@/providers/chakra-provider';
+import { Box, Flex } from '@chakra-ui/react';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import '@/styles/index.css';
+import { ChakraUIProvider } from '@/providers/chakra-provider';
+import Header from '@/components/layout/header/header';
+import Footer from '@/components/layout/footer/footer';
 
 const inter = Inter({
   variable: '--font-inter',
@@ -31,7 +34,15 @@ export default function RootLayout({
       className={`${inter.variable} ${jetbrainsMono.variable}`}
     >
       <body>
-        <ChakraUIProvider>{children}</ChakraUIProvider>
+        <ChakraUIProvider>
+          <Flex direction="column" minH="100vh">
+            <Header />
+
+            <Box flex="1">{children}</Box>
+
+            <Footer />
+          </Flex>
+        </ChakraUIProvider>
       </body>
     </html>
   );
