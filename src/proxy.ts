@@ -1,13 +1,12 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { getSession } from '@/lib/auth/get-session';
-
-const publicAuthRoutes = new Set(['/sign-in', '/sign-up']);
+import { AUTH_ROUTES } from '@/constants/constants';
 
 export async function proxy(request: NextRequest): Promise<NextResponse> {
   const { pathname } = request.nextUrl;
 
-  const isPublicAuthRoute = publicAuthRoutes.has(pathname);
+  const isPublicAuthRoute = AUTH_ROUTES.has(pathname);
 
   if (!isPublicAuthRoute) {
     return NextResponse.next();
