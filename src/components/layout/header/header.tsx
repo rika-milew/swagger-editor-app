@@ -1,13 +1,28 @@
 'use client';
 
-import { Box, Button, Flex, HStack, Separator } from '@chakra-ui/react';
+import { useRouter, usePathname } from 'next/navigation';
+import { useLocale } from 'next-intl';
+import { Box, Button, Flex, HStack, Separator, Text } from '@chakra-ui/react';
 import { colors } from '@/theme/colors';
 import { buttons } from '@/theme/buttons';
 import { container } from '@/theme/container';
 import Navigation from './navigation';
 import Logo from '../logo/logo';
+import type { Locale } from '@/i18n/routing';
 
 export default function Header() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const locale = useLocale();
+
+  const switchLanguage = () => {
+    const newLocale: Locale = locale === 'en' ? 'ru' : 'en';
+
+    const cleanPath = pathname.replace(/^\/(en|ru)/, '');
+
+    router.replace(`/${newLocale}${cleanPath}`);
+  };
+
   return (
     <Box as="header" {...container.headerBox}>
       <Flex px="6" py="4" {...container.flexContainer}>
@@ -17,8 +32,28 @@ export default function Header() {
         </HStack>
 
         <HStack gap="4">
-          <Button size="sm" {...buttons.languageSwitcher}>
-            EN / RU
+          <Button
+            onClick={switchLanguage}
+            size="sm"
+            {...buttons.languageSwitcher}
+          >
+            <Text
+              as="span"
+              color={
+                locale === 'en' ? colors.brandPrimary : colors.colorZinc600
+              }
+            >
+              EN
+            </Text>
+            {' / '}
+            <Text
+              as="span"
+              color={
+                locale === 'ru' ? colors.brandPrimary : colors.colorZinc600
+              }
+            >
+              RU
+            </Text>
           </Button>
 
           <Separator
