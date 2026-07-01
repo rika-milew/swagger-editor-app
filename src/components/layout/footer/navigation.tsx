@@ -1,5 +1,5 @@
 import { HStack } from '@chakra-ui/react';
-import AppLink from '@/components/layout/app-link/app-link';
+import AppLink from '@/components/app-link/app-link';
 import { colors } from '@/theme/colors';
 import { typography } from '@/theme/typography';
 
