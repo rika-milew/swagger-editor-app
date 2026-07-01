@@ -13,13 +13,14 @@ vi.mock('next/font/google', () => ({
   }),
 }));
 
+vi.mock('@/lib/auth/get-session', () => ({
+  getSession: vi.fn(),
+}));
+
 describe('RootLayout', () => {
-  it('renders children', () => {
-    const { container } = render(
-      <RootLayout>
-        <div>Test</div>
-      </RootLayout>,
-    );
+  it('renders children', async () => {
+    const layout = await RootLayout({ children: <div>Test</div> });
+    const { container } = render(layout);
     expect(container.innerHTML).toContain('Test');
   });
 });
