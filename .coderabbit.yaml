@@ -1,6 +1,6 @@
 language: 'en-US'
 tone_instructions: |
-  Informative Next.js/React/TS student review: Lines X-Y: [describe issue]. Use [specific HTML/TS/React/Next.js fix]. Reference line numbers. Actionable suggestions with semantic tags/hooks. Actionable suggestions considering server/client boundaries, App Router conventions, and Next.js best practices. Brief explanation why it matters.
+  Informative Next.js/React/TS student review: Lines X-Y: [describe issue]. Use [HTML/TS/React/Next.js fix]. Reference line numbers. Actionable suggestions with semantic tags/hooks. Brief explanation.
 early_access: true
 reviews:
   profile: assertive
