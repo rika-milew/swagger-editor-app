@@ -5,7 +5,7 @@ const cx = classNames.bind(styles);
 
 export const EditorHeader = () => {
   return (
-    <header className={cx('editor-header')}>
+    <div className={cx('editor-header')}>
       <div className={cx('points-container')}>
         <div className={cx('point')}></div>
         <div className={cx('point')}></div>
@@ -38,8 +38,10 @@ export const EditorHeader = () => {
           </label>
         </div>
 
-        <button className={cx('save-code')}>Save</button>
+        <button type="button" className={cx('save-code')}>
+          Save
+        </button>
       </div>
-    </header>
+    </div>
   );
 };

@@ -1,4 +1,5 @@
 :root {
+  --brand-primary-light: hsl(183deg 100% 80%);
   --brand-primary: hsl(183deg 100% 50%);
 
   /* White colors */
