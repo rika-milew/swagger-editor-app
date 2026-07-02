@@ -31,9 +31,17 @@ export const buttons = {
     bg: 'transparent',
     color: colors.colorZinc600,
 
+    px: 3,
+    py: 2,
+
+    border: '1px solid transparent',
+    borderRadius: 'md',
+
     _hover: {
       bg: 'transparent',
       color: colors.colorWhite,
+      border: '1px solid',
+      borderColor: colors.brandPrimary,
     },
   },
   submit: {

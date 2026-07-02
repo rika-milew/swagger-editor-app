@@ -1,10 +1,14 @@
+'use client';
+
 import { HStack } from '@chakra-ui/react';
 import { usePathname } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import AppLink from '@/components/app-link/app-link';
 import { colors } from '@/theme/colors';
 
 export default function Navigation() {
   const pathname = usePathname();
+  const t = useTranslations('Navigation');
   return (
     <HStack gap="6">
       <AppLink
@@ -16,7 +20,7 @@ export default function Navigation() {
             : { color: colors.colorWhite, textDecoration: 'none' }
         }
       >
-        Editor
+        {t('home')}
       </AppLink>
 
       <AppLink
@@ -28,7 +32,7 @@ export default function Navigation() {
             : { color: colors.colorWhite, textDecoration: 'none' }
         }
       >
-        About
+        {t('about')}
       </AppLink>
     </HStack>
   );

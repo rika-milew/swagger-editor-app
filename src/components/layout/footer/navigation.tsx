@@ -1,9 +1,13 @@
+'use client';
+
 import { HStack } from '@chakra-ui/react';
+import { useTranslations } from 'next-intl';
 import AppLink from '@/components/app-link/app-link';
 import { colors } from '@/theme/colors';
 import { typography } from '@/theme/typography';
 
 export default function Navigation() {
+  const t = useTranslations('Navigation');
   return (
     <HStack gap="6">
       <AppLink
@@ -15,7 +19,7 @@ export default function Navigation() {
           textDecoration: 'none',
         }}
       >
-        About
+        {t('about')}
       </AppLink>
       <AppLink
         href="https://rs.school/"
