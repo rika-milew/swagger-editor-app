@@ -19,8 +19,6 @@ export function generateStaticParams() {
   return routing.locales.map((lang) => ({ lang }));
 }
 
-export const dynamic = 'force-dynamic';
-
 export async function generateMetadata({
   params,
 }: Pick<LocaleLayoutProperties, 'params'>): Promise<Metadata> {
