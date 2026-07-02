@@ -32,10 +32,12 @@ export default async function RootLayout({
 }: Readonly<{
   children: ReactNode;
 }>) {
-  const user = await getSession().catch((error: unknown) => {
+  let user = null;
+  try {
+    user = await getSession();
+  } catch (error) {
     console.error('Failed to get session:', getErrorMessage(error));
-    return null;
-  });
+  }
 
   return (
     <html
