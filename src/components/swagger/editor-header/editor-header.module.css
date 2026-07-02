@@ -112,3 +112,9 @@
 .save-code:hover {
   background-color: var(--brand-primary-light);
 }
+
+@media (orientation: portrait) {
+  .valid-openapi {
+    display: none;
+  }
+}

@@ -47,7 +47,7 @@
 }
 
 @media (width <= 1190px) {
-  .editor-wrapper {
+  .main-wrapper {
     overflow-y: auto;
     flex-direction: column;
     gap: 30px;
@@ -67,7 +67,7 @@
 }
 
 @media (orientation: portrait) {
-  .editor-wrapper {
+  .main-wrapper {
     overflow-y: auto;
     flex-direction: column;
     gap: 30px;
