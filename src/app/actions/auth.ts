@@ -68,7 +68,18 @@ export async function signUp(
 }
 
 export async function signOut(): Promise<void> {
-  const supabase = await createServerClient();
-  await supabase.auth.signOut();
+  try {
+    const supabase = await createServerClient();
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      const message = getErrorMessage(error) ?? 'Sign out error';
+      console.error('Sign out error:', message);
+    }
+  } catch (error) {
+    const message = getErrorMessage(error) ?? 'Sign out failed';
+    console.error('Sign out failed:', message);
+  }
+
   redirect(ROUTES.HOME);
 }
