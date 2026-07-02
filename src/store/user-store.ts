@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
 import type { AppUser } from '@/types/auth.types';
 
 type UserStore = {
@@ -17,6 +17,8 @@ export const useUserStore = create<UserStore>()(
     }),
     {
       name: 'user-storage',
+      storage: createJSONStorage(() => sessionStorage),
+      partialize: (state) => ({ id: state.user?.id }),
     },
   ),
 );
