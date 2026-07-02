@@ -17,7 +17,7 @@
   "About": {
     "title": "About this project",
     "courseText": "This application was created as part of the React course.",
-    "autorText": "Author: "
+    "authorText": "Author: "
   },
   "NotFound": {
     "title": "Page not found",

@@ -17,7 +17,7 @@ export default function LanguageSwitcher() {
   const handleLanguageChange = () => {
     const newLocale: Locale = locale === 'en' ? 'ru' : 'en';
 
-    const cleanPath = pathname.replace(/^\/(en|ru)/, '');
+    const cleanPath = pathname.replace(/^\/(en|ru)(?=\/|$)/, '');
 
     router.replace(`/${newLocale}${cleanPath}`);
   };

@@ -1,7 +1,7 @@
 {
   "Metadata": {
     "title": "Swagger Editor App",
-    "description": "Онлайн редактор и просмотрщик Swagger/OpenAPI"
+    "description": "Онлайн редактор и просмотр Swagger/OpenAPI"
   },
   "Navigation": {
     "home": "Редактор",
@@ -17,7 +17,7 @@
   "About": {
     "title": "О проекте",
     "courseText": "Это приложение было создано как часть курса React.",
-    "autorText": "Автор: "
+    "authorText": "Автор: "
   },
   "NotFound": {
     "title": "Страница не найдена",
