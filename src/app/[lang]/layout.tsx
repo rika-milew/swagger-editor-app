@@ -7,9 +7,6 @@ import { Flex, Box } from '@chakra-ui/react';
 import Footer from '@/components/layout/footer/footer';
 import Header from '@/components/layout/header/header';
 import { routing } from '../../i18n/routing';
-import { UserProvider } from '@/providers/user-provider';
-import { getSession } from '@/lib/auth/get-session';
-import { getErrorMessage } from '@/utils/get-error-message';
 
 type LocaleLayoutProperties = {
   children: ReactNode;
@@ -40,13 +37,6 @@ export default async function LocaleLayout({
   children,
   params,
 }: LocaleLayoutProperties) {
-  let user = null;
-  try {
-    user = await getSession();
-  } catch (error) {
-    console.error('Failed to get session:', getErrorMessage(error));
-  }
-
   const { lang } = await params;
 
   if (!hasLocale(routing.locales, lang)) {
@@ -57,15 +47,13 @@ export default async function LocaleLayout({
 
   return (
     <NextIntlClientProvider>
-      <UserProvider user={user}>
-        <Flex direction="column" minH="100vh">
-          <Header />
+      <Flex direction="column" minH="100vh">
+        <Header />
 
-          <Box flex="1">{children}</Box>
+        <Box flex="1">{children}</Box>
 
-          <Footer />
-        </Flex>
-      </UserProvider>
+        <Footer />
+      </Flex>
     </NextIntlClientProvider>
   );
 }

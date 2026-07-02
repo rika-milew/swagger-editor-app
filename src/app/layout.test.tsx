@@ -18,8 +18,8 @@ vi.mock('@/lib/auth/get-session', () => ({
 }));
 
 describe('RootLayout', () => {
-  it('renders children', () => {
-    const layout = RootLayout({ children: <div>Test</div> });
+  it('renders children', async () => {
+    const layout = await RootLayout({ children: <div>Test</div> });
     const { container } = render(layout);
     expect(container.innerHTML).toContain('Test');
   });

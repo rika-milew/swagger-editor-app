@@ -3,6 +3,9 @@ import type { ReactNode } from 'react';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import '@/styles/index.css';
 import { ChakraUIProvider } from '@/providers/chakra-provider';
+import { UserProvider } from '@/providers/user-provider';
+import { getSession } from '@/lib/auth/get-session';
+import { getErrorMessage } from '@/utils/get-error-message';
 
 const inter = Inter({
   variable: '--font-inter',
@@ -19,11 +22,18 @@ export const metadata: Metadata = {
   description: 'Online Swagger/OpenAPI editor and viewer',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: ReactNode;
 }>) {
+  let user = null;
+  try {
+    user = await getSession();
+  } catch (error) {
+    console.error('Failed to get session:', getErrorMessage(error));
+  }
+
   return (
     <html
       suppressHydrationWarning
@@ -31,7 +41,9 @@ export default function RootLayout({
       className={`${inter.variable} ${jetbrainsMono.variable}`}
     >
       <body>
-        <ChakraUIProvider>{children}</ChakraUIProvider>
+        <ChakraUIProvider>
+          <UserProvider user={user}>{children}</UserProvider>
+        </ChakraUIProvider>
       </body>
     </html>
   );
