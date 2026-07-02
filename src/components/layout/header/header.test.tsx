@@ -1,8 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { ChakraProvider, defaultSystem } from '@chakra-ui/react';
 import Header from '@/components/layout/header/header';
 import { useUserStore } from '@/store/user-store';
+import { signOut } from '@/app/actions/auth';
 import type { AppUser } from '@/types/auth.types';
 import type { ReactNode, ReactElement } from 'react';
 
@@ -70,6 +72,9 @@ function mockAuthenticated() {
 describe('Header', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    vi.spyOn(console, 'error').mockImplementation(() => {
+      vi.fn();
+    });
   });
 
   it('shows Sign In and Sign Up for unauthenticated user', () => {
@@ -107,5 +112,38 @@ describe('Header', () => {
     expect(screen.getByText('History').closest('a')?.getAttribute('href')).toBe(
       '/history',
     );
+  });
+
+  it('calls signOut and clearUser on Sign Out click', async () => {
+    const clearUser = vi.fn();
+    const user = userEvent.setup();
+    vi.mocked(useUserStore).mockImplementation((selector) =>
+      selector({ user: mockUser, setUser: vi.fn(), clearUser }),
+    );
+    vi.mocked(signOut).mockResolvedValue(undefined);
+
+    renderWithProvider(<Header />);
+    await user.click(screen.getByText('Sign Out'));
+
+    await waitFor(() => {
+      expect(signOut).toHaveBeenCalled();
+      expect(clearUser).toHaveBeenCalled();
+    });
+  });
+
+  it('calls clearUser even if signOut fails', async () => {
+    const clearUser = vi.fn();
+    const user = userEvent.setup();
+    vi.mocked(useUserStore).mockImplementation((selector) =>
+      selector({ user: mockUser, setUser: vi.fn(), clearUser }),
+    );
+    vi.mocked(signOut).mockRejectedValue(new Error('Auth error'));
+
+    renderWithProvider(<Header />);
+    await user.click(screen.getByText('Sign Out'));
+
+    await waitFor(() => {
+      expect(clearUser).toHaveBeenCalled();
+    });
   });
 });

@@ -21,6 +21,8 @@ export default function Header() {
   const handleSignOut = async () => {
     try {
       await signOut();
+    } catch (error) {
+      console.error('Sign out error:', error);
     } finally {
       clearUser();
     }
