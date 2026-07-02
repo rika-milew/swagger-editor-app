@@ -2,6 +2,7 @@
 
 import { useRouter, usePathname } from 'next/navigation';
 import { useLocale } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { Box, Button, Flex, HStack, Separator, Text } from '@chakra-ui/react';
 import { colors } from '@/theme/colors';
 import { buttons } from '@/theme/buttons';
@@ -14,6 +15,7 @@ export default function Header() {
   const router = useRouter();
   const pathname = usePathname();
   const locale = useLocale();
+  const t = useTranslations('Buttons');
 
   const switchLanguage = () => {
     const newLocale: Locale = locale === 'en' ? 'ru' : 'en';
@@ -43,7 +45,7 @@ export default function Header() {
                 locale === 'en' ? colors.brandPrimary : colors.colorZinc600
               }
             >
-              EN
+              {t('languageOne')}
             </Text>
             {' / '}
             <Text
@@ -52,7 +54,7 @@ export default function Header() {
                 locale === 'ru' ? colors.brandPrimary : colors.colorZinc600
               }
             >
-              RU
+              {t('languageTwo')}
             </Text>
           </Button>
 
@@ -63,11 +65,11 @@ export default function Header() {
           />
 
           <Button size="sm" {...buttons.signIn}>
-            Sign In
+            {t('login')}
           </Button>
 
           <Button size="sm" {...buttons.signUp}>
-            Sign Up
+            {t('register')}
           </Button>
         </HStack>
       </Flex>

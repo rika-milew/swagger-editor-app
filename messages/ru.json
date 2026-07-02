@@ -3,7 +3,24 @@
     "title": "Swagger Editor App",
     "description": "Онлайн редактор и просмотрщик Swagger/OpenAPI"
   },
-  "Home": {
-    "title": "Swagger Editor"
+  "Navigation": {
+    "home": "Редактор",
+    "about": "О проекте"
+  },
+  "Buttons": {
+    "login": "Войти",
+    "register": "Зарегистрироваться",
+    "logout": "Выйти",
+    "languageOne": "АНГЛ",
+    "languageTwo": "РУС"
+  },
+  "About": {
+    "title": "О проекте",
+    "courseText": "Это приложение было создано как часть курса React.",
+    "autorText": "Автор: "
+  },
+  "NotFound": {
+    "title": "Страница не найдена",
+    "button": "Вернуться на главную"
   }
 }
