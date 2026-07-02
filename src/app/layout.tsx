@@ -8,6 +8,7 @@ import Header from '@/components/layout/header/header';
 import Footer from '@/components/layout/footer/footer';
 import { UserProvider } from '@/providers/user-provider';
 import { getSession } from '@/lib/auth/get-session';
+import { getErrorMessage } from '@/utils/get-error-message';
 
 const inter = Inter({
   variable: '--font-inter',
@@ -31,7 +32,10 @@ export default async function RootLayout({
 }: Readonly<{
   children: ReactNode;
 }>) {
-  const user = await getSession();
+  const user = await getSession().catch((error: unknown) => {
+    console.error('Failed to get session:', getErrorMessage(error));
+    return null;
+  });
 
   return (
     <html

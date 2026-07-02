@@ -15,9 +15,12 @@ export default function Header() {
   const user = useUserStore((state) => state.user);
   const clearUser = useUserStore((state) => state.clearUser);
 
-  const handleSignOut = () => {
-    clearUser();
-    void signOut();
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+    } finally {
+      clearUser();
+    }
   };
 
   return (
@@ -44,7 +47,7 @@ export default function Header() {
               <Button size="sm" asChild>
                 <Link href={ROUTES.HISTORY}>History</Link>
               </Button>
-              <Button size="sm" onClick={handleSignOut}>
+              <Button size="sm" onClick={() => void handleSignOut()}>
                 Sign Out
               </Button>
             </>
