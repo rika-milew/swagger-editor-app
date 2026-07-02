@@ -1,13 +1,16 @@
 'use client';
 
-import { Box, Button, Flex, HStack, Separator } from '@chakra-ui/react';
-import { colors } from '@/theme/colors';
+import { useTranslations } from 'next-intl';
+import { Box, Button, Flex, HStack } from '@chakra-ui/react';
 import { buttons } from '@/theme/buttons';
 import { container } from '@/theme/container';
 import Navigation from './navigation';
 import Logo from '../logo/logo';
+import LanguageSwitcher from './language-switcher';
 
 export default function Header() {
+  const t = useTranslations('Buttons');
+
   return (
     <Box as="header" {...container.headerBox}>
       <Flex px="6" py="4" {...container.flexContainer}>
@@ -17,22 +20,14 @@ export default function Header() {
         </HStack>
 
         <HStack gap="4">
-          <Button size="sm" {...buttons.languageSwitcher}>
-            EN / RU
-          </Button>
-
-          <Separator
-            orientation="vertical"
-            height="20px"
-            borderColor={colors.border}
-          />
+          <LanguageSwitcher />
 
           <Button size="sm" {...buttons.signIn}>
-            Sign In
+            {t('login')}
           </Button>
 
           <Button size="sm" {...buttons.signUp}>
-            Sign Up
+            {t('register')}
           </Button>
         </HStack>
       </Flex>
