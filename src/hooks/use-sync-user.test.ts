@@ -46,4 +46,30 @@ describe('useSyncUser', () => {
       created_at: '2026-01-01',
     });
   });
+
+  it('should use empty string when user email is undefined', () => {
+    const setUser = vi.fn();
+    const clearUser = vi.fn();
+
+    vi.mocked(useUserStore).mockImplementation((selector) =>
+      selector({ setUser, clearUser, user: null }),
+    );
+
+    const user: User = {
+      id: '1',
+      email: undefined,
+      created_at: '2026-01-01',
+      app_metadata: {},
+      user_metadata: {},
+      aud: 'authenticated',
+    };
+
+    renderHook(() => useSyncUser(user));
+
+    expect(setUser).toHaveBeenCalledWith({
+      id: '1',
+      email: '',
+      created_at: '2026-01-01',
+    });
+  });
 });

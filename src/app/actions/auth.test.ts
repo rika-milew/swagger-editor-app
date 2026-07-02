@@ -31,10 +31,11 @@ vi.mock('@/utils/get-error-message', () => ({
 }));
 
 describe('signIn', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
   it('should return validation error for invalid data', async () => {
-    beforeEach(() => {
-      vi.clearAllMocks();
-    });
     vi.mocked(getErrorMessage).mockReturnValue('Validation error');
 
     const result = await signIn({ email: 'invalid', password: '' });
@@ -114,6 +115,10 @@ describe('signIn', () => {
 });
 
 describe('signUp', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
   it('should return validation error for invalid data', async () => {
     vi.mocked(getErrorMessage).mockReturnValue('Validation error');
 
@@ -124,6 +129,24 @@ describe('signUp', () => {
     });
 
     expect(result).toEqual({ error: 'Validation error' });
+  });
+
+  it('should return default registration error', async () => {
+    mockSignUp.mockResolvedValue({
+      error: new Error('Test error'),
+    });
+
+    vi.mocked(getErrorMessage).mockReturnValue(undefined);
+
+    const result = await signUp({
+      email: 'test@example.com',
+      password: 'test123!',
+      confirmPassword: 'test123!',
+    });
+
+    expect(result).toEqual({
+      error: 'Registration failed',
+    });
   });
 
   it('should return auth error from Supabase', async () => {
@@ -165,34 +188,6 @@ describe('signUp', () => {
     expect(result).toEqual({ error: 'Email exists' });
   });
 
-  it('should return default error when Supabase error has no message', async () => {
-    mockSignUp.mockResolvedValue({ error: new Error('Some error') });
-    vi.mocked(getErrorMessage).mockReturnValue(undefined);
-
-    const result = await signUp({
-      email: 'test@example.com',
-      password: 'test123!',
-      confirmPassword: '',
-    });
-
-    expect(result).toEqual({ error: 'Validation failed' });
-  });
-
-  it('should return default error when unexpected error has no message', async () => {
-    mockSignUp.mockRejectedValue(new Error('Some error'));
-    vi.mocked(getErrorMessage).mockReturnValue(undefined);
-
-    const result = await signUp({
-      email: 'test@example.com',
-      password: 'test123!',
-      confirmPassword: '',
-    });
-
-    expect(result).toEqual({
-      error: 'Validation failed',
-    });
-  });
-
   it('should return default unexpected error message', async () => {
     mockSignUp.mockRejectedValue(new Error('Some error'));
     vi.mocked(getErrorMessage).mockReturnValue(undefined);
@@ -222,6 +217,10 @@ describe('signUp', () => {
 });
 
 describe('signOut', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
   it('should sign out successfully', async () => {
     mockSignOutMethod.mockResolvedValue({ error: null });
 
@@ -259,6 +258,42 @@ describe('signOut', () => {
       'Network error',
     );
     expect(mockRedirect).toHaveBeenCalledWith('/');
+    consoleSpy.mockRestore();
+  });
+
+  it('should use default sign out error message', async () => {
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(vi.fn());
+
+    mockSignOutMethod.mockResolvedValue({
+      error: new Error('Boom'),
+    });
+
+    vi.mocked(getErrorMessage).mockReturnValue(undefined);
+
+    await signOut();
+
+    expect(consoleSpy).toHaveBeenCalledWith(
+      'Sign out error:',
+      'Sign out error',
+    );
+
+    consoleSpy.mockRestore();
+  });
+
+  it('should use default unexpected sign out message', async () => {
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(vi.fn());
+
+    mockSignOutMethod.mockRejectedValue(new Error('Test error'));
+
+    vi.mocked(getErrorMessage).mockReturnValue(undefined);
+
+    await signOut();
+
+    expect(consoleSpy).toHaveBeenCalledWith(
+      'Sign out failed:',
+      'Sign out failed',
+    );
+
     consoleSpy.mockRestore();
   });
 });
