@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { NextRequest } from 'next/server';
 
 const HTTP_OK_STATUS = 200;
-const SESSION_TIMEOUT_MS = 3000;
+const SESSION_TIMEOUT_MS = 5000;
 
 const mockGetSession = vi.fn();
 vi.mock('@/lib/auth/get-session', () => ({
@@ -15,7 +15,7 @@ function createRequest(pathname: string): NextRequest {
   return new NextRequest(new URL(`http://localhost:3000${pathname}`));
 }
 
-describe('Proxy Auth Redirects', () => {
+describe('Proxy Middleware', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockGetSession.mockReset();
@@ -89,5 +89,52 @@ describe('Proxy Auth Redirects', () => {
 
     expect(response.headers.get('location')).toBeNull();
     expect(response.status).toBe(HTTP_OK_STATUS);
+  });
+
+  it('allows authorized user to access private route', async () => {
+    mockGetSession.mockResolvedValue({ id: 'user-1234' });
+
+    const response = await proxy(createRequest('/history'));
+
+    expect(response.headers.get('location')).toBeNull();
+  });
+
+  it('redirects unauthorized user from history to home page', async () => {
+    mockGetSession.mockResolvedValue(null);
+
+    const response = await proxy(createRequest('/history'));
+
+    expect(response.headers.get('location')).toBe('http://localhost:3000/');
+  });
+
+  it('redirects to home page when getSession throws error on private route', async () => {
+    mockGetSession.mockRejectedValue(new Error('Database error'));
+
+    const response = await proxy(createRequest('/history'));
+
+    expect(response.headers.get('location')).toBe('http://localhost:3000/');
+  });
+
+  it('redirects to home page when getSession times out on private route', async () => {
+    mockGetSession.mockImplementation(
+      () =>
+        new Promise((resolve) => setTimeout(resolve, SESSION_TIMEOUT_MS * 10)),
+    );
+
+    const responsePromise = proxy(createRequest('/history'));
+
+    await vi.advanceTimersByTimeAsync(SESSION_TIMEOUT_MS);
+
+    const response = await responsePromise;
+
+    expect(response.headers.get('location')).toBe('http://localhost:3000/');
+  });
+
+  it('clears timeout when getSession resolves before timeout', async () => {
+    mockGetSession.mockResolvedValue({ id: 'user-1234' });
+
+    const response = await proxy(createRequest('/sign-in'));
+
+    expect(response.headers.get('location')).toBe('http://localhost:3000/');
   });
 });

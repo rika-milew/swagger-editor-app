@@ -7,3 +7,5 @@ export const ROUTES = {
 } as const;
 
 export const AUTH_ROUTES = new Set<string>([ROUTES.SIGN_IN, ROUTES.SIGN_UP]);
+
+export const PRIVATE_ROUTES = new Set<string>([ROUTES.HISTORY]);

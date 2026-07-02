@@ -1,0 +1,27 @@
+{
+  "Metadata": {
+    "title": "Swagger Editor App",
+    "description": "Online Swagger/OpenAPI editor and viewer"
+  },
+  "Navigation": {
+    "home": "Editor",
+    "about": "About"
+  },
+  "Buttons": {
+    "login": "Sign In",
+    "register": "Sign Up",
+    "logout": "Sign Out",
+    "history": "History",
+    "languageOne": "EN",
+    "languageTwo": "RU"
+  },
+  "About": {
+    "title": "About this project",
+    "courseText": "This application was created as part of the React course.",
+    "authorText": "Author: "
+  },
+  "NotFound": {
+    "title": "Page not found",
+    "button": "Back to Home"
+  }
+}
