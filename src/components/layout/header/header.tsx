@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { container } from '@/theme/container';
 import Navigation from './navigation';
 import Logo from '../logo/logo';
-import { ROUTES } from '@/constants/constants';
+import { ROUTES } from '@/constants/routes';
 import { useUserStore } from '@/store/user-store';
 import { signOut } from '@/app/actions/auth';
 

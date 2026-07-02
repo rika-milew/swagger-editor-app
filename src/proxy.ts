@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { getSession } from '@/lib/auth/get-session';
-import { AUTH_ROUTES, ROUTES } from '@/constants/constants';
+import { AUTH_ROUTES, ROUTES } from '@/constants/routes';
 
 const SESSION_TIMEOUT_MS = 3000;
 
