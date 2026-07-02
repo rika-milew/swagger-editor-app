@@ -44,10 +44,14 @@ export default function Header() {
 
           {user ? (
             <>
-              <Button size="sm" asChild>
+              <Button size="sm" {...buttons.signIn} asChild>
                 <Link href={ROUTES.HISTORY}>History</Link>
               </Button>
-              <Button size="sm" onClick={() => void handleSignOut()}>
+              <Button
+                size="sm"
+                {...buttons.signOut}
+                onClick={() => void handleSignOut()}
+              >
                 Sign Out
               </Button>
             </>
