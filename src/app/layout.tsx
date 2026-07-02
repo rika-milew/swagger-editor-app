@@ -6,7 +6,7 @@ import '@/styles/index.css';
 import { ChakraUIProvider } from '@/providers/chakra-provider';
 import Header from '@/components/layout/header/header';
 import Footer from '@/components/layout/footer/footer';
-import { UserHydrator } from '@/components/user-hydrator/user-hydrator';
+import { UserProvider } from '@/providers/user-provider';
 import { getSession } from '@/lib/auth/get-session';
 
 const inter = Inter({
@@ -41,14 +41,13 @@ export default async function RootLayout({
     >
       <body>
         <ChakraUIProvider>
-          <UserHydrator user={user} />
-          <Flex direction="column" minH="100vh">
-            <Header />
-
-            <Box flex="1">{children}</Box>
-
-            <Footer />
-          </Flex>
+          <UserProvider user={user}>
+            <Flex direction="column" minH="100vh">
+              <Header />
+              <Box flex="1">{children}</Box>
+              <Footer />
+            </Flex>
+          </UserProvider>
         </ChakraUIProvider>
       </body>
     </html>

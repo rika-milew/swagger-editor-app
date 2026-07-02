@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useUserStore } from '@/store/user-store';
 import type { User } from '@supabase/supabase-js';
 
-export function UserHydrator({ user }: { user: User | null }) {
+export function useSyncUser(user: User | null): void {
   const setUser = useUserStore((state) => state.setUser);
   const clearUser = useUserStore((state) => state.clearUser);
 
@@ -19,6 +19,4 @@ export function UserHydrator({ user }: { user: User | null }) {
       clearUser();
     }
   }, [user, setUser, clearUser]);
-
-  return null;
 }
