@@ -8,7 +8,7 @@ import { signUpSchema } from '@/lib/validation/auth-schemas';
 import type { SignUpFormData } from '@/lib/validation/auth-schemas';
 import { signUp } from '@/app/actions/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ROUTES } from '@/constants/constants';
+import { ROUTES } from '@/constants/routes';
 
 const SIGN_UP_FIELDS = [
   {
