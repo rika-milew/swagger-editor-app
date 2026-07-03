@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { NextRequest, NextResponse } from 'next/server';
 
 const HTTP_OK_STATUS = 200;
@@ -35,10 +35,6 @@ describe('Proxy Middleware', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockUpdateSession.mockReset();
-  });
-
-  afterEach(() => {
-    vi.useRealTimers();
   });
 
   it('redirects authorized user from /sign-in to /', async () => {
@@ -141,23 +137,10 @@ describe('Proxy Middleware', () => {
     expect(response.headers.get('location')).toBe('http://localhost:3000/');
   });
 
-  it('redirects to home page when getSession throws error on private route', async () => {
+  it('redirects to home page when updateSession throws error on private route', async () => {
     mockUpdateSession.mockRejectedValue(new Error('Database error'));
 
     const response = await proxy(createRequest('/history'));
-
-    expect(response.headers.get('location')).toBe('http://localhost:3000/');
-  });
-
-  it('clears timeout when getSession resolves before timeout', async () => {
-    const request = createRequest('/sign-in');
-
-    mockUpdateSession.mockResolvedValue({
-      supabaseResponse: createMockSupabaseResponse(request),
-      user: { sub: 'user-1234' },
-    });
-
-    const response = await proxy(createRequest('/sign-in'));
 
     expect(response.headers.get('location')).toBe('http://localhost:3000/');
   });
