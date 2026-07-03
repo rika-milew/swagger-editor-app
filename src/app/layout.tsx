@@ -3,7 +3,6 @@ import type { ReactNode } from 'react';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import '@/styles/index.css';
 import { ChakraUIProvider } from '@/providers/chakra-provider';
-import ErrorBoundary from '@/components/error-boundary/error-boundary';
 
 const inter = Inter({
   variable: '--font-inter',
@@ -32,9 +31,7 @@ export default function RootLayout({
       className={`${inter.variable} ${jetbrainsMono.variable}`}
     >
       <body>
-        <ChakraUIProvider>
-          <ErrorBoundary>{children}</ErrorBoundary>
-        </ChakraUIProvider>
+        <ChakraUIProvider>{children}</ChakraUIProvider>
       </body>
     </html>
   );

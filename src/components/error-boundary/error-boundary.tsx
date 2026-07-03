@@ -6,6 +6,12 @@ import { Box, Button, VStack, Heading, Text, HStack } from '@chakra-ui/react';
 
 type ErrorBoundaryProps = {
   children: ReactNode;
+  messages: {
+    title: string;
+    description: string;
+    tryAgain: string;
+    goHome: string;
+  };
 };
 
 type ErrorBoundaryState = {
@@ -36,6 +42,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 
   public render() {
     if (this.state.hasError) {
+      const { messages } = this.props;
       return (
         <Box
           minH="100vh"
@@ -54,12 +61,9 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
             shadow="lg"
             textAlign="center"
           >
-            <Heading size="lg">Something went wrong</Heading>
+            <Heading size="lg">{messages.title}</Heading>
 
-            <Text color="fg.muted">
-              Something unexpected happened. Please try again or return to the
-              home page.
-            </Text>
+            <Text color="fg.muted">{messages.description}</Text>
 
             <HStack gap={4} w="full" justify="center" pt={2}>
               <Button
@@ -69,7 +73,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
                 minW="140px"
                 onClick={this.handleReset}
               >
-                Try again
+                {messages.tryAgain}
               </Button>
 
               <Button
@@ -79,7 +83,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
                 minW="140px"
                 onClick={this.handleGoHome}
               >
-                Go Home
+                {messages.goHome}
               </Button>
             </HStack>
           </VStack>
