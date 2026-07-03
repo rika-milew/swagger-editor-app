@@ -22,7 +22,7 @@ describe('Editor', () => {
     const textbox = screen.getByRole('textbox');
     expect(textbox).toBeInTheDocument();
 
-    fireEvent.input(textbox, { target: { textContent: '{"new": "json"}' } });
+    fireEvent.change(textbox, { target: { value: '{"new": "json"}' } });
 
     expect(mockOnChange).toHaveBeenCalled();
   });
