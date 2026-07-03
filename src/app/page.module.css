@@ -1,10 +1,6 @@
 .page {
   display: flex;
   flex-direction: column;
-
-  width: 100%;
-  min-height: 100dvh;
-
   background-color: var(--color-gray-900);
 }
 
@@ -51,7 +47,7 @@
 }
 
 @media (width <= 1190px) {
-  .editor-wrapper {
+  .main-wrapper {
     overflow-y: auto;
     flex-direction: column;
     gap: 30px;
@@ -71,7 +67,7 @@
 }
 
 @media (orientation: portrait) {
-  .editor-wrapper {
+  .main-wrapper {
     overflow-y: auto;
     flex-direction: column;
     gap: 30px;
