@@ -32,7 +32,7 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
     const response = new NextResponse(null, {
       status: HTTP_STATUS.UNAUTHORIZED,
       headers: {
-        Location: ROUTES.HOME,
+        Location: new URL(ROUTES.HOME, request.url).toString(),
       },
     });
 
