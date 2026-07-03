@@ -7,6 +7,7 @@ import { Flex, Box } from '@chakra-ui/react';
 import Footer from '@/components/layout/footer/footer';
 import Header from '@/components/layout/header/header';
 import { routing } from '../../i18n/routing';
+import ErrorBoundaryWrapper from '@/components/error-boundary/error-boundary-wrapper';
 
 type LocaleLayoutProperties = {
   children: ReactNode;
@@ -45,13 +46,15 @@ export default async function LocaleLayout({
 
   return (
     <NextIntlClientProvider>
-      <Flex direction="column" minH="100vh">
-        <Header />
+      <ErrorBoundaryWrapper>
+        <Flex direction="column" minH="100vh">
+          <Header />
 
-        <Box flex="1">{children}</Box>
+          <Box flex="1">{children}</Box>
 
-        <Footer />
-      </Flex>
+          <Footer />
+        </Flex>
+      </ErrorBoundaryWrapper>
     </NextIntlClientProvider>
   );
 }
