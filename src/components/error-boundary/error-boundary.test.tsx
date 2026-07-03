@@ -1,10 +1,12 @@
 import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import ErrorBoundary from './error-boundary';
 import { renderWithProviders } from '@/test-utils/render-with-providers';
 
 afterEach(() => {
   vi.restoreAllMocks();
+  vi.unstubAllGlobals();
 });
 
 const mockMessages = {
@@ -60,16 +62,18 @@ describe('ErrorBoundary', () => {
     spy.mockRestore();
   });
 
-  it('retries by reloading page', () => {
+  it('retries by reloading page', async () => {
+    const user = userEvent.setup();
+
     vi.spyOn(console, 'error').mockImplementation(() => {
       // Suppress error logging for this test
     });
 
     const reload = vi.fn();
 
-    Object.defineProperty(globalThis, 'location', {
-      value: { reload },
-      writable: true,
+    vi.stubGlobal('location', {
+      reload,
+      href: '',
     });
 
     renderWithProviders(
@@ -78,19 +82,20 @@ describe('ErrorBoundary', () => {
       </ErrorBoundary>,
     );
 
-    screen.getByText('Try again').click();
+    await user.click(screen.getByRole('button', { name: /try again/i }));
 
     expect(reload).toHaveBeenCalled();
   });
 
-  it('navigates to home page', () => {
+  it('navigates to home page', async () => {
+    const user = userEvent.setup();
+
     vi.spyOn(console, 'error').mockImplementation(() => {
       // Suppress error logging for this test
     });
 
-    Object.defineProperty(globalThis, 'location', {
-      value: { href: '' },
-      writable: true,
+    vi.stubGlobal('location', {
+      href: '',
     });
 
     renderWithProviders(
@@ -99,7 +104,7 @@ describe('ErrorBoundary', () => {
       </ErrorBoundary>,
     );
 
-    screen.getByText('Go home').click();
+    await user.click(screen.getByRole('button', { name: /go home/i }));
 
     expect(globalThis.location.href).toBe('/');
   });
