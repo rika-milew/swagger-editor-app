@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { AUTH_ROUTES, PRIVATE_ROUTES, ROUTES } from '@/constants/routes';
+import { HTTP_STATUS } from '@/constants/http-status';
 import { updateSession } from '@/lib/auth/update-session';
 import { copyCookies } from '@/utils/copy-cookies';
 
@@ -28,7 +29,13 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
   }
 
   if (isPrivateRoute && !user) {
-    const response = NextResponse.redirect(new URL(ROUTES.HOME, request.url));
+    const response = new NextResponse(null, {
+      status: HTTP_STATUS.UNAUTHORIZED,
+      headers: {
+        Location: ROUTES.HOME,
+      },
+    });
+
     copyCookies(supabaseResponse, response);
     return response;
   }
