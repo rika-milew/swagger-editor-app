@@ -26,6 +26,19 @@ export const buttons = {
       bg: colors.brandPrimary,
     },
   },
+  signOut: {
+    bg: 'transparent',
+    color: colors.colorWhite,
+    fontWeight: fontWeights.medium,
+    borderRadius: 'full',
+    px: 5,
+    border: '1px solid',
+    borderColor: colors.border,
+
+    _hover: {
+      bg: colors.panel,
+    },
+  },
   languageSwitcher: {
     variant: 'ghost',
     bg: 'transparent',

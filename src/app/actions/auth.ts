@@ -4,6 +4,7 @@ import { createServerClient } from '@/lib/database/server';
 import { redirect } from 'next/navigation';
 import { signInSchema, signUpSchema } from '@/lib/validation/auth-schemas';
 import { getErrorMessage } from '@/utils/get-error-message';
+import { ROUTES } from '@/constants/routes';
 import type { z } from 'zod';
 
 type AuthenticationResult = {
@@ -35,7 +36,7 @@ export async function signIn(
     };
   }
 
-  redirect('/');
+  redirect(ROUTES.HOME);
 }
 
 export async function signUp(
@@ -63,5 +64,22 @@ export async function signUp(
     };
   }
 
-  redirect('/');
+  redirect(ROUTES.HOME);
+}
+
+export async function signOut(): Promise<void> {
+  try {
+    const supabase = await createServerClient();
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      const message = getErrorMessage(error) ?? 'Sign out error';
+      console.error('Sign out error:', message);
+    }
+  } catch (error) {
+    const message = getErrorMessage(error) ?? 'Sign out failed';
+    console.error('Sign out failed:', message);
+  }
+
+  redirect(ROUTES.HOME);
 }

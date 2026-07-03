@@ -3,13 +3,30 @@
 import { useTranslations } from 'next-intl';
 import { Box, Button, Flex, HStack } from '@chakra-ui/react';
 import { buttons } from '@/theme/buttons';
+import Link from 'next/link';
 import { container } from '@/theme/container';
 import Navigation from './navigation';
 import Logo from '../logo/logo';
+import { ROUTES } from '@/constants/routes';
+import { useUserStore } from '@/store/user-store';
+import { signOut } from '@/app/actions/auth';
 import LanguageSwitcher from './language-switcher';
 
 export default function Header() {
   const t = useTranslations('Buttons');
+
+  const user = useUserStore((state) => state.user);
+  const clearUser = useUserStore((state) => state.clearUser);
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+    } catch (error) {
+      console.error('Sign out error:', error);
+    } finally {
+      clearUser();
+    }
+  };
 
   return (
     <Box as="header" {...container.headerBox}>
@@ -22,13 +39,29 @@ export default function Header() {
         <HStack gap="4">
           <LanguageSwitcher />
 
-          <Button size="sm" {...buttons.signIn}>
-            {t('login')}
-          </Button>
-
-          <Button size="sm" {...buttons.signUp}>
-            {t('register')}
-          </Button>
+          {user ? (
+            <>
+              <Button size="sm" {...buttons.signIn} asChild>
+                <Link href={ROUTES.HISTORY}>{t('history')}</Link>
+              </Button>
+              <Button
+                size="sm"
+                {...buttons.signOut}
+                onClick={() => void handleSignOut()}
+              >
+                {t('logout')}
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button size="sm" {...buttons.signIn} asChild>
+                <Link href={ROUTES.SIGN_IN}>{t('login')}</Link>
+              </Button>
+              <Button size="sm" {...buttons.signUp} asChild>
+                <Link href={ROUTES.SIGN_UP}>{t('register')}</Link>
+              </Button>
+            </>
+          )}
         </HStack>
       </Flex>
     </Box>
