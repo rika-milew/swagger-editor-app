@@ -4,6 +4,24 @@ import '@testing-library/jest-dom';
 import { Editor } from './editor';
 import type { EditorFormat } from '@/types/editor.types';
 
+vi.mock('@uiw/react-codemirror', () => {
+  return {
+    default: ({
+      value,
+      onChange,
+    }: {
+      value: string;
+      onChange: (val: string) => void;
+    }) => (
+      <textarea
+        data-testid="mock-codemirror"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+      />
+    ),
+  };
+});
+
 describe('Editor', () => {
   it('should render CodeMirror and call handlers on change', () => {
     const mockOnChange = vi.fn();
@@ -19,11 +37,11 @@ describe('Editor', () => {
       />,
     );
 
-    const textbox = screen.getByRole('textbox');
-    expect(textbox).toBeInTheDocument();
+    const textarea = screen.getByTestId('mock-codemirror');
+    expect(textarea).toBeInTheDocument();
 
-    fireEvent.change(textbox, { target: { value: '{"new": "json"}' } });
+    fireEvent.change(textarea, { target: { value: '{"new": "json"}' } });
 
-    expect(mockOnChange).toHaveBeenCalled();
+    expect(mockOnChange).toHaveBeenCalledWith('{"new": "json"}');
   });
 });
