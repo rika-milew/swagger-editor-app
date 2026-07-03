@@ -2,28 +2,21 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { cookies } from 'next/headers';
 import { createServerClient } from '@/lib/database/server';
 
-let cookiesConfig!: {
-  getAll: () => unknown;
-  setAll: (
-    cookies: {
-      name: string;
-      value: string;
-      options?: unknown;
-    }[],
-  ) => void;
+type CookieHandler = {
+  name: string;
+  value: string;
+  options?: unknown;
 };
 
+type CookiesHandlers = {
+  getAll: () => unknown;
+  setAll: (cookies: CookieHandler[]) => void;
+};
+
+let cookiesConfig!: CookiesHandlers;
+
 type CookieOptions = {
-  cookies: {
-    getAll: () => unknown;
-    setAll: (
-      cookies: {
-        name: string;
-        value: string;
-        options?: unknown;
-      }[],
-    ) => void;
-  };
+  cookies: CookiesHandlers;
 };
 
 vi.mock('@supabase/ssr', () => ({
