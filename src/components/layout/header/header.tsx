@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { Box, Button, Flex, HStack } from '@chakra-ui/react';
 import { buttons } from '@/theme/buttons';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { container } from '@/theme/container';
 import Navigation from './navigation';
 import Logo from '../logo/logo';
