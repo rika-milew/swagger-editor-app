@@ -4,7 +4,16 @@ import { AUTH_ROUTES, PRIVATE_ROUTES, ROUTES } from '@/constants/routes';
 import { updateSession } from '@/lib/auth/update-session';
 
 export async function proxy(request: NextRequest): Promise<NextResponse> {
-  const { supabaseResponse, user } = await updateSession(request);
+  let supabaseResponse = NextResponse.next({ request });
+  let user = null;
+
+  try {
+    const result = await updateSession(request);
+    supabaseResponse = result.supabaseResponse;
+    user = result.user;
+  } catch (error) {
+    console.error('Middleware error:', error);
+  }
 
   const { pathname } = request.nextUrl;
 

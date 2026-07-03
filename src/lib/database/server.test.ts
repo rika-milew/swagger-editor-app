@@ -130,28 +130,28 @@ describe('createServerClient', () => {
     });
   });
 
-  it('should handle errors while setting cookies', async () => {
-    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(vi.fn());
+  it('should handle errors while setting cookies without throwing', async () => {
+    const set = vi.fn(() => {
+      throw new Error('Cookie set failed');
+    });
 
     vi.mocked(cookies).mockResolvedValue({
       getAll: vi.fn().mockReturnValue([]),
-      set: vi.fn(() => {
-        throw new Error('Set failed');
-      }),
+      set,
     } as never);
 
     await createServerClient();
 
-    cookiesConfig.setAll([
-      {
-        name: 'token',
-        value: '123',
-        options: {},
-      },
-    ]);
+    expect(() => {
+      cookiesConfig.setAll([
+        {
+          name: 'access-token',
+          value: '123',
+          options: {},
+        },
+      ]);
+    }).not.toThrow();
 
-    expect(consoleSpy).toHaveBeenCalled();
-
-    consoleSpy.mockRestore();
+    expect(set).toHaveBeenCalledWith('access-token', '123', {});
   });
 });
