@@ -30,6 +30,10 @@ vi.mock('@/utils/get-error-message', () => ({
   getErrorMessage: vi.fn(),
 }));
 
+vi.mock('@/utils/get-locale', () => ({
+  getLocaleFromHeaders: vi.fn(() => Promise.resolve('en')),
+}));
+
 describe('signIn', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -110,7 +114,7 @@ describe('signIn', () => {
 
     await signIn({ email: 'test@example.com', password: 'test123!' });
 
-    expect(mockRedirect).toHaveBeenCalledWith('/');
+    expect(mockRedirect).toHaveBeenCalledWith('/en/');
   });
 });
 
@@ -212,7 +216,7 @@ describe('signUp', () => {
       confirmPassword: 'test123!',
     });
 
-    expect(mockRedirect).toHaveBeenCalledWith('/');
+    expect(mockRedirect).toHaveBeenCalledWith('/en/');
   });
 });
 
@@ -226,7 +230,7 @@ describe('signOut', () => {
 
     await signOut();
 
-    expect(mockRedirect).toHaveBeenCalledWith('/');
+    expect(mockRedirect).toHaveBeenCalledWith('/en/');
   });
 
   it('should handle sign out error', async () => {
@@ -242,7 +246,7 @@ describe('signOut', () => {
       'Sign out error:',
       'Sign out error',
     );
-    expect(mockRedirect).toHaveBeenCalledWith('/');
+    expect(mockRedirect).toHaveBeenCalledWith('/en/');
     consoleSpy.mockRestore();
   });
 
@@ -257,7 +261,7 @@ describe('signOut', () => {
       'Sign out failed:',
       'Network error',
     );
-    expect(mockRedirect).toHaveBeenCalledWith('/');
+    expect(mockRedirect).toHaveBeenCalledWith('/en/');
     consoleSpy.mockRestore();
   });
 
