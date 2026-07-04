@@ -13,7 +13,7 @@ export default function MobileMenu() {
     <Drawer.Root placement="end" size="xs" lazyMount unmountOnExit>
       <Drawer.Trigger asChild>
         <IconButton
-          display={{ base: 'flex', md: 'none' }}
+          display={{ base: 'flex', lg: 'none' }}
           {...mobile.openMenuButton}
         >
           <HiBars3 size={24} />
@@ -21,7 +21,7 @@ export default function MobileMenu() {
       </Drawer.Trigger>
 
       <Portal>
-        <Drawer.Backdrop bg="blackAlpha.700" />
+        <Drawer.Backdrop bg={colors.blackOverlay} />
 
         <Drawer.Positioner>
           <Drawer.Content {...mobile.menuContent}>

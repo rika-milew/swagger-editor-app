@@ -11,6 +11,7 @@ export const buttons = {
     px: 5,
     border: '1px solid',
     borderColor: colors.border,
+    transition: 'all 0.2s ease-in-out',
 
     _hover: {
       bg: 'transparent',
@@ -25,6 +26,7 @@ export const buttons = {
     fontWeight: fontWeights.medium,
     borderRadius: '20px',
     px: 5,
+    transition: 'all 0.2s ease-in-out',
 
     _hover: {
       bg: colors.brandPrimary,
@@ -38,9 +40,11 @@ export const buttons = {
     px: 5,
     border: '1px solid',
     borderColor: colors.border,
+    transition: 'all 0.2s ease-in-out',
 
     _hover: {
-      bg: colors.panel,
+      color: colors.background,
+      bg: colors.brandPrimary,
     },
   },
   languageSwitcher: {

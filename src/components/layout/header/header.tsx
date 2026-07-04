@@ -14,14 +14,14 @@ export default function Header() {
       <Flex {...container.headerContent}>
         <HStack gap="10">
           <Logo />
-          <Box display={{ base: 'none', md: 'block' }}>
+          <Box display={{ base: 'none', lg: 'block' }}>
             <Navigation />
           </Box>
         </HStack>
 
         <HStack gap="4">
           <LanguageSwitcher />
-          <Box display={{ base: 'none', md: 'block' }}>
+          <Box display={{ base: 'none', lg: 'block' }}>
             <HeaderButtons />
           </Box>
           <MobileMenu />
