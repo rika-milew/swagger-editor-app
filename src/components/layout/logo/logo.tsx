@@ -24,7 +24,7 @@ export default function Logo() {
           <Text
             {...typography.logoText}
             color={colors.colorWhite}
-            display={{ base: 'none', sm: 'block' }}
+            fontSize={{ base: 'md', sm: 'xl' }}
           >
             NEXUS
           </Text>
@@ -32,7 +32,7 @@ export default function Logo() {
           <Text
             {...typography.logoText}
             color={colors.brandPrimary}
-            display={{ base: 'none', sm: 'block' }}
+            fontSize={{ base: 'md', sm: 'xl' }}
           >
             OPEN
           </Text>

@@ -8,9 +8,10 @@ import { buttons } from '@/theme/buttons';
 import { ROUTES } from '@/constants/routes';
 import { useUserStore } from '@/store/user-store';
 import { signOut } from '@/app/actions/auth';
+import type { StackDirection } from '@/types/layout.types';
 
 type HeaderButtonsProps = {
-  direction?: 'row' | 'column';
+  direction?: StackDirection;
 };
 
 export default function HeaderButtons({

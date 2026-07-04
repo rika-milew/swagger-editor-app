@@ -25,6 +25,9 @@ export default function MobileMenu() {
 
         <Drawer.Positioner>
           <Drawer.Content {...mobile.menuContent}>
+            <Drawer.Header>
+              <Drawer.Title>Navigation menu</Drawer.Title>
+            </Drawer.Header>
             <Drawer.CloseTrigger asChild>
               <IconButton {...mobile.closeMenuButton}>
                 <HiXMark size={24} color={colors.colorWhite} />
