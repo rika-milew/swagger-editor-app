@@ -23,5 +23,11 @@
   "NotFound": {
     "title": "Page not found",
     "button": "Back to Home"
+  },
+  "ErrorBoundary": {
+    "title": "Something went wrong",
+    "description": "An unexpected error occurred. Please try again or return to the home page.",
+    "tryAgain": "Try Again",
+    "goHome": "Go Home"
   }
 }
