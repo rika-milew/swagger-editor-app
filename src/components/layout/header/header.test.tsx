@@ -8,6 +8,22 @@ import { signOut } from '@/app/actions/auth';
 import type { AppUser } from '@/types/auth.types';
 import type { ReactNode, ReactElement } from 'react';
 
+vi.mock('@/i18n/navigation', () => ({
+  Link: ({
+    href,
+    children,
+    ...props
+  }: {
+    href: string;
+    children: ReactNode;
+    [key: string]: unknown;
+  }) => (
+    <a href={href} {...props}>
+      {children}
+    </a>
+  ),
+}));
+
 vi.mock('@/store/user-store', () => ({
   useUserStore: vi.fn(),
 }));
