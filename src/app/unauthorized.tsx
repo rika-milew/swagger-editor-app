@@ -52,7 +52,6 @@ export default function UnauthorizedPage() {
           <Heading as="h2" color={colors.colorWhite} fontSize="2xl">
             {t.title}
           </Heading>
-
           <Text color={colors.colorZinc400} fontSize="lg">
             {t.description}
           </Text>

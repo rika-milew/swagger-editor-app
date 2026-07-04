@@ -9,5 +9,5 @@ export default async function HistoryPage() {
     unauthorized();
   }
 
-  return <Heading>History</Heading>;
+  return <Heading as="h1">History</Heading>;
 }
