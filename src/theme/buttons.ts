@@ -7,11 +7,15 @@ export const buttons = {
     bg: 'transparent',
     color: colors.nav.inactive,
     fontWeight: fontWeights.medium,
-    borderRadius: 'full',
+    borderRadius: '20px',
+    px: 5,
+    border: '1px solid',
+    borderColor: colors.border,
 
     _hover: {
       bg: 'transparent',
       color: colors.nav.active,
+      borderColor: colors.nav.active,
     },
   },
 
@@ -19,7 +23,7 @@ export const buttons = {
     bg: colors.colorWhite,
     color: colors.background,
     fontWeight: fontWeights.medium,
-    borderRadius: 'full',
+    borderRadius: '20px',
     px: 5,
 
     _hover: {
@@ -30,7 +34,7 @@ export const buttons = {
     bg: 'transparent',
     color: colors.colorWhite,
     fontWeight: fontWeights.medium,
-    borderRadius: 'full',
+    borderRadius: '20px',
     px: 5,
     border: '1px solid',
     borderColor: colors.border,

@@ -1,16 +1,20 @@
 'use client';
 
-import { HStack } from '@chakra-ui/react';
+import { Stack } from '@chakra-ui/react';
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import AppLink from '@/components/app-link/app-link';
 import { colors } from '@/theme/colors';
 
-export default function Navigation() {
+type NavigationProps = {
+  direction?: 'row' | 'column';
+};
+
+export default function Navigation({ direction = 'row' }: NavigationProps) {
   const pathname = usePathname();
   const t = useTranslations('Navigation');
   return (
-    <HStack gap="6">
+    <Stack gap="6" direction={direction} align="center">
       <AppLink
         href="/"
         color={pathname === '/' ? colors.nav.active : colors.nav.inactive}
@@ -34,6 +38,6 @@ export default function Navigation() {
       >
         {t('about')}
       </AppLink>
-    </HStack>
+    </Stack>
   );
 }
