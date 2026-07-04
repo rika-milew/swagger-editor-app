@@ -1,22 +1,25 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { colors } from '@/theme';
 import { Flex, Heading, Text, VStack, Container } from '@chakra-ui/react';
+import { getLocaleFromPath } from '@/utils/get-locale';
 
 const REDIRECT_DELAY = 1500;
 
 export default function UnauthorizedPage() {
   const router = useRouter();
+  const pathname = usePathname();
+  const locale = getLocaleFromPath(pathname);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      router.replace('/');
+      router.replace(`/${locale}`);
     }, REDIRECT_DELAY);
 
     return () => clearTimeout(timer);
-  }, [router]);
+  }, [router, locale]);
 
   return (
     <Flex minH="100vh" align="center" justify="center">
