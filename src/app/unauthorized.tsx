@@ -8,10 +8,31 @@ import { getLocaleFromPath } from '@/utils/get-locale';
 
 const REDIRECT_DELAY = 1500;
 
+const translations: Record<
+  string,
+  {
+    title: string;
+    description: string;
+    redirectMessage: string;
+  }
+> = {
+  en: {
+    title: 'Unauthorized',
+    description: "You're not authorized to access this page.",
+    redirectMessage: 'Redirecting to home page...',
+  },
+  ru: {
+    title: 'Нет доступа',
+    description: 'У вас нет прав для доступа к этой странице.',
+    redirectMessage: 'Перенаправление на главную...',
+  },
+};
+
 export default function UnauthorizedPage() {
   const router = useRouter();
   const pathname = usePathname();
   const locale = getLocaleFromPath(pathname);
+  const t = translations[locale] ?? translations.en;
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -29,14 +50,14 @@ export default function UnauthorizedPage() {
             401
           </Heading>
           <Heading as="h2" color={colors.colorWhite} fontSize="2xl">
-            Unauthorized
+            {t.title}
           </Heading>
 
           <Text color={colors.colorZinc400} fontSize="lg">
-            You are not authorized to view this page.
+            {t.description}
           </Text>
           <Text color={colors.colorZinc500} fontSize="sm">
-            Redirecting to home page...
+            {t.redirectMessage}
           </Text>
         </VStack>
       </Container>
