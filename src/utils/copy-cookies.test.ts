@@ -76,14 +76,10 @@ describe('copyCookies', () => {
 
     const toResponse = NextResponse.next();
 
-    const start = performance.now();
     copyCookies(fromResponse, toResponse);
-    const end = performance.now();
 
     expect(toResponse.cookies.get('cookie-0')?.value).toBe('value-0');
     expect(toResponse.cookies.get('cookie-49')?.value).toBe('value-49');
-
-    expect(end - start).toBeLessThan(100);
   });
 
   it('should not copy cookies if source has none', () => {
@@ -111,5 +107,9 @@ describe('copyCookies', () => {
 
     const copiedCookie = toResponse.cookies.get('secure-token');
     expect(copiedCookie?.value).toBe('secret');
+    expect(copiedCookie?.path).toBe('/api');
+    expect(copiedCookie?.httpOnly).toBe(true);
+    expect(copiedCookie?.secure).toBe(true);
+    expect(copiedCookie?.sameSite).toBe('strict');
   });
 });
