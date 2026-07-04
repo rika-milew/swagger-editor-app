@@ -128,7 +128,7 @@ describe('Proxy Middleware', () => {
     expect(response.headers.get('location')).toBeNull();
   });
 
-  it('redirects unauthorized user from history to home page', async () => {
+  it('redirects to unauthorized page when user is not authenticated on private route', async () => {
     const request = createRequest('/history');
 
     mockUpdateSession.mockResolvedValue({
@@ -142,7 +142,7 @@ describe('Proxy Middleware', () => {
     expect(response.headers.get('location')).toBeNull();
   });
 
-  it('redirects to home page when updateSession throws error on private route', async () => {
+  it('redirects to unauthorized page when updateSession throws error on private route', async () => {
     mockUpdateSession.mockRejectedValue(new Error('Database error'));
 
     const response = await proxy(createRequest('/history'));
