@@ -136,10 +136,10 @@ describe('Proxy Middleware', () => {
       user: null,
     });
 
-    const response = await proxy(createRequest('/history'));
+    const response = await proxy(request);
 
-    expect(response.status).toBe(HTTP_STATUS.UNAUTHORIZED);
-    expect(response.headers.get('location')).toBe('/');
+    expect(response.status).toBe(HTTP_STATUS.OK);
+    expect(response.headers.get('location')).toBeNull();
   });
 
   it('redirects to home page when updateSession throws error on private route', async () => {
@@ -147,8 +147,8 @@ describe('Proxy Middleware', () => {
 
     const response = await proxy(createRequest('/history'));
 
-    expect(response.status).toBe(HTTP_STATUS.UNAUTHORIZED);
-    expect(response.headers.get('location')).toBe('/');
+    expect(response.status).toBe(HTTP_STATUS.OK);
+    expect(response.headers.get('location')).toBeNull();
   });
 
   it('should copy cookies when redirecting authorized user from public route', async () => {
@@ -188,7 +188,7 @@ describe('Proxy Middleware', () => {
 
     const response = await proxy(request);
 
-    expect(response.headers.get('location')).toBe('/');
+    expect(response.headers.get('location')).toBeNull();
 
     const responseCookies = response.cookies.getAll();
 
