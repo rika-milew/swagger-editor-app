@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 import { signInSchema, signUpSchema } from '@/lib/validation/auth-schemas';
 import { getErrorMessage } from '@/utils/get-error-message';
 import { ROUTES } from '@/constants/routes';
+import { getLocaleFromHeaders } from '@/utils/get-locale';
 import type { z } from 'zod';
 
 type AuthenticationResult = {
@@ -36,7 +37,8 @@ export async function signIn(
     };
   }
 
-  redirect(ROUTES.HOME);
+  const locale = await getLocaleFromHeaders();
+  redirect(`/${locale}${ROUTES.HOME}`);
 }
 
 export async function signUp(
@@ -64,7 +66,8 @@ export async function signUp(
     };
   }
 
-  redirect(ROUTES.HOME);
+  const locale = await getLocaleFromHeaders();
+  redirect(`/${locale}${ROUTES.HOME}`);
 }
 
 export async function signOut(): Promise<void> {
@@ -81,5 +84,6 @@ export async function signOut(): Promise<void> {
     console.error('Sign out failed:', message);
   }
 
-  redirect(ROUTES.HOME);
+  const locale = await getLocaleFromHeaders();
+  redirect(`/${locale}${ROUTES.HOME}`);
 }
