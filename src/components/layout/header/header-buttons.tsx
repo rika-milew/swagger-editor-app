@@ -24,6 +24,8 @@ export default function HeaderButtons({
   const handleSignOut = async () => {
     try {
       await signOut();
+    } catch (error) {
+      console.error('Failed to sign out:', error);
     } finally {
       clearUser();
     }
