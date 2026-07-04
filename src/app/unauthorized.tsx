@@ -5,6 +5,7 @@ import { useRouter, usePathname } from 'next/navigation';
 import { colors } from '@/theme';
 import { Flex, Heading, Text, VStack, Container } from '@chakra-ui/react';
 import { getLocaleFromPath } from '@/utils/get-locale';
+import { ROUTES } from '@/constants/routes';
 
 const REDIRECT_DELAY = 1500;
 
@@ -36,7 +37,7 @@ export default function UnauthorizedPage() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      router.replace(`/${locale}`);
+      router.replace(`/${locale}${ROUTES.HOME}`);
     }, REDIRECT_DELAY);
 
     return () => clearTimeout(timer);
@@ -55,7 +56,7 @@ export default function UnauthorizedPage() {
           <Text color={colors.colorZinc400} fontSize="lg">
             {t.description}
           </Text>
-          <Text color={colors.colorZinc500} fontSize="sm">
+          <Text color={colors.colorZinc500} fontSize="sm" aria-live="polite">
             {t.redirectMessage}
           </Text>
         </VStack>
