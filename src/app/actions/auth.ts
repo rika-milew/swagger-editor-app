@@ -34,7 +34,7 @@ export async function signIn(
       return { error: getDatabaseErrorKey(error) };
     }
   } catch {
-    return { error: 'Auth.serverErrors.default' };
+    return { error: 'serverErrors.default' };
   }
 
   const locale = await getLocaleFromHeaders();
@@ -62,7 +62,7 @@ export async function signUp(
       return { error: getDatabaseErrorKey(error) };
     }
   } catch {
-    return { error: 'Auth.serverErrors.default' };
+    return { error: 'serverErrors.default' };
   }
 
   const locale = await getLocaleFromHeaders();

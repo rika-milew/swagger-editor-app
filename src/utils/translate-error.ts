@@ -2,7 +2,10 @@ type TranslationFn = (key: string) => string;
 import { databaseErrorMap } from '@/lib/database/database-errors';
 
 export function translateError(message: string, t: TranslationFn): string {
-  if (message.startsWith('validationErrors.') || message.startsWith('Auth.')) {
+  if (
+    message.startsWith('validationErrors.') ||
+    message.startsWith('serverErrors.')
+  ) {
     return t(message);
   }
 
@@ -11,5 +14,5 @@ export function translateError(message: string, t: TranslationFn): string {
     return t(errorKey);
   }
 
-  return message || t('Auth.serverErrors.default');
+  return message || t('serverErrors.default');
 }
