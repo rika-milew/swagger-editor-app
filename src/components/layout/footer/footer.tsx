@@ -37,7 +37,7 @@ export default function Footer() {
           </Box>
 
           <Text
-            fontSize={{ base: '10px', sm: 'xs' }}
+            fontSize={{ base: '2xs', sm: 'sm' }}
             color={colors.colorZinc600}
           >
             © 2026 NexusOpen
