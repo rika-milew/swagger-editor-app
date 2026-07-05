@@ -69,7 +69,9 @@ export async function signUp(
   redirect(`/${locale}${ROUTES.HOME}`);
 }
 
-export async function signOut(): Promise<void> {
+export async function signOut(locale?: string): Promise<void> {
+  const userLocale = locale ?? (await getLocaleFromHeaders());
+
   try {
     const supabase = await createServerClient();
     const { error } = await supabase.auth.signOut();
@@ -83,6 +85,5 @@ export async function signOut(): Promise<void> {
     console.error('Sign out failed:', message);
   }
 
-  const locale = await getLocaleFromHeaders();
-  redirect(`/${locale}${ROUTES.HOME}`);
+  redirect(`/${userLocale}${ROUTES.HOME}`);
 }
