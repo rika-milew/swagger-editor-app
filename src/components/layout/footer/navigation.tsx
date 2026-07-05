@@ -9,7 +9,7 @@ import { typography } from '@/theme/typography';
 export default function Navigation() {
   const t = useTranslations('Navigation');
   return (
-    <HStack gap="6">
+    <HStack as="nav" gap="5">
       <AppLink
         href="/about"
         color={colors.colorZinc600}

@@ -1,7 +1,5 @@
 import { colors } from './colors';
 
-const FOOTER_HEIGHT = '80px';
-
 export const container = {
   headerBox: {
     position: 'sticky',
@@ -54,7 +52,6 @@ export const container = {
     },
   },
   footerBox: {
-    h: FOOTER_HEIGHT,
     bg: colors.background,
     borderTop: '1px solid',
     borderColor: colors.border,
