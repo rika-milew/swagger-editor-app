@@ -8,7 +8,6 @@ export const mobile = {
     borderColor: colors.border,
   },
   openMenuButton: {
-    'aria-label': 'Open menu',
     variant: 'ghost',
     color: colors.colorWhite,
 
@@ -23,7 +22,6 @@ export const mobile = {
     },
   },
   closeMenuButton: {
-    'aria-label': 'Close menu',
     variant: 'ghost',
 
     _hover: {
