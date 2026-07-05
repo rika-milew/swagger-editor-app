@@ -3,6 +3,11 @@
     "title": "Swagger Editor App",
     "description": "Online Swagger/OpenAPI editor and viewer"
   },
+  "Header": {
+    "navigationMenu": "Navigation menu",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
   "Navigation": {
     "home": "Editor",
     "about": "About"
@@ -11,9 +16,7 @@
     "login": "Sign In",
     "register": "Sign Up",
     "logout": "Sign Out",
-    "history": "History",
-    "languageOne": "EN",
-    "languageTwo": "RU"
+    "history": "History"
   },
   "About": {
     "title": "About this project",
@@ -29,5 +32,10 @@
     "description": "An unexpected error occurred. Please try again or return to the home page.",
     "tryAgain": "Try Again",
     "goHome": "Go Home"
+  },
+  "Unauthorized": {
+    "title": "Unauthorized",
+    "description": "You're not authorized to access this page.",
+    "redirectMessage": "Redirecting to home page..."
   }
 }

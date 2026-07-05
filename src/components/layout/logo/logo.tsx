@@ -21,11 +21,19 @@ export default function Logo() {
         />
 
         <HStack gap={0.5}>
-          <Text {...typography.logoText} color={colors.colorWhite}>
+          <Text
+            {...typography.logoText}
+            color={colors.colorWhite}
+            fontSize={{ base: 'md', sm: 'xl' }}
+          >
             NEXUS
           </Text>
 
-          <Text {...typography.logoText} color={colors.brandPrimary}>
+          <Text
+            {...typography.logoText}
+            color={colors.brandPrimary}
+            fontSize={{ base: 'md', sm: 'xl' }}
+          >
             OPEN
           </Text>
         </HStack>

@@ -38,12 +38,8 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
   }
 
   if (isPrivateRoute && !user) {
-    const locale = getLocaleFromPath(pathname);
-    const response = NextResponse.redirect(
-      new URL(`/${locale}${ROUTES.HOME}`, request.url),
-    );
-    copyCookies(supabaseResponse, response);
-    return response;
+    copyCookies(supabaseResponse, supabaseResponse);
+    return supabaseResponse;
   }
 
   return supabaseResponse;

@@ -2,6 +2,7 @@ export const colors = {
   colorWhite: 'hsl(0deg 0% 100%)',
 
   background: 'hsl(240deg 10% 4%)',
+  blackOverlay: 'hsl(0deg 0% 0% / 0.6)',
   border: 'hsl(240deg 5% 16%)',
   textPrimary: 'hsl(240deg 9% 4%)',
   panel: 'hsl(240deg 7% 8%)',
