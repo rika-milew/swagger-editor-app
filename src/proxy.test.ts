@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { NextRequest, NextResponse } from 'next/server';
-
-const HTTP_OK_STATUS = 200;
+import { HTTP_STATUS } from '@/constants/http-status';
 
 const mockUpdateSession = vi.fn();
 vi.mock('@/lib/auth/update-session', () => ({
@@ -47,6 +46,7 @@ describe('Proxy Middleware', () => {
 
     const response = await proxy(createRequest('/sign-in'));
 
+    expect(response.status).toBe(HTTP_STATUS.REDIRECT);
     expect(response.headers.get('location')).toBe('http://localhost:3000/');
   });
 
@@ -60,6 +60,7 @@ describe('Proxy Middleware', () => {
 
     const response = await proxy(createRequest('/sign-up'));
 
+    expect(response.status).toBe(HTTP_STATUS.REDIRECT);
     expect(response.headers.get('location')).toBe('http://localhost:3000/');
   });
 
@@ -73,6 +74,7 @@ describe('Proxy Middleware', () => {
 
     const response = await proxy(createRequest('/sign-in'));
 
+    expect(response.status).toBe(HTTP_STATUS.OK);
     expect(response.headers.get('location')).toBeNull();
   });
 
@@ -86,6 +88,7 @@ describe('Proxy Middleware', () => {
 
     const response = await proxy(createRequest('/sign-up'));
 
+    expect(response.status).toBe(HTTP_STATUS.OK);
     expect(response.headers.get('location')).toBeNull();
   });
 
@@ -99,7 +102,7 @@ describe('Proxy Middleware', () => {
     const response = await proxy(createRequest('/about'));
 
     expect(response.headers.get('location')).toBeNull();
-    expect(response.status).toBe(HTTP_OK_STATUS);
+    expect(response.status).toBe(HTTP_STATUS.OK);
   });
 
   it('passes through when updateSession throws error', async () => {
@@ -108,7 +111,7 @@ describe('Proxy Middleware', () => {
     const response = await proxy(createRequest('/sign-in'));
 
     expect(response.headers.get('location')).toBeNull();
-    expect(response.status).toBe(HTTP_OK_STATUS);
+    expect(response.status).toBe(HTTP_STATUS.OK);
   });
 
   it('allows authorized user to access private route', async () => {
@@ -121,10 +124,11 @@ describe('Proxy Middleware', () => {
 
     const response = await proxy(createRequest('/history'));
 
+    expect(response.status).toBe(HTTP_STATUS.OK);
     expect(response.headers.get('location')).toBeNull();
   });
 
-  it('redirects unauthorized user from history to home page', async () => {
+  it('redirects to unauthorized page when user is not authenticated on private route', async () => {
     const request = createRequest('/history');
 
     mockUpdateSession.mockResolvedValue({
@@ -132,17 +136,19 @@ describe('Proxy Middleware', () => {
       user: null,
     });
 
-    const response = await proxy(createRequest('/history'));
+    const response = await proxy(request);
 
-    expect(response.headers.get('location')).toBe('http://localhost:3000/');
+    expect(response.status).toBe(HTTP_STATUS.OK);
+    expect(response.headers.get('location')).toBeNull();
   });
 
-  it('redirects to home page when updateSession throws error on private route', async () => {
+  it('redirects to unauthorized page when updateSession throws error on private route', async () => {
     mockUpdateSession.mockRejectedValue(new Error('Database error'));
 
     const response = await proxy(createRequest('/history'));
 
-    expect(response.headers.get('location')).toBe('http://localhost:3000/');
+    expect(response.status).toBe(HTTP_STATUS.OK);
+    expect(response.headers.get('location')).toBeNull();
   });
 
   it('should copy cookies when redirecting authorized user from public route', async () => {
@@ -159,9 +165,11 @@ describe('Proxy Middleware', () => {
 
     const response = await proxy(request);
 
+    expect(response.status).toBe(HTTP_STATUS.REDIRECT);
     expect(response.headers.get('location')).toBe('http://localhost:3000/');
 
     const responseCookies = response.cookies.getAll();
+
     expect(responseCookies).toHaveLength(2);
     expect(responseCookies[0].name).toBe('sb-access-token');
     expect(responseCookies[0].value).toBe('token123');
@@ -180,9 +188,10 @@ describe('Proxy Middleware', () => {
 
     const response = await proxy(request);
 
-    expect(response.headers.get('location')).toBe('http://localhost:3000/');
+    expect(response.headers.get('location')).toBeNull();
 
     const responseCookies = response.cookies.getAll();
+
     expect(responseCookies).toHaveLength(1);
     expect(responseCookies[0].name).toBe('sb-access-token');
     expect(responseCookies[0].value).toBe('old-token');

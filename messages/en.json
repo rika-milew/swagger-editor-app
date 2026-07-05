@@ -32,5 +32,10 @@
     "description": "An unexpected error occurred. Please try again or return to the home page.",
     "tryAgain": "Try Again",
     "goHome": "Go Home"
+  },
+  "Unauthorized": {
+    "title": "Unauthorized",
+    "description": "You're not authorized to access this page.",
+    "redirectMessage": "Redirecting to home page..."
   }
 }
