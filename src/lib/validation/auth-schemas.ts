@@ -1,43 +1,56 @@
 import { z } from 'zod';
+import type { ZodType } from 'zod';
 
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const MIN_PASSWORD_LENGTH = 8;
 
-export const signInSchema = z.object({
-  email: z
-    .string()
-    .min(1, 'Email is required')
-    .refine(
-      (value) => emailRegex.test(value),
-      'Please enter a valid email address',
-    ),
-  password: z.string().min(1, 'Password is required'),
-});
+type TranslationFn = (key: string) => string;
 
-export const signUpSchema = z
-  .object({
+type SignInSchemaType = ZodType<{
+  email: string;
+  password: string;
+}>;
+
+type SignUpSchemaType = ZodType<{
+  email: string;
+  password: string;
+  confirmPassword: string;
+}>;
+
+export const signInSchema = (t: TranslationFn): SignInSchemaType =>
+  z.object({
     email: z
       .string()
-      .min(1, 'Email is required')
+      .min(1, t('validationErrors.emailRequired'))
       .refine(
         (value) => emailRegex.test(value),
-        'Please enter a valid email address',
+        t('validationErrors.invalidEmail'),
       ),
-    password: z
-      .string()
-      .min(MIN_PASSWORD_LENGTH, 'Password must be at least 8 characters')
-      .regex(/\p{L}/u, 'Password must contain at least one letter')
-      .regex(/\p{N}/u, 'Password must contain at least one digit')
-      .regex(
-        /[^\p{L}\p{N}]/u,
-        'Password must contain at least one special character',
-      ),
-    confirmPassword: z.string().min(1, 'Please confirm your password'),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
-    path: ['confirmPassword'],
+    password: z.string().min(1, t('validationErrors.passwordRequired')),
   });
+
+export const signUpSchema = (t: TranslationFn): SignUpSchemaType =>
+  z
+    .object({
+      email: z
+        .string()
+        .min(1, t('validationErrors.emailRequired'))
+        .refine(
+          (value) => emailRegex.test(value),
+          t('validationErrors.invalidEmail'),
+        ),
+      password: z
+        .string()
+        .min(MIN_PASSWORD_LENGTH, t('validationErrors.passwordMinLength'))
+        .regex(/\p{L}/u, t('validationErrors.passwordLetter'))
+        .regex(/\p{N}/u, t('validationErrors.passwordDigit'))
+        .regex(/[^\p{L}\p{N}]/u, t('validationErrors.passwordSpecial')),
+      confirmPassword: z.string().min(1, t('validationErrors.confirmRequired')),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+      message: t('validationError.passwordsMatch'),
+      path: ['confirmPassword'],
+    });
 
 export type SignInFormData = z.output<typeof signInSchema>;
 export type SignUpFormData = z.output<typeof signUpSchema>;
