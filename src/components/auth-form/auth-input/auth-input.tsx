@@ -1,13 +1,14 @@
-import { useId, useState } from 'react';
+import { useId, useState, forwardRef } from 'react';
 import { Box, Input, Field, IconButton } from '@chakra-ui/react';
 import { authInputStyles } from '@/theme/input';
 import type { AuthInputProps } from '@/types/auth.types';
 import { LuEye, LuEyeOff } from 'react-icons/lu';
-import { forwardRef } from 'react';
+import { useTranslations } from 'next-intl';
 
 export const AuthInput = forwardRef<HTMLInputElement, AuthInputProps>(
   ({ label, type, placeholder, error, ...rest }, ref) => {
     const id = useId();
+    const t = useTranslations('Auth');
     const [showPassword, setShowPassword] = useState(false);
     const isPassword = type === 'password';
 
@@ -30,7 +31,11 @@ export const AuthInput = forwardRef<HTMLInputElement, AuthInputProps>(
           />
           {isPassword && (
             <IconButton
-              aria-label={showPassword ? 'Hide password' : 'Show password'}
+              aria-label={
+                showPassword
+                  ? t('fields.password.hide')
+                  : t('fields.password.show')
+              }
               size="xs"
               variant="ghost"
               {...authInputStyles.passwordToggle}

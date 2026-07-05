@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form';
 import type { Path, Resolver } from 'react-hook-form';
 import type { FieldValues } from 'react-hook-form';
 import { getErrorMessage } from '@/utils/get-error-message';
+import { useTranslations } from 'next-intl';
 
 type FieldConfig<T extends FieldValues> = {
   name: Path<T>;
@@ -37,6 +38,8 @@ export function AuthForm<T extends FieldValues>({
   resolver,
   onSubmitAction,
 }: AuthFormProps<T>) {
+  const t = useTranslations('Auth');
+
   const {
     register,
     handleSubmit,
@@ -90,7 +93,7 @@ export function AuthForm<T extends FieldValues>({
               loading={isSubmitting}
               disabled={isSubmitting}
             >
-              {isSubmitting ? 'Please wait...' : submitLabel}
+              {isSubmitting ? t('loading') : submitLabel}
             </Button>
           </VStack>
         </form>
