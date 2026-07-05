@@ -30,7 +30,7 @@ vi.mock('@/utils/get-error-message', () => ({
   getErrorMessage: vi.fn(),
 }));
 
-vi.mock('@/utils/get-locale', () => ({
+vi.mock('@/utils/get-locale-server', () => ({
   getLocaleFromHeaders: vi.fn(() => Promise.resolve('en')),
 }));
 

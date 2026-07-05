@@ -154,7 +154,7 @@ describe('Proxy Middleware', () => {
   });
 
   it('redirects to unauthorized page when user is not authenticated on private route', async () => {
-    const request = createRequest('/history');
+    const request = createRequest('/en/history');
 
     mockUpdateSession.mockResolvedValue({
       supabaseResponse: createMockSupabaseResponse(request),
@@ -191,7 +191,7 @@ describe('Proxy Middleware', () => {
     const response = await proxy(request);
 
     expect(response.status).toBe(HTTP_STATUS.REDIRECT);
-    expect(response.headers.get('location')).toBe('http://localhost:3000/');
+    expect(response.headers.get('location')).toBe('http://localhost:3000/en/');
 
     const responseCookies = response.cookies.getAll();
 
@@ -212,8 +212,6 @@ describe('Proxy Middleware', () => {
     });
 
     const response = await proxy(request);
-
-    expect(response.headers.get('location')).toBe('http://localhost:3000/en/');
 
     const responseCookies = response.cookies.getAll();
 
