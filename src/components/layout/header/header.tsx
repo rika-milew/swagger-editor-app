@@ -1,67 +1,33 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
-import { Box, Button, Flex, HStack } from '@chakra-ui/react';
-import { buttons } from '@/theme/buttons';
-import Link from 'next/link';
+import { Box, Flex, HStack } from '@chakra-ui/react';
 import { container } from '@/theme/container';
 import Navigation from './navigation';
 import Logo from '../logo/logo';
-import { ROUTES } from '@/constants/routes';
-import { useUserStore } from '@/store/user-store';
-import { signOut } from '@/app/actions/auth';
 import LanguageSwitcher from './language-switcher';
+import HeaderButtons from './header-buttons';
+import MobileMenu from './mobile-menu';
+import { useScroll } from '@/hooks/use-scroll';
 
 export default function Header() {
-  const t = useTranslations('Buttons');
-
-  const user = useUserStore((state) => state.user);
-  const clearUser = useUserStore((state) => state.clearUser);
-
-  const handleSignOut = async () => {
-    try {
-      await signOut();
-    } catch (error) {
-      console.error('Sign out error:', error);
-    } finally {
-      clearUser();
-    }
-  };
+  const scrolled = useScroll();
 
   return (
-    <Box as="header" {...container.headerBox}>
-      <Flex px="6" py="4" {...container.flexContainer}>
+    <Box as="header" {...container.headerBox} data-scrolled={scrolled}>
+      <Flex {...container.headerContent} data-scrolled={scrolled}>
         <HStack gap="10">
           <Logo />
-          <Navigation />
+          <Box display={{ base: 'none', lg: 'block' }}>
+            <Navigation />
+          </Box>
         </HStack>
 
         <HStack gap="4">
           <LanguageSwitcher />
-
-          {user ? (
-            <>
-              <Button size="sm" {...buttons.signIn} asChild>
-                <Link href={ROUTES.HISTORY}>{t('history')}</Link>
-              </Button>
-              <Button
-                size="sm"
-                {...buttons.signOut}
-                onClick={() => void handleSignOut()}
-              >
-                {t('logout')}
-              </Button>
-            </>
-          ) : (
-            <>
-              <Button size="sm" {...buttons.signIn} asChild>
-                <Link href={ROUTES.SIGN_IN}>{t('login')}</Link>
-              </Button>
-              <Button size="sm" {...buttons.signUp} asChild>
-                <Link href={ROUTES.SIGN_UP}>{t('register')}</Link>
-              </Button>
-            </>
-          )}
+          <Box display={{ base: 'none', lg: 'block' }}>
+            <HeaderButtons />
+          </Box>
+          <MobileMenu />
         </HStack>
       </Flex>
     </Box>

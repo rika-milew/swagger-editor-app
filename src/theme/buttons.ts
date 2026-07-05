@@ -7,11 +7,16 @@ export const buttons = {
     bg: 'transparent',
     color: colors.nav.inactive,
     fontWeight: fontWeights.medium,
-    borderRadius: 'full',
+    borderRadius: '20px',
+    px: 5,
+    border: '1px solid',
+    borderColor: colors.border,
+    transition: 'all 0.2s ease-in-out',
 
     _hover: {
       bg: 'transparent',
       color: colors.nav.active,
+      borderColor: colors.nav.active,
     },
   },
 
@@ -19,8 +24,9 @@ export const buttons = {
     bg: colors.colorWhite,
     color: colors.background,
     fontWeight: fontWeights.medium,
-    borderRadius: 'full',
+    borderRadius: '20px',
     px: 5,
+    transition: 'all 0.2s ease-in-out',
 
     _hover: {
       bg: colors.brandPrimary,
@@ -30,13 +36,15 @@ export const buttons = {
     bg: 'transparent',
     color: colors.colorWhite,
     fontWeight: fontWeights.medium,
-    borderRadius: 'full',
+    borderRadius: '20px',
     px: 5,
     border: '1px solid',
     borderColor: colors.border,
+    transition: 'all 0.2s ease-in-out',
 
     _hover: {
-      bg: colors.panel,
+      color: colors.background,
+      bg: colors.brandPrimary,
     },
   },
   languageSwitcher: {
