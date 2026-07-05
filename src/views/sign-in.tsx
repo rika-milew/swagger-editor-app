@@ -9,28 +9,31 @@ import type { SignInFormData } from '@/lib/validation/auth-schemas';
 import { signIn } from '@/app/actions/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ROUTES } from '@/constants/routes';
-
-const SIGN_IN_FIELDS = [
-  {
-    name: 'email' as const,
-    label: 'Email',
-    type: 'email' as const,
-    placeholder: 'you@example.com',
-  },
-  {
-    name: 'password' as const,
-    label: 'Password',
-    type: 'password' as const,
-    placeholder: '••••••••',
-  },
-];
+import { useTranslations } from 'next-intl';
 
 export function SignIn() {
+  const t = useTranslations('Auth');
+
+  const SIGN_IN_FIELDS = [
+    {
+      name: 'email' as const,
+      label: t('fields.email.label'),
+      type: 'email' as const,
+      placeholder: 'you@example.com',
+    },
+    {
+      name: 'password' as const,
+      label: t('fields.password.label'),
+      type: 'password' as const,
+      placeholder: '••••••••',
+    },
+  ];
+
   return (
     <AuthForm<SignInFormData>
-      title="Welcome Back"
-      subtitle="Sign in to your account to continue"
-      submitLabel="Sign In"
+      title={t('signIn.title')}
+      subtitle={t('signIn.subtitle')}
+      submitLabel={t('signIn.submitLabel')}
       fields={SIGN_IN_FIELDS}
       resolver={zodResolver(signInSchema)}
       onSubmitAction={signIn}
@@ -40,7 +43,8 @@ export function SignIn() {
           {...typography.text}
           color={colors.colorZinc400}
         >
-          No account? <TextLink href={ROUTES.SIGN_UP}>Create one</TextLink>
+          {t('signIn.noAccount')}{' '}
+          <TextLink href={ROUTES.SIGN_UP}>{t('signIn.createAccount')}</TextLink>
         </Text>
       }
     />

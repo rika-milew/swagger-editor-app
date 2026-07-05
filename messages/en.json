@@ -37,5 +37,33 @@
     "title": "Unauthorized",
     "description": "You're not authorized to access this page.",
     "redirectMessage": "Redirecting to home page..."
+  },
+  "Auth": {
+    "fields": {
+      "email": {
+        "label": "Email"
+      },
+      "password": {
+        "label": "Password"
+      },
+      "confirmPassword": {
+         "label": "Confirm Password"
+      }
+    },
+    "signIn": {
+      "title": "Welcome Back",
+      "subtitle": "Sign in to your account to continue",
+      "submitLabel": "Sign In",
+      "noAccount": "No account?",
+      "createAccount": "Create one"
+    },
+    "signUp": {
+      "title": "Create Account",
+      "subtitle": "Save schemas and access request history",
+      "submitLabel": "Sign Up",
+      "passwordHint": "Min 8 characters, at least one letter, one digit and one special character.",
+      "hasAccount": "Already have an account?",
+      "signIn": "Sign in"
+    }
   }
 }
