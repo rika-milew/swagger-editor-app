@@ -32,5 +32,9 @@
     "description": "An unexpected error occurred. Please try again or return to the home page.",
     "tryAgain": "Try Again",
     "goHome": "Go Home"
+  },
+  "SwaggerViewer": {
+    "description": "Sample API auto-rendered from the loaded specification. Expand any endpoint to inspect parameters and try it out.",
+    "endpoints": "Endpoints"
   }
 }

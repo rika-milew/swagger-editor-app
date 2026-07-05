@@ -14,6 +14,10 @@ export const colors = {
   methodPost: 'hsl(80deg 70% 65%)',
   methodPut: 'hsl(202deg 93% 58%)',
   methodDelete: 'hsl(25deg 70% 60%)',
+  methodDefault: 'hsl(0deg 0% 50%)',
+
+  surface: 'hsl(240deg 7% 9%)',
+  surfaceHover: 'hsl(240deg 8% 16%)',
 
   foreground: 'hsl(285deg 10% 92%)',
   cardForeground: 'hsl(285deg 10% 95%)',
