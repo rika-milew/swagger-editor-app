@@ -6,6 +6,7 @@ import { signInSchema, signUpSchema } from '@/lib/validation/auth-schemas';
 import { getErrorMessage } from '@/utils/get-error-message';
 import { ROUTES } from '@/constants/routes';
 import { getLocaleFromHeaders } from '@/utils/get-locale-server';
+import { getDatabaseErrorKey } from '@/lib/database/database-errors';
 import type { z } from 'zod';
 
 type AuthenticationResult = {
@@ -17,7 +18,9 @@ export async function signIn(
 ): Promise<AuthenticationResult> {
   const result = signInSchema.safeParse(data);
   if (!result.success) {
-    return { error: getErrorMessage(result.error) ?? 'Validation failed' };
+    return {
+      error: getErrorMessage(result.error) ?? 'validationErrors.default',
+    };
   }
 
   try {
@@ -28,13 +31,10 @@ export async function signIn(
     });
 
     if (error) {
-      return { error: getErrorMessage(error) ?? 'Authentication failed' };
+      return { error: getDatabaseErrorKey(error) };
     }
-  } catch (error) {
-    return {
-      error:
-        getErrorMessage(error) ?? 'An unexpected authentication error occurred',
-    };
+  } catch {
+    return { error: 'Auth.serverErrors.default' };
   }
 
   const locale = await getLocaleFromHeaders();
@@ -46,7 +46,9 @@ export async function signUp(
 ): Promise<AuthenticationResult> {
   const result = signUpSchema.safeParse(data);
   if (!result.success) {
-    return { error: getErrorMessage(result.error) ?? 'Validation failed' };
+    return {
+      error: getErrorMessage(result.error) ?? 'validationErrors.default',
+    };
   }
 
   try {
@@ -57,13 +59,10 @@ export async function signUp(
     });
 
     if (error) {
-      return { error: getErrorMessage(error) ?? 'Registration failed' };
+      return { error: getDatabaseErrorKey(error) };
     }
-  } catch (error) {
-    return {
-      error:
-        getErrorMessage(error) ?? 'An unexpected registration error occurred',
-    };
+  } catch {
+    return { error: 'Auth.serverErrors.default' };
   }
 
   const locale = await getLocaleFromHeaders();

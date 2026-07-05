@@ -69,6 +69,7 @@
       "signIn": "Sign in"
     },
     "validationErrors": {
+      "default": "Validation error",
       "emailRequired": "Email is required",
       "invalidEmail": "Please enter a valid email address",
       "passwordRequired": "Password is required",
@@ -78,6 +79,15 @@
       "passwordSpecial": "Password must contain at least one special character",
       "confirmRequired": "Please confirm your password",
       "passwordsMatch": "Passwords don't match"
+    },
+    "serverErrors": {
+      "invalidCredentials": "Invalid email or password",
+      "invalidEmail": "Invalid email address",
+      "emailTaken": "User with this email already exists",
+      "weakPassword": "Password is too weak",
+      "tooManyRequests": "Too many attempts. Please try again later.",
+      "sessionExpired": "Session expired. Please sign in again.",
+      "default": "Something went wrong. Please try again."
     }
   }
 }

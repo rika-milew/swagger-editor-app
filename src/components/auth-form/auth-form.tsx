@@ -53,10 +53,11 @@ export function AuthForm<T extends FieldValues>({
     const actionResult = await onSubmitAction(data);
 
     if (actionResult.error) {
-      console.error('Server error:', actionResult.error);
+      const errorMessage = getErrorMessage({ message: actionResult.error }, t);
+      console.error('Server error:', errorMessage);
       setError('root.serverError', {
         type: 'server',
-        message: actionResult.error,
+        message: errorMessage,
       });
       // TODO: Add server error display
     }

@@ -1,3 +1,5 @@
+import { translateError } from './translate-error';
+
 export function getErrorMessage(
   error: unknown,
   t?: (key: string) => string,
@@ -10,8 +12,8 @@ export function getErrorMessage(
   ) {
     const message = error.message;
 
-    if (t && message.startsWith('validationErrors.')) {
-      return t(message);
+    if (t) {
+      return translateError(message, t);
     }
     return error.message;
   }
