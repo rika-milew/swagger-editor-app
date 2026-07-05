@@ -16,7 +16,7 @@ export default function MobileMenu() {
           display={{ base: 'flex', lg: 'none' }}
           {...mobile.openMenuButton}
         >
-          <HiBars3 size={24} />
+          <HiBars3 style={{ width: '30px', height: '30px' }} />
         </IconButton>
       </Drawer.Trigger>
 
@@ -30,7 +30,10 @@ export default function MobileMenu() {
             </Drawer.Header>
             <Drawer.CloseTrigger asChild>
               <IconButton {...mobile.closeMenuButton}>
-                <HiXMark size={24} color={colors.colorWhite} />
+                <HiXMark
+                  style={{ width: '30px', height: '30px' }}
+                  color={colors.colorWhite}
+                />
               </IconButton>
             </Drawer.CloseTrigger>
 
