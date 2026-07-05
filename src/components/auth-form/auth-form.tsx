@@ -82,7 +82,7 @@ export function AuthForm<T extends FieldValues>({
                 label={field.label}
                 type={field.type}
                 placeholder={field.placeholder}
-                error={getErrorMessage(errors[field.name])}
+                error={getErrorMessage(errors[field.name], t)}
                 {...register(field.name)}
               />
             ))}
