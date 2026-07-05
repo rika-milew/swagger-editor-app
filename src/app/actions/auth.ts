@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation';
 import { signInSchema, signUpSchema } from '@/lib/validation/auth-schemas';
 import { getErrorMessage } from '@/utils/get-error-message';
 import { ROUTES } from '@/constants/routes';
-import { getLocaleFromHeaders } from '@/utils/get-locale';
+import { getLocaleFromHeaders } from '@/utils/get-locale-server';
 import type { z } from 'zod';
 
 type AuthenticationResult = {
