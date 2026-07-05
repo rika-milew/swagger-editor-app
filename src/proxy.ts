@@ -28,9 +28,8 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
   }
 
   if (isPrivateRoute && !user) {
-    const response = NextResponse.redirect(new URL(ROUTES.HOME, request.url));
-    copyCookies(supabaseResponse, response);
-    return response;
+    copyCookies(supabaseResponse, supabaseResponse);
+    return supabaseResponse;
   }
 
   return supabaseResponse;

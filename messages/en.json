@@ -36,5 +36,10 @@
   "SwaggerViewer": {
     "description": "Sample API auto-rendered from the loaded specification. Expand any endpoint to inspect parameters and try it out.",
     "endpoints": "Endpoints"
+  },
+  "Unauthorized": {
+    "title": "Unauthorized",
+    "description": "You're not authorized to access this page.",
+    "redirectMessage": "Redirecting to home page..."
   }
 }
