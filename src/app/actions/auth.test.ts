@@ -204,14 +204,12 @@ describe('signOut', () => {
 
   it('should handle unexpected errors', async () => {
     const consoleSpy = vi.spyOn(console, 'error');
-    mockSignOutMethod.mockRejectedValue(new Error('Network error'));
+    const testError = new Error('Network error');
+    mockSignOutMethod.mockRejectedValue(testError);
 
     await signOut();
 
-    expect(consoleSpy).toHaveBeenCalledWith(
-      'Sign out failed:',
-      'serverErrors.default',
-    );
+    expect(consoleSpy).toHaveBeenCalledWith('Sign out failed:', testError);
     expect(mockRedirect).toHaveBeenCalledWith('/en/');
     consoleSpy.mockRestore();
   });
