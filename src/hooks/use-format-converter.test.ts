@@ -1,8 +1,19 @@
 import { renderHook, act } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { useFormatConverter } from './use-format-converter';
+import { toaster } from '@/components/ui/toaster';
+
+vi.mock('@/components/ui/toaster', () => ({
+  toaster: {
+    create: vi.fn(),
+  },
+}));
 
 describe('useFormatConverter', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
   it('should initialize with correct code and format', () => {
     const { result } = renderHook(() =>
       useFormatConverter('key: value', 'yaml'),
@@ -98,5 +109,11 @@ describe('useFormatConverter', () => {
 
     expect(result.current.code).toBe('not a valid json');
     expect(result.current.format).toBe('json');
+    expect(toaster.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        title: 'Conversion Error',
+        type: 'error',
+      }),
+    );
   });
 });

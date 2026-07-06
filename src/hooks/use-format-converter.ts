@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import * as yaml from 'js-yaml';
+import { toaster } from '@/components/ui/toaster';
 import type { EditorFormat } from '@/types/editor.types';
 
 type UseFormatConverterReturn = {
@@ -30,23 +31,25 @@ export const useFormatConverter = (
     }
 
     try {
-      if (newFormat === 'json') {
-        const parsed = yaml.load(cleanedCode);
-        if (parsed !== null && typeof parsed === 'object') {
+      const parsed = yaml.load(cleanedCode);
+      if (parsed !== null && parsed !== undefined) {
+        if (newFormat === 'json') {
           const jsonString = JSON.stringify(parsed, null, 2);
           setCode(jsonString);
-          setFormat(newFormat);
-        }
-      } else {
-        const parsed = yaml.load(cleanedCode);
-        if (parsed !== null && typeof parsed === 'object') {
+        } else {
           const yamlString = yaml.dump(parsed, { indent: 2 });
           setCode(yamlString);
-          setFormat(newFormat);
         }
+        setFormat(newFormat);
       }
     } catch (error) {
-      console.error(error);
+      toaster.create({
+        title: 'Conversion Error',
+        description:
+          error instanceof Error ? error.message : 'Invalid syntax format',
+        type: 'error',
+        duration: 3000,
+      });
     }
   };
 
