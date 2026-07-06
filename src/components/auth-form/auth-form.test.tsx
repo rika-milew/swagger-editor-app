@@ -116,8 +116,11 @@ describe('AuthForm', () => {
     await user.click(screen.getByRole('button', { name: 'Sign In' }));
 
     await waitFor(() => {
-      const errorElements = screen.getAllByText(/invalid email|required/i);
-      expect(errorElements.length).toBeGreaterThan(0);
+      const emailInput = screen.getByPlaceholderText('Enter email');
+      const passwordInput = screen.getByPlaceholderText('Enter password');
+
+      expect(emailInput).toHaveAttribute('aria-invalid', 'true');
+      expect(passwordInput).toHaveAttribute('aria-invalid', 'true');
     });
   });
 
@@ -242,7 +245,7 @@ describe('AuthForm', () => {
     await waitFor(() => {
       expect(consoleErrorSpy).toHaveBeenCalledWith(
         'Server error:',
-        'Server error',
+        'serverErrors.default',
       );
     });
 

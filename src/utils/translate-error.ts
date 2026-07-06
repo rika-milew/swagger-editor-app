@@ -14,5 +14,5 @@ export function translateError(message: string, t: TranslationFn): string {
     return t(errorKey);
   }
 
-  return message || t('serverErrors.default');
+  return t('serverErrors.default');
 }
