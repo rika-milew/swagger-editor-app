@@ -13,6 +13,7 @@ export const colors = {
   methodGet: 'hsl(145deg 60% 60%)',
   methodPost: 'hsl(80deg 70% 65%)',
   methodPut: 'hsl(202deg 93% 58%)',
+  methodPatch: 'hsl(270deg 70% 65%)',
   methodDelete: 'hsl(25deg 70% 60%)',
   methodDefault: 'hsl(0deg 0% 50%)',
 

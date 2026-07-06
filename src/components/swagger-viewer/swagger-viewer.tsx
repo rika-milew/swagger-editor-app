@@ -13,7 +13,7 @@ export function SwaggerViewer() {
   const endpoints = parseSwagger(mockSwagger);
 
   if (!endpoints.length) {
-    return <Text>No endpoints found</Text>;
+    return <Text>{t('noEndpoints')}</Text>;
   }
 
   return (

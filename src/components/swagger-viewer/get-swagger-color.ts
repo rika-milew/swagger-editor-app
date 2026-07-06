@@ -11,6 +11,9 @@ export default function getColor(method: string): string {
     case 'put': {
       return colors.methodPut;
     }
+    case 'patch': {
+      return colors.methodPatch;
+    }
     case 'delete': {
       return colors.methodDelete;
     }

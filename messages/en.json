@@ -35,7 +35,8 @@
   },
   "SwaggerViewer": {
     "description": "Sample API auto-rendered from the loaded specification. Expand any endpoint to inspect parameters and try it out.",
-    "endpoints": "Endpoints"
+    "endpoints": "Endpoints",
+    "noEndpoints": "No endpoints found."
   },
   "Unauthorized": {
     "title": "Unauthorized",
