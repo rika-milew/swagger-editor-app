@@ -9,7 +9,9 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
   const { pathname } = request.nextUrl;
 
   if (!/^\/(en|ru)(\/|$)/.test(pathname)) {
-    return NextResponse.redirect(new URL(`/en${pathname}`, request.url));
+    const url = request.nextUrl.clone();
+    url.pathname = `/en${pathname}`;
+    return NextResponse.redirect(url);
   }
 
   let supabaseResponse = NextResponse.next({ request });
@@ -30,9 +32,10 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
 
   if (isPublicAuthRoute && user) {
     const locale = getLocaleFromPath(pathname);
-    const response = NextResponse.redirect(
-      new URL(`/${locale}${ROUTES.HOME}`, request.url),
-    );
+    const url = request.nextUrl.clone();
+    url.pathname = `/${locale}${ROUTES.HOME}`;
+    url.search = '';
+    const response = NextResponse.redirect(url);
     copyCookies(supabaseResponse, response);
     return response;
   }

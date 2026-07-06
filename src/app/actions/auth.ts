@@ -42,6 +42,7 @@ export async function signIn(
   }
 
   await redirectToLocalizedHome();
+  return { error: '' };
 }
 
 export async function signUp(
@@ -69,6 +70,7 @@ export async function signUp(
   }
 
   await redirectToLocalizedHome();
+  return { error: '' };
 }
 
 export async function signOut(locale?: string): Promise<void> {
