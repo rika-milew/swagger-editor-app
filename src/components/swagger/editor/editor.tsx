@@ -1,14 +1,32 @@
 'use client';
 
 import CodeMirror from '@uiw/react-codemirror';
-import { yaml } from '@codemirror/lang-yaml';
 import { oneDark } from '@codemirror/theme-one-dark';
-import { customTheme } from './editor-theme';
+import type { EditorFormat } from '@/types/editor.types';
+import { useEditorLanguage } from '@/hooks/use-editor';
 
-export const Editor = () => {
+type EditorProps = {
+  code: string;
+  format: EditorFormat;
+  onChange: (value: string) => void;
+  onFormatChange: (format: EditorFormat) => void;
+};
+
+export const Editor = ({
+  code,
+  format,
+  onChange,
+  onFormatChange,
+}: EditorProps) => {
+  const { extensions, handleDocChange } = useEditorLanguage(
+    format,
+    onChange,
+    onFormatChange,
+  );
+
   return (
     <CodeMirror
-      value="# Write code here!"
+      value={code}
       width="100%"
       theme={oneDark}
       style={{
@@ -18,7 +36,8 @@ export const Editor = () => {
         width: '100%',
         minHeight: 0,
       }}
-      extensions={[yaml(), customTheme]}
+      extensions={extensions}
+      onChange={handleDocChange}
     />
   );
 };
