@@ -38,6 +38,8 @@ export const Editor = ({
           const schema = await getLatestSchema();
           if (schema) {
             loadSchema(schema.schema, schema.format);
+            onChange(schema.schema);
+            onFormatChange(schema.format);
           }
         } catch (error: unknown) {
           void error;
@@ -45,7 +47,7 @@ export const Editor = ({
       };
       void fetchSchema();
     }
-  }, [user, loadSchema]);
+  }, [user, loadSchema, onChange, onFormatChange]);
 
   return (
     <CodeMirror

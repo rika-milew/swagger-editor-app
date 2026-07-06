@@ -7,6 +7,7 @@ type SchemaStore = {
   setCode: (code: string) => void;
   setFormat: (format: EditorFormat) => void;
   loadSchema: (code: string, format: EditorFormat) => void;
+  clearSchema: () => void;
 };
 
 export const useSchemaStore = create<SchemaStore>()((set) => ({
@@ -17,4 +18,5 @@ export const useSchemaStore = create<SchemaStore>()((set) => ({
   setFormat: (schemaFormat): void => set({ schemaFormat }),
   loadSchema: (schemaCode, schemaFormat): void =>
     set({ schemaCode, schemaFormat }),
+  clearSchema: (): void => set({ schemaCode: '', schemaFormat: 'yaml' }),
 }));
