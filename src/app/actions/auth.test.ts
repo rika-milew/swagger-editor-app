@@ -6,13 +6,13 @@ const {
   mockSignUp,
   mockSignOutMethod,
   mockRedirect,
-  mockGetDatabaseErrorKey,
+  mockToErrorKeyDTO,
 } = vi.hoisted(() => ({
   mockSignInWithPassword: vi.fn(),
   mockSignUp: vi.fn(),
   mockSignOutMethod: vi.fn(),
   mockRedirect: vi.fn(),
-  mockGetDatabaseErrorKey: vi.fn(),
+  mockToErrorKeyDTO: vi.fn(),
 }));
 
 vi.mock('@/lib/database/server', () => ({
@@ -31,8 +31,8 @@ vi.mock('next/navigation', () => ({
   redirect: mockRedirect,
 }));
 
-vi.mock('@/lib/database/database-errors', () => ({
-  getDatabaseErrorKey: mockGetDatabaseErrorKey,
+vi.mock('@/lib/database/dto/error-key.dto', () => ({
+  toErrorKeyDTO: mockToErrorKeyDTO,
 }));
 
 vi.mock('@/utils/get-locale-server', () => ({
@@ -51,7 +51,7 @@ describe('signIn', () => {
   });
 
   it('should return error key from database error', async () => {
-    mockGetDatabaseErrorKey.mockReturnValue('auth/invalid-credentials');
+    mockToErrorKeyDTO.mockReturnValue('auth/invalid-credentials');
     mockSignInWithPassword.mockResolvedValue({
       error: new Error('Invalid credentials'),
     });
@@ -132,7 +132,7 @@ describe('signUp', () => {
   });
 
   it('should return database error key from Supabase', async () => {
-    mockGetDatabaseErrorKey.mockReturnValue('auth/email-already-exists');
+    mockToErrorKeyDTO.mockReturnValue('auth/email-already-exists');
     mockSignUp.mockResolvedValue({
       error: new Error('Email exists'),
     });
@@ -144,9 +144,7 @@ describe('signUp', () => {
     });
 
     expect(result).toEqual({ error: 'auth/email-already-exists' });
-    expect(mockGetDatabaseErrorKey).toHaveBeenCalledWith(
-      new Error('Email exists'),
-    );
+    expect(mockToErrorKeyDTO).toHaveBeenCalledWith(new Error('Email exists'));
   });
 
   it('should handle unexpected errors', async () => {
@@ -189,7 +187,7 @@ describe('signOut', () => {
 
   it('should handle sign out error', async () => {
     const consoleSpy = vi.spyOn(console, 'error');
-    mockGetDatabaseErrorKey.mockReturnValue('serverErrors.sessionExpired');
+    mockToErrorKeyDTO.mockReturnValue('serverErrors.sessionExpired');
     mockSignOutMethod.mockResolvedValue({
       error: new Error('Sign out error'),
     });

@@ -1,5 +1,5 @@
 type TranslationFn = (key: string) => string;
-import { databaseErrorMap } from '@/lib/database/database-errors';
+import { databaseErrorMap } from '@/lib/database/dto/error-key.dto';
 
 export function translateError(message: string, t: TranslationFn): string {
   if (

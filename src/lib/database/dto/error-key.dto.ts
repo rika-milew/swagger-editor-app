@@ -11,7 +11,7 @@ export const databaseErrorMap: Record<string, string> = {
   auth_error: 'serverErrors.default',
 };
 
-export function getDatabaseErrorKey(error: {
+export function toErrorKeyDTO(error: {
   code?: string;
   message?: string;
 }): string {

@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation';
 import { signInSchema, signUpSchema } from '@/lib/validation/auth-schemas';
 import { ROUTES } from '@/constants/routes';
 import { getLocaleFromHeaders } from '@/utils/get-locale-server';
-import { getDatabaseErrorKey } from '@/lib/database/database-errors';
+import { toErrorKeyDTO } from '@/lib/database/dto/error-key.dto';
 import type { z } from 'zod';
 
 type AuthenticationResult = {
@@ -35,7 +35,7 @@ export async function signIn(
     });
 
     if (error) {
-      return { error: getDatabaseErrorKey(error) };
+      return { error: toErrorKeyDTO(error) };
     }
   } catch {
     return { error: 'serverErrors.default' };
@@ -63,7 +63,7 @@ export async function signUp(
     });
 
     if (error) {
-      return { error: getDatabaseErrorKey(error) };
+      return { error: toErrorKeyDTO(error) };
     }
   } catch {
     return { error: 'serverErrors.default' };
@@ -81,7 +81,7 @@ export async function signOut(locale?: string): Promise<void> {
     const { error } = await supabase.auth.signOut();
 
     if (error) {
-      console.error('Sign out error:', getDatabaseErrorKey(error));
+      console.error('Sign out error:', toErrorKeyDTO(error));
     }
   } catch {
     console.error('Sign out failed:', 'serverErrors.default');
