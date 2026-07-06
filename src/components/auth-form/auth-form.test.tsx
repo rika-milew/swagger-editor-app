@@ -21,7 +21,9 @@ const MIN_PASSWORD_LENGTH = 8;
 
 const testSchema = z.object({
   email: z.email(),
-  password: z.string().min(MIN_PASSWORD_LENGTH, 'Password is too short'),
+  password: z
+    .string()
+    .min(MIN_PASSWORD_LENGTH, 'validationErrors.passwordTooShort'),
 });
 
 const defaultFields = [
@@ -121,6 +123,10 @@ describe('AuthForm', () => {
 
       expect(emailInput).toHaveAttribute('aria-invalid', 'true');
       expect(passwordInput).toHaveAttribute('aria-invalid', 'true');
+
+      expect(
+        screen.getByText('validationErrors.passwordTooShort'),
+      ).toBeInTheDocument();
     });
   });
 
