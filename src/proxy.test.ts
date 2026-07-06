@@ -73,7 +73,7 @@ describe('Proxy Middleware', () => {
 
     const response = await proxy(request);
 
-    expect(response.headers.get('location')).toBe('http://localhost:3000/en/');
+    expect(response.headers.get('location')).toBe('http://localhost:3000/en');
   });
 
   it('redirects authorized user from /en/sign-up to /en/', async () => {
@@ -86,7 +86,7 @@ describe('Proxy Middleware', () => {
 
     const response = await proxy(request);
 
-    expect(response.headers.get('location')).toBe('http://localhost:3000/en/');
+    expect(response.headers.get('location')).toBe('http://localhost:3000/en');
   });
 
   it('allows unauthorized user to access /en/sign-in', async () => {
@@ -191,7 +191,7 @@ describe('Proxy Middleware', () => {
     const response = await proxy(request);
 
     expect(response.status).toBe(HTTP_STATUS.REDIRECT);
-    expect(response.headers.get('location')).toBe('http://localhost:3000/en/');
+    expect(response.headers.get('location')).toBe('http://localhost:3000/en');
 
     const responseCookies = response.cookies.getAll();
 

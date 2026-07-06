@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { translateError } from './translate-error';
 
-vi.mock('@/lib/database/database-errors', () => ({
+vi.mock('@/lib/database/dto/error-key.dto', () => ({
   databaseErrorMap: {
     DB_001: 'database.errors.connection',
     DB_002: 'database.errors.timeout',
