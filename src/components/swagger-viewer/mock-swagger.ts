@@ -1,6 +1,11 @@
 import { type SwaggerSchema } from './types';
 
 export const mockSwagger: SwaggerSchema = {
+  /*info: {
+    title: 'API',
+    version: '1.0.0',
+  },
+  paths: {},*/
   info: {
     title: 'Nexus Core API',
     version: '1.2.4',

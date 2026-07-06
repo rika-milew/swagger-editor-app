@@ -1,10 +1,16 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
+import { NextIntlClientProvider } from 'next-intl';
 import { describe, it, expect } from 'vitest';
 import Home from './[lang]/page';
+import { renderWithProviders } from '@/test-utils/render-with-providers';
 
 describe('Home page layout', () => {
   it('renders with the editor and a viewer', () => {
-    render(<Home />);
+    renderWithProviders(
+      <NextIntlClientProvider locale="en" messages={{}}>
+        <Home />
+      </NextIntlClientProvider>,
+    );
 
     const editor = screen.getByTestId('editor-block');
     expect(editor).toBeInTheDocument();

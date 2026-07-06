@@ -18,23 +18,24 @@ export function SwaggerViewer() {
 
   return (
     <Box {...swagger.swaggerContainer}>
-      <Flex justify="space-between" align="center" mb={2}>
-        <Heading size="lg" color="white">
-          {mockSwagger.info.title}
-        </Heading>
+      <Box>
+        <Flex justify="space-between" align="center" mb={2}>
+          <Heading size="lg" color="white">
+            {mockSwagger.info.title}
+          </Heading>
 
-        <Text color={colors.colorZinc500} fontSize="sm">
-          v{mockSwagger.info.version}
+          <Text color={colors.colorZinc500} fontSize="sm">
+            v{mockSwagger.info.version}
+          </Text>
+        </Flex>
+
+        <Text color={colors.colorZinc400} mb={8}>
+          {t('description')}
         </Text>
-      </Flex>
 
-      <Text color={colors.colorZinc400} mb={8}>
-        {t('description')}
-      </Text>
-
-      <Text {...swagger.topText}>{t('endpoints')}</Text>
-
-      <VStack gap={3} align="stretch">
+        <Text {...swagger.topText}>{t('endpoints')}</Text>
+      </Box>
+      <VStack {...swagger.cardsWrapper}>
         {endpoints.map((ep) => (
           <Flex key={`${ep.method}-${ep.path}`} {...swagger.cardContainer}>
             <Flex align="center" gap={4}>
