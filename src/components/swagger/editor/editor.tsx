@@ -1,9 +1,13 @@
 'use client';
 
+import { useEffect } from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { oneDark } from '@codemirror/theme-one-dark';
 import type { EditorFormat } from '@/types/editor.types';
 import { useEditorLanguage } from '@/hooks/use-editor';
+import { useUserStore } from '@/store/user-store';
+import { useSchemaStore } from '@/store/schema-store';
+import { getLatestSchema } from '@/app/actions/schema';
 
 type EditorProps = {
   code: string;
@@ -18,11 +22,30 @@ export const Editor = ({
   onChange,
   onFormatChange,
 }: EditorProps) => {
+  const user = useUserStore((state) => state.user);
+  const { loadSchema } = useSchemaStore();
+
   const { extensions, handleDocChange } = useEditorLanguage(
     format,
     onChange,
     onFormatChange,
   );
+
+  useEffect(() => {
+    if (user) {
+      const fetchSchema = async () => {
+        try {
+          const schema = await getLatestSchema();
+          if (schema) {
+            loadSchema(schema.schema, schema.format);
+          }
+        } catch (error: unknown) {
+          void error;
+        }
+      };
+      void fetchSchema();
+    }
+  }, [user, loadSchema]);
 
   return (
     <CodeMirror
