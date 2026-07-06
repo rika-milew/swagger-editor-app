@@ -37,7 +37,7 @@ describe('signInSchema', () => {
       const emailError = result.error.issues.find(
         (issue) => issue.path[0] === 'email',
       );
-      expect(emailError?.message).toBe('Please enter a valid email address');
+      expect(emailError?.message).toBe('validationErrors.invalidEmail');
     }
   });
 
@@ -52,7 +52,7 @@ describe('signInSchema', () => {
       const passwordError = result.error.issues.find(
         (issue) => issue.path[0] === 'password',
       );
-      expect(passwordError?.message).toBe('Password is required');
+      expect(passwordError?.message).toBe('validationErrors.passwordRequired');
     }
   });
 
@@ -94,7 +94,7 @@ describe('signUpSchema', () => {
       const passwordError = result.error.issues.find(
         (issue) => issue.path[0] === 'password',
       );
-      expect(passwordError?.message).toContain('at least 8 characters');
+      expect(passwordError?.message).toBe('validationErrors.passwordMinLength');
     }
   });
 
@@ -143,7 +143,7 @@ describe('signUpSchema', () => {
       const confirmError = result.error.issues.find(
         (issue) => issue.path[0] === 'confirmPassword',
       );
-      expect(confirmError?.message).toBe("Passwords don't match");
+      expect(confirmError?.message).toBe('validationErrors.passwordsMatch');
     }
   });
 

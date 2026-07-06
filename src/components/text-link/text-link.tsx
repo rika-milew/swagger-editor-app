@@ -2,7 +2,7 @@
 
 import type { LinkProps as ChakraLinkProps } from '@chakra-ui/react';
 import { Link as ChakraLink } from '@chakra-ui/react';
-import NextLink from 'next/link';
+import { Link as NextLink } from '@/i18n/navigation';
 import type { ReactNode } from 'react';
 import { typography, colors } from '@/theme';
 

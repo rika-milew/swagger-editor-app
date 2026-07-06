@@ -37,5 +37,57 @@
     "title": "Unauthorized",
     "description": "You're not authorized to access this page.",
     "redirectMessage": "Redirecting to home page..."
+  },
+  "Auth": {
+    "fields": {
+      "email": {
+        "label": "Email"
+      },
+      "password": {
+        "label": "Password",
+        "show": "Show password",
+        "hide": "Hide password"
+      },
+      "confirmPassword": {
+        "label": "Confirm Password"
+      }
+    },
+    "loading": "Please wait...",
+    "signIn": {
+      "title": "Welcome Back",
+      "subtitle": "Sign in to your account to continue",
+      "submitLabel": "Sign In",
+      "noAccount": "No account?",
+      "createAccount": "Create one"
+    },
+    "signUp": {
+      "title": "Create Account",
+      "subtitle": "Save schemas and access request history",
+      "submitLabel": "Sign Up",
+      "passwordHint": "Min 8 characters, at least one letter, one digit and one special character.",
+      "hasAccount": "Already have an account?",
+      "signIn": "Sign in"
+    },
+    "validationErrors": {
+      "default": "Validation error",
+      "emailRequired": "Email is required",
+      "invalidEmail": "Please enter a valid email address",
+      "passwordRequired": "Password is required",
+      "passwordMinLength": "Password must be at least 8 characters",
+      "passwordLetter": "Password must contain at least one letter",
+      "passwordDigit": "Password must contain at least one digit",
+      "passwordSpecial": "Password must contain at least one special character",
+      "confirmRequired": "Please confirm your password",
+      "passwordsMatch": "Passwords don't match"
+    },
+    "serverErrors": {
+      "invalidCredentials": "Invalid email or password",
+      "invalidEmail": "Invalid email address",
+      "emailTaken": "User with this email already exists",
+      "weakPassword": "Password is too weak",
+      "tooManyRequests": "Too many attempts. Please try again later.",
+      "sessionExpired": "Session expired. Please sign in again.",
+      "default": "Something went wrong. Please try again."
+    }
   }
 }
