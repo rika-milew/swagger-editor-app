@@ -25,8 +25,8 @@ export async function createServerClient(): Promise<SupabaseClient<Database>> {
             cookiesToSet.forEach(({ name, value, options }) =>
               cookieStore.set(name, value, options),
             );
-          } catch (error) {
-            console.error(error);
+          } catch {
+            void 0;
           }
         },
       },

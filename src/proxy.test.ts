@@ -1,12 +1,10 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { NextRequest } from 'next/server';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { NextRequest, NextResponse } from 'next/server';
+import { HTTP_STATUS } from '@/constants/http-status';
 
-const HTTP_OK_STATUS = 200;
-const SESSION_TIMEOUT_MS = 5000;
-
-const mockGetSession = vi.fn();
-vi.mock('@/lib/auth/get-session', () => ({
-  getSession: mockGetSession,
+const mockUpdateSession = vi.fn();
+vi.mock('@/lib/auth/update-session', () => ({
+  updateSession: mockUpdateSession,
 }));
 
 const { proxy } = await import('@/proxy');
@@ -15,126 +13,187 @@ function createRequest(pathname: string): NextRequest {
   return new NextRequest(new URL(`http://localhost:3000${pathname}`));
 }
 
+function createMockSupabaseResponse(
+  request: NextRequest,
+  cookies: {
+    name: string;
+    value: string;
+    options?: Record<string, unknown>;
+  }[] = [],
+): NextResponse {
+  const response = NextResponse.next({ request });
+
+  cookies.forEach((cookie) => {
+    response.cookies.set(cookie.name, cookie.value, cookie.options);
+  });
+
+  return response;
+}
+
 describe('Proxy Middleware', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    mockGetSession.mockReset();
-    vi.useFakeTimers();
-  });
-
-  afterEach(() => {
-    vi.useRealTimers();
+    mockUpdateSession.mockReset();
   });
 
   it('redirects authorized user from /sign-in to /', async () => {
-    mockGetSession.mockResolvedValue({ id: 'user-1234' });
+    const request = createRequest('/sign-in');
+
+    mockUpdateSession.mockResolvedValue({
+      supabaseResponse: createMockSupabaseResponse(request),
+      user: { sub: 'user-1234' },
+    });
 
     const response = await proxy(createRequest('/sign-in'));
 
+    expect(response.status).toBe(HTTP_STATUS.REDIRECT);
     expect(response.headers.get('location')).toBe('http://localhost:3000/');
   });
 
   it('redirects authorized user from /sign-up to /', async () => {
-    mockGetSession.mockResolvedValue({ id: 'user-1234' });
+    const request = createRequest('/sign-up');
+
+    mockUpdateSession.mockResolvedValue({
+      supabaseResponse: createMockSupabaseResponse(request),
+      user: { sub: 'user-1234' },
+    });
 
     const response = await proxy(createRequest('/sign-up'));
 
+    expect(response.status).toBe(HTTP_STATUS.REDIRECT);
     expect(response.headers.get('location')).toBe('http://localhost:3000/');
   });
 
   it('allows unauthorized user to access /sign-in', async () => {
-    mockGetSession.mockResolvedValue(null);
+    const request = createRequest('/sign-in');
+
+    mockUpdateSession.mockResolvedValue({
+      supabaseResponse: createMockSupabaseResponse(request),
+      user: null,
+    });
 
     const response = await proxy(createRequest('/sign-in'));
 
+    expect(response.status).toBe(HTTP_STATUS.OK);
     expect(response.headers.get('location')).toBeNull();
   });
 
   it('allows unauthorized user to access /sign-up', async () => {
-    mockGetSession.mockResolvedValue(null);
+    const request = createRequest('/sign-up');
+
+    mockUpdateSession.mockResolvedValue({
+      supabaseResponse: createMockSupabaseResponse(request),
+      user: null,
+    });
 
     const response = await proxy(createRequest('/sign-up'));
 
+    expect(response.status).toBe(HTTP_STATUS.OK);
     expect(response.headers.get('location')).toBeNull();
   });
 
   it('passes through non-auth routes', async () => {
+    const request = createRequest('/about');
+    mockUpdateSession.mockResolvedValue({
+      supabaseResponse: createMockSupabaseResponse(request),
+      user: null,
+    });
+
     const response = await proxy(createRequest('/about'));
 
     expect(response.headers.get('location')).toBeNull();
-    expect(response.status).toBe(HTTP_OK_STATUS);
-    expect(mockGetSession).not.toHaveBeenCalled();
+    expect(response.status).toBe(HTTP_STATUS.OK);
   });
 
-  it('passes through when getSession throws error', async () => {
-    mockGetSession.mockRejectedValue(new Error('Database error'));
+  it('passes through when updateSession throws error', async () => {
+    mockUpdateSession.mockRejectedValue(new Error('Database error'));
 
     const response = await proxy(createRequest('/sign-in'));
 
     expect(response.headers.get('location')).toBeNull();
-    expect(response.status).toBe(HTTP_OK_STATUS);
-  });
-
-  it('passes through when getSession times out', async () => {
-    mockGetSession.mockImplementation(
-      () =>
-        new Promise((resolve) => setTimeout(resolve, SESSION_TIMEOUT_MS * 10)),
-    );
-
-    const responsePromise = proxy(createRequest('/sign-in'));
-
-    await vi.advanceTimersByTimeAsync(SESSION_TIMEOUT_MS);
-
-    const response = await responsePromise;
-
-    expect(response.headers.get('location')).toBeNull();
-    expect(response.status).toBe(HTTP_OK_STATUS);
+    expect(response.status).toBe(HTTP_STATUS.OK);
   });
 
   it('allows authorized user to access private route', async () => {
-    mockGetSession.mockResolvedValue({ id: 'user-1234' });
+    const request = createRequest('/history');
+
+    mockUpdateSession.mockResolvedValue({
+      supabaseResponse: createMockSupabaseResponse(request),
+      user: { sub: 'user-1234' },
+    });
 
     const response = await proxy(createRequest('/history'));
 
+    expect(response.status).toBe(HTTP_STATUS.OK);
     expect(response.headers.get('location')).toBeNull();
   });
 
-  it('redirects unauthorized user from history to home page', async () => {
-    mockGetSession.mockResolvedValue(null);
+  it('redirects to unauthorized page when user is not authenticated on private route', async () => {
+    const request = createRequest('/history');
+
+    mockUpdateSession.mockResolvedValue({
+      supabaseResponse: createMockSupabaseResponse(request),
+      user: null,
+    });
+
+    const response = await proxy(request);
+
+    expect(response.status).toBe(HTTP_STATUS.OK);
+    expect(response.headers.get('location')).toBeNull();
+  });
+
+  it('redirects to unauthorized page when updateSession throws error on private route', async () => {
+    mockUpdateSession.mockRejectedValue(new Error('Database error'));
 
     const response = await proxy(createRequest('/history'));
 
-    expect(response.headers.get('location')).toBe('http://localhost:3000/');
+    expect(response.status).toBe(HTTP_STATUS.OK);
+    expect(response.headers.get('location')).toBeNull();
   });
 
-  it('redirects to home page when getSession throws error on private route', async () => {
-    mockGetSession.mockRejectedValue(new Error('Database error'));
+  it('should copy cookies when redirecting authorized user from public route', async () => {
+    const request = createRequest('/sign-in');
+    const testCookies = [
+      { name: 'sb-access-token', value: 'token123' },
+      { name: 'sb-refresh-token', value: 'refresh456' },
+    ];
 
-    const response = await proxy(createRequest('/history'));
+    mockUpdateSession.mockResolvedValue({
+      supabaseResponse: createMockSupabaseResponse(request, testCookies),
+      user: { sub: 'user-1234' },
+    });
 
+    const response = await proxy(request);
+
+    expect(response.status).toBe(HTTP_STATUS.REDIRECT);
     expect(response.headers.get('location')).toBe('http://localhost:3000/');
+
+    const responseCookies = response.cookies.getAll();
+
+    expect(responseCookies).toHaveLength(2);
+    expect(responseCookies[0].name).toBe('sb-access-token');
+    expect(responseCookies[0].value).toBe('token123');
+    expect(responseCookies[1].name).toBe('sb-refresh-token');
+    expect(responseCookies[1].value).toBe('refresh456');
   });
 
-  it('redirects to home page when getSession times out on private route', async () => {
-    mockGetSession.mockImplementation(
-      () =>
-        new Promise((resolve) => setTimeout(resolve, SESSION_TIMEOUT_MS * 10)),
-    );
+  it('should copy cookies when redirecting unauthorized user from private route', async () => {
+    const request = createRequest('/history');
+    const testCookies = [{ name: 'sb-access-token', value: 'old-token' }];
 
-    const responsePromise = proxy(createRequest('/history'));
+    mockUpdateSession.mockResolvedValue({
+      supabaseResponse: createMockSupabaseResponse(request, testCookies),
+      user: null,
+    });
 
-    await vi.advanceTimersByTimeAsync(SESSION_TIMEOUT_MS);
+    const response = await proxy(request);
 
-    const response = await responsePromise;
+    expect(response.headers.get('location')).toBeNull();
 
-    expect(response.headers.get('location')).toBe('http://localhost:3000/');
-  });
+    const responseCookies = response.cookies.getAll();
 
-  it('clears timeout when getSession resolves before timeout', async () => {
-    mockGetSession.mockResolvedValue({ id: 'user-1234' });
-
-    const response = await proxy(createRequest('/sign-in'));
-
-    expect(response.headers.get('location')).toBe('http://localhost:3000/');
+    expect(responseCookies).toHaveLength(1);
+    expect(responseCookies[0].name).toBe('sb-access-token');
+    expect(responseCookies[0].value).toBe('old-token');
   });
 });

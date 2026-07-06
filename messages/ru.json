@@ -3,6 +3,11 @@
     "title": "Swagger Editor App",
     "description": "Онлайн редактор и просмотр Swagger/OpenAPI"
   },
+  "Header": {
+    "navigationMenu": "Меню навигации",
+    "openMenu": "Открыть меню",
+    "closeMenu": "Закрыть меню"
+  },
   "Navigation": {
     "home": "Редактор",
     "about": "О проекте"
@@ -11,8 +16,7 @@
     "login": "Войти",
     "register": "Зарегистрироваться",
     "logout": "Выйти",
-    "languageOne": "АНГЛ",
-    "languageTwo": "РУС"
+    "history": "История"
   },
   "About": {
     "title": "О проекте",
@@ -22,5 +26,16 @@
   "NotFound": {
     "title": "Страница не найдена",
     "button": "Вернуться на главную"
+  },
+  "ErrorBoundary": {
+    "title": "Что-то пошло не так",
+    "description": "Произошла непредвиденная ошибка. Пожалуйста, попробуйте снова или вернитесь на главную страницу.",
+    "tryAgain": "Попробовать снова",
+    "goHome": "На главную"
+  },
+  "Unauthorized": {
+    "title": "Нет доступа",
+    "description": "У вас нет прав для доступа к этой странице.",
+    "redirectMessage": "Перенаправление на главную..."
   }
 }
