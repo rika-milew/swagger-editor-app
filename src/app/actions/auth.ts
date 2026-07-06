@@ -12,6 +12,11 @@ type AuthenticationResult = {
   error: string;
 };
 
+async function redirectToLocalizedHome(): Promise<never> {
+  const locale = await getLocaleFromHeaders();
+  redirect(`/${locale}${ROUTES.HOME}`);
+}
+
 export async function signIn(
   data: z.infer<typeof signInSchema>,
 ): Promise<AuthenticationResult> {
@@ -36,8 +41,7 @@ export async function signIn(
     return { error: 'serverErrors.default' };
   }
 
-  const locale = await getLocaleFromHeaders();
-  redirect(`/${locale}${ROUTES.HOME}`);
+  await redirectToLocalizedHome();
 }
 
 export async function signUp(
@@ -64,8 +68,7 @@ export async function signUp(
     return { error: 'serverErrors.default' };
   }
 
-  const locale = await getLocaleFromHeaders();
-  redirect(`/${locale}${ROUTES.HOME}`);
+  await redirectToLocalizedHome();
 }
 
 export async function signOut(locale?: string): Promise<void> {
