@@ -29,7 +29,11 @@ export const HomePage = () => {
             className={cx('editor-container')}
             data-testid="editor-block"
           >
-            <EditorHeader format={format} onFormatChange={setFormat} />
+            <EditorHeader
+              format={format}
+              onFormatChange={setFormat}
+              code={code}
+            />
             <Editor
               code={code}
               format={format}

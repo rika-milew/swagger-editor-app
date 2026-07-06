@@ -20,6 +20,7 @@ export async function saveSchema(
 ): Promise<SchemaResult> {
   const result = saveSchemaSchema.safeParse(data);
   if (!result.success) {
+    console.error('Validation failed:', result.error.issues);
     return { error: 'schema.saveError' };
   }
 
