@@ -7,6 +7,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { AuthForm } from './auth-form';
 
+const mockTranslations = (key: string) => key;
+
+vi.mock('next-intl', () => ({
+  useTranslations: () => mockTranslations,
+}));
+
 const renderWithChakra = (ui: ReactElement) => {
   return render(<ChakraProvider value={defaultSystem}>{ui}</ChakraProvider>);
 };

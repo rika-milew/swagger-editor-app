@@ -7,6 +7,8 @@ export const databaseErrorMap: Record<string, string> = {
   weak_password: 'serverErrors.weakPassword',
   over_request_rate_limit: 'serverErrors.tooManyRequests',
   session_expired: 'serverErrors.sessionExpired',
+  session_not_found: 'serverErrors.sessionExpired',
+  auth_error: 'serverErrors.default',
 };
 
 export function getDatabaseErrorKey(error: {

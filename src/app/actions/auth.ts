@@ -3,7 +3,6 @@
 import { createServerClient } from '@/lib/database/server';
 import { redirect } from 'next/navigation';
 import { signInSchema, signUpSchema } from '@/lib/validation/auth-schemas';
-import { getErrorMessage } from '@/utils/get-error-message';
 import { ROUTES } from '@/constants/routes';
 import { getLocaleFromHeaders } from '@/utils/get-locale-server';
 import { getDatabaseErrorKey } from '@/lib/database/database-errors';
@@ -19,7 +18,7 @@ export async function signIn(
   const result = signInSchema.safeParse(data);
   if (!result.success) {
     return {
-      error: getErrorMessage(result.error) ?? 'validationErrors.default',
+      error: 'validationErrors.default',
     };
   }
 
@@ -47,7 +46,7 @@ export async function signUp(
   const result = signUpSchema.safeParse(data);
   if (!result.success) {
     return {
-      error: getErrorMessage(result.error) ?? 'validationErrors.default',
+      error: 'validationErrors.default',
     };
   }
 
@@ -77,12 +76,10 @@ export async function signOut(locale?: string): Promise<void> {
     const { error } = await supabase.auth.signOut();
 
     if (error) {
-      const message = getErrorMessage(error) ?? 'Sign out error';
-      console.error('Sign out error:', message);
+      console.error('Sign out error:', getDatabaseErrorKey(error));
     }
-  } catch (error) {
-    const message = getErrorMessage(error) ?? 'Sign out failed';
-    console.error('Sign out failed:', message);
+  } catch {
+    console.error('Sign out failed:', 'serverErrors.default');
   }
 
   redirect(`/${userLocale}${ROUTES.HOME}`);

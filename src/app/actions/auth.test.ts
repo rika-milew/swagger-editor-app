@@ -1,14 +1,19 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { signIn, signUp, signOut } from '@/app/actions/auth';
-import { getErrorMessage } from '@/utils/get-error-message';
 
-const { mockSignInWithPassword, mockSignUp, mockSignOutMethod, mockRedirect } =
-  vi.hoisted(() => ({
-    mockSignInWithPassword: vi.fn(),
-    mockSignUp: vi.fn(),
-    mockSignOutMethod: vi.fn(),
-    mockRedirect: vi.fn(),
-  }));
+const {
+  mockSignInWithPassword,
+  mockSignUp,
+  mockSignOutMethod,
+  mockRedirect,
+  mockGetDatabaseErrorKey,
+} = vi.hoisted(() => ({
+  mockSignInWithPassword: vi.fn(),
+  mockSignUp: vi.fn(),
+  mockSignOutMethod: vi.fn(),
+  mockRedirect: vi.fn(),
+  mockGetDatabaseErrorKey: vi.fn(),
+}));
 
 vi.mock('@/lib/database/server', () => ({
   createServerClient: vi.fn(() =>
@@ -26,8 +31,8 @@ vi.mock('next/navigation', () => ({
   redirect: mockRedirect,
 }));
 
-vi.mock('@/utils/get-error-message', () => ({
-  getErrorMessage: vi.fn(),
+vi.mock('@/lib/database/database-errors', () => ({
+  getDatabaseErrorKey: mockGetDatabaseErrorKey,
 }));
 
 vi.mock('@/utils/get-locale-server', () => ({
@@ -40,64 +45,57 @@ describe('signIn', () => {
   });
 
   it('should return validation error for invalid data', async () => {
-    vi.mocked(getErrorMessage).mockReturnValue('Validation error');
-
     const result = await signIn({ email: 'invalid', password: '' });
 
-    expect(result).toEqual({ error: 'Validation error' });
+    expect(result).toEqual({ error: 'validationErrors.default' });
+  });
+
+  it('should return error key from database error', async () => {
+    mockGetDatabaseErrorKey.mockReturnValue('auth/invalid-credentials');
+    mockSignInWithPassword.mockResolvedValue({
+      error: new Error('Invalid credentials'),
+    });
+
+    const result = await signIn({
+      email: 'test@example.com',
+      password: 'test123!',
+    });
+
+    expect(result).toEqual({ error: 'auth/invalid-credentials' });
   });
 
   it('should return default validation message', async () => {
-    vi.mocked(getErrorMessage).mockReturnValue(undefined);
-
     const result = await signIn({ email: 'invalid', password: '' });
 
-    expect(result).toEqual({ error: 'Validation failed' });
+    expect(result).toEqual({ error: 'validationErrors.default' });
   });
 
   it('should return auth error from Supabase', async () => {
     mockSignInWithPassword.mockResolvedValue({
       error: new Error('Invalid credentials'),
     });
-    vi.mocked(getErrorMessage).mockReturnValue('Invalid credentials');
 
     const result = await signIn({
       email: 'test@example.com',
       password: 'test123!',
     });
 
-    expect(result).toEqual({ error: 'Invalid credentials' });
-  });
-
-  it('should return default auth error message', async () => {
-    mockSignInWithPassword.mockResolvedValue({
-      error: new Error('Some error'),
-    });
-    vi.mocked(getErrorMessage).mockReturnValue(undefined);
-
-    const result = await signIn({
-      email: 'test@example.com',
-      password: 'test123!',
-    });
-
-    expect(result).toEqual({ error: 'Authentication failed' });
+    expect(result).toEqual({ error: 'auth/invalid-credentials' });
   });
 
   it('should handle unexpected errors', async () => {
     mockSignInWithPassword.mockRejectedValue(new Error('Network error'));
-    vi.mocked(getErrorMessage).mockReturnValue('Network error');
 
     const result = await signIn({
       email: 'test@example.com',
       password: 'test123!',
     });
 
-    expect(result).toEqual({ error: 'Network error' });
+    expect(result).toEqual({ error: 'serverErrors.default' });
   });
 
   it('should return default unexpected error message', async () => {
     mockSignInWithPassword.mockRejectedValue(new Error('Some error'));
-    vi.mocked(getErrorMessage).mockReturnValue(undefined);
 
     const result = await signIn({
       email: 'test@example.com',
@@ -105,7 +103,7 @@ describe('signIn', () => {
     });
 
     expect(result).toEqual({
-      error: 'An unexpected authentication error occurred',
+      error: 'serverErrors.default',
     });
   });
 
@@ -124,23 +122,20 @@ describe('signUp', () => {
   });
 
   it('should return validation error for invalid data', async () => {
-    vi.mocked(getErrorMessage).mockReturnValue('Validation error');
-
     const result = await signUp({
       email: 'invalid',
       password: '',
       confirmPassword: '',
     });
 
-    expect(result).toEqual({ error: 'Validation error' });
+    expect(result).toEqual({ error: 'validationErrors.default' });
   });
 
-  it('should return default registration error', async () => {
+  it('should return database error key from Supabase', async () => {
+    mockGetDatabaseErrorKey.mockReturnValue('auth/email-already-exists');
     mockSignUp.mockResolvedValue({
-      error: new Error('Test error'),
+      error: new Error('Email exists'),
     });
-
-    vi.mocked(getErrorMessage).mockReturnValue(undefined);
 
     const result = await signUp({
       email: 'test@example.com',
@@ -148,63 +143,22 @@ describe('signUp', () => {
       confirmPassword: 'test123!',
     });
 
-    expect(result).toEqual({
-      error: 'Registration failed',
-    });
-  });
-
-  it('should return auth error from Supabase', async () => {
-    mockSignUp.mockResolvedValue({ error: new Error('Email exists') });
-    vi.mocked(getErrorMessage).mockReturnValue('Email exists');
-
-    const result = await signUp({
-      email: 'test@test.com',
-      password: 'password123',
-      confirmPassword: 'password123',
-    });
-
-    expect(result).toEqual({ error: 'Email exists' });
+    expect(result).toEqual({ error: 'auth/email-already-exists' });
+    expect(mockGetDatabaseErrorKey).toHaveBeenCalledWith(
+      new Error('Email exists'),
+    );
   });
 
   it('should handle unexpected errors', async () => {
     mockSignUp.mockRejectedValue(new Error('Network error'));
-    vi.mocked(getErrorMessage).mockReturnValue('Network error');
 
     const result = await signUp({
       email: 'test@test.com',
-      password: 'password123',
-      confirmPassword: 'password123',
+      password: 'password123!',
+      confirmPassword: 'password123!',
     });
 
-    expect(result).toEqual({ error: 'Network error' });
-  });
-
-  it('should return error from Supabase', async () => {
-    mockSignUp.mockResolvedValue({ error: new Error('Email exists') });
-    vi.mocked(getErrorMessage).mockReturnValue('Email exists');
-
-    const result = await signUp({
-      email: 'test@example.com',
-      password: 'test1231!',
-      confirmPassword: 'test1231!',
-    });
-
-    expect(result).toEqual({ error: 'Email exists' });
-  });
-
-  it('should return default unexpected error message', async () => {
-    mockSignUp.mockRejectedValue(new Error('Some error'));
-    vi.mocked(getErrorMessage).mockReturnValue(undefined);
-
-    const result = await signUp({
-      email: 'test@example.com',
-      password: 'test123!',
-      confirmPassword: 'test123!',
-    });
-
-    expect(result).toEqual({
-      error: 'An unexpected registration error occurred',
-    });
+    expect(result).toEqual({ error: 'serverErrors.default' });
   });
 
   it('should redirect on success', async () => {
@@ -235,16 +189,16 @@ describe('signOut', () => {
 
   it('should handle sign out error', async () => {
     const consoleSpy = vi.spyOn(console, 'error');
+    mockGetDatabaseErrorKey.mockReturnValue('serverErrors.sessionExpired');
     mockSignOutMethod.mockResolvedValue({
       error: new Error('Sign out error'),
     });
-    vi.mocked(getErrorMessage).mockReturnValue('Sign out error');
 
     await signOut();
 
     expect(consoleSpy).toHaveBeenCalledWith(
       'Sign out error:',
-      'Sign out error',
+      'serverErrors.sessionExpired',
     );
     expect(mockRedirect).toHaveBeenCalledWith('/en/');
     consoleSpy.mockRestore();
@@ -253,51 +207,30 @@ describe('signOut', () => {
   it('should handle unexpected errors', async () => {
     const consoleSpy = vi.spyOn(console, 'error');
     mockSignOutMethod.mockRejectedValue(new Error('Network error'));
-    vi.mocked(getErrorMessage).mockReturnValue('Network error');
 
     await signOut();
 
     expect(consoleSpy).toHaveBeenCalledWith(
       'Sign out failed:',
-      'Network error',
+      'serverErrors.default',
     );
     expect(mockRedirect).toHaveBeenCalledWith('/en/');
     consoleSpy.mockRestore();
   });
 
-  it('should use default sign out error message', async () => {
-    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(vi.fn());
+  it('should use provided locale', async () => {
+    mockSignOutMethod.mockResolvedValue({ error: null });
 
-    mockSignOutMethod.mockResolvedValue({
-      error: new Error('Boom'),
-    });
+    await signOut('ru');
 
-    vi.mocked(getErrorMessage).mockReturnValue(undefined);
-
-    await signOut();
-
-    expect(consoleSpy).toHaveBeenCalledWith(
-      'Sign out error:',
-      'Sign out error',
-    );
-
-    consoleSpy.mockRestore();
+    expect(mockRedirect).toHaveBeenCalledWith('/ru/');
   });
 
-  it('should use default unexpected sign out message', async () => {
-    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(vi.fn());
-
-    mockSignOutMethod.mockRejectedValue(new Error('Test error'));
-
-    vi.mocked(getErrorMessage).mockReturnValue(undefined);
+  it('should use default locale when none provided', async () => {
+    mockSignOutMethod.mockResolvedValue({ error: null });
 
     await signOut();
 
-    expect(consoleSpy).toHaveBeenCalledWith(
-      'Sign out failed:',
-      'Sign out failed',
-    );
-
-    consoleSpy.mockRestore();
+    expect(mockRedirect).toHaveBeenCalledWith('/en/');
   });
 });

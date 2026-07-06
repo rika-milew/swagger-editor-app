@@ -43,6 +43,7 @@ const mockUseTranslations = (key: string) => translations[key];
 
 vi.mock('next-intl', () => ({
   useTranslations: () => mockUseTranslations,
+  useLocale: () => 'en',
 }));
 
 vi.mock('next/link', () => ({
