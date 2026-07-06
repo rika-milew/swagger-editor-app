@@ -71,6 +71,7 @@ describe('signIn', () => {
   });
 
   it('should return auth error from Supabase', async () => {
+    mockToErrorKeyDTO.mockReturnValue('auth/invalid-credentials');
     mockSignInWithPassword.mockResolvedValue({
       error: new Error('Invalid credentials'),
     });
