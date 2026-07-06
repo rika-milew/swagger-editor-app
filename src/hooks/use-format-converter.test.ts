@@ -100,14 +100,14 @@ describe('useFormatConverter', () => {
 
   it('should keep old code and format if transformation fails due to syntax error', () => {
     const { result } = renderHook(() =>
-      useFormatConverter('not a valid json', 'json'),
+      useFormatConverter('{ invalid json', 'json'),
     );
 
     act(() => {
       result.current.handleFormatChange('yaml');
     });
 
-    expect(result.current.code).toBe('not a valid json');
+    expect(result.current.code).toBe('{ invalid json');
     expect(result.current.format).toBe('json');
     expect(toaster.create).toHaveBeenCalledWith(
       expect.objectContaining({
