@@ -37,7 +37,7 @@ describe('useFormatConverter', () => {
   });
 
   it('should convert JSON string to YAML string', () => {
-    const jsonCode = '{"server": {"host": "127.0.0.1"}}';
+    const jsonCode = '{\n  "server": {\n    "host": "127.0.0.1"\n  }\n}';
     const expectedYaml = 'server:\n  host: 127.0.0.1\n';
 
     const { result } = renderHook(() => useFormatConverter(jsonCode, 'json'));
@@ -60,9 +60,34 @@ describe('useFormatConverter', () => {
     });
 
     expect(result.current.code).toBe('key: value');
+    expect(result.current.format).toBe('yaml');
   });
 
-  it('should keep old code if transformation fails due to syntax error', () => {
+  it('should change format without conversion if code is empty', () => {
+    const { result } = renderHook(() => useFormatConverter('   ', 'yaml'));
+
+    act(() => {
+      result.current.handleFormatChange('json');
+    });
+
+    expect(result.current.code).toBe('   ');
+    expect(result.current.format).toBe('json');
+  });
+
+  it('should update format without converting the code when updateFormatWithoutConversion is called', () => {
+    const { result } = renderHook(() =>
+      useFormatConverter('server:\n  host: 127.0.0.1', 'yaml'),
+    );
+
+    act(() => {
+      result.current.updateFormatWithoutConversion('json');
+    });
+
+    expect(result.current.code).toBe('server:\n  host: 127.0.0.1');
+    expect(result.current.format).toBe('json');
+  });
+
+  it('should keep old code and format if transformation fails due to syntax error', () => {
     const { result } = renderHook(() =>
       useFormatConverter('not a valid json', 'json'),
     );
@@ -72,6 +97,6 @@ describe('useFormatConverter', () => {
     });
 
     expect(result.current.code).toBe('not a valid json');
-    expect(result.current.format).toBe('yaml');
+    expect(result.current.format).toBe('json');
   });
 });
