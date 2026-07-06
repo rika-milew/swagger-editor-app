@@ -37,7 +37,8 @@ export async function signIn(
     if (error) {
       return { error: toErrorKeyDTO(error) };
     }
-  } catch {
+  } catch (error) {
+    console.error('Sign in failed:', error);
     return { error: 'serverErrors.default' };
   }
 
@@ -65,7 +66,8 @@ export async function signUp(
     if (error) {
       return { error: toErrorKeyDTO(error) };
     }
-  } catch {
+  } catch (error) {
+    console.error('Sign up failed:', error);
     return { error: 'serverErrors.default' };
   }
 
@@ -83,8 +85,8 @@ export async function signOut(locale?: string): Promise<void> {
     if (error) {
       console.error('Sign out error:', toErrorKeyDTO(error));
     }
-  } catch {
-    console.error('Sign out failed:', 'serverErrors.default');
+  } catch (error) {
+    console.error('Sign out failed:', error);
   }
 
   redirect(`/${userLocale}${ROUTES.HOME}`);
