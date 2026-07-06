@@ -1,10 +1,9 @@
 'use client';
 
-import React from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { oneDark } from '@codemirror/theme-one-dark';
 import type { EditorFormat } from '@/types/editor.types';
-import { useEditorLanguage } from '@/hooks/useEditor';
+import { useEditorLanguage } from '@/hooks/use-editor';
 
 type EditorProps = {
   code: string;
@@ -13,12 +12,12 @@ type EditorProps = {
   onFormatChange: (format: EditorFormat) => void;
 };
 
-export const Editor: React.FC<EditorProps> = ({
+export const Editor = ({
   code,
   format,
   onChange,
   onFormatChange,
-}) => {
+}: EditorProps) => {
   const { extensions, handleDocChange } = useEditorLanguage(
     format,
     onChange,

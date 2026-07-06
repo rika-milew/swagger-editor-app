@@ -1,6 +1,6 @@
 import { renderHook, act } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
-import { useEditorLanguage } from './useEditor';
+import { useEditorLanguage } from './use-editor';
 import type { EditorFormat } from '@/types/editor.types';
 
 describe('useEditorLanguage', () => {
