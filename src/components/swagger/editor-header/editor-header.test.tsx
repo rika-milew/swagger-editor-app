@@ -4,15 +4,21 @@ import { describe, it, expect, vi } from 'vitest';
 import { EditorHeader } from './editor-header';
 import type { EditorFormat } from '@/types/editor.types';
 
+vi.mock('@/store/user-store', () => ({
+  useUserStore: vi.fn(() => ({ id: 'test-user' })),
+}));
+
 describe('EditorHeader Component', () => {
   const mockOnFormatChange = vi.fn();
   const defaultFormat: EditorFormat = 'yaml';
+  const defaultCode = 'test: code';
 
   it('renders all main elements', () => {
     render(
       <EditorHeader
         format={defaultFormat}
         onFormatChange={mockOnFormatChange}
+        code={defaultCode}
       />,
     );
 
@@ -27,6 +33,7 @@ describe('EditorHeader Component', () => {
       <EditorHeader
         format={defaultFormat}
         onFormatChange={mockOnFormatChange}
+        code={defaultCode}
       />,
     );
 
@@ -38,7 +45,11 @@ describe('EditorHeader Component', () => {
 
     const nextFormat: EditorFormat = 'json';
     rerender(
-      <EditorHeader format={nextFormat} onFormatChange={mockOnFormatChange} />,
+      <EditorHeader
+        format={nextFormat}
+        onFormatChange={mockOnFormatChange}
+        code={defaultCode}
+      />,
     );
 
     expect(jsonRadio).toBeChecked();
@@ -51,6 +62,7 @@ describe('EditorHeader Component', () => {
       <EditorHeader
         format={defaultFormat}
         onFormatChange={mockOnFormatChange}
+        code={defaultCode}
       />,
     );
 
