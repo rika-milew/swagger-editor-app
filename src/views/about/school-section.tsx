@@ -1,10 +1,12 @@
+import { getTranslations } from 'next-intl/server';
 import { Box, Heading, Link, Stack, Flex, Text } from '@chakra-ui/react';
 import Image from 'next/image';
 
 import { colors } from '@/theme/colors';
 import { about } from '@/theme/about';
 
-export default function SchoolSection() {
+export default async function SchoolSection() {
+  const t = await getTranslations('AboutPage');
   return (
     <Stack gap={6}>
       <Text color={colors.colorZinc500} fontSize="xs" textTransform="uppercase">
@@ -16,14 +18,11 @@ export default function SchoolSection() {
           <Stack {...about.rsStackContainer}>
             <Box maxW="700px">
               <Heading color={colors.colorWhite} size="lg" mb={4}>
-                RS School Graduation Project
+                {t('schoolTitle')}
               </Heading>
 
               <Text color={colors.mutedForeground} lineHeight="1.8">
-                This application was created as the final team project during
-                the RS School React course. Our goal was to build a modern
-                developer tool with an intuitive interface for working with
-                OpenAPI specifications.
+                {t('schoolDescr')}
               </Text>
             </Box>
 

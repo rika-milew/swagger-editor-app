@@ -3,6 +3,15 @@
     "title": "Swagger Editor App",
     "description": "Online Swagger/OpenAPI editor and viewer"
   },
+  "AboutPage": {
+    "heroTitle": "About",
+    "heroHeading": "A modern workbench for OpenAPI specifications.",
+    "heroDescr": "NexusOpen is the RS School graduation project — a Swagger/OpenAPI editor with an interactive viewer, request execution and analytics, builtend-to-end on TanStack Start.",
+    "stackTitle": "Stack",
+    "schoolTitle": "RS School React Course Graduation Project",
+    "schoolDescr": "This application was created as the final team project during the RS School React course. Our goal was to build a modern developer tool with an intuitive interface for working with OpenAPI specifications.",
+    "teamTitle": "Team"
+  },
   "Header": {
     "navigationMenu": "Navigation menu",
     "openMenu": "Open menu",

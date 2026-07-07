@@ -1,3 +1,4 @@
+import { getTranslations } from 'next-intl/server';
 import { SimpleGrid, Stack, Text, Flex, Box, Link } from '@chakra-ui/react';
 import { colors } from '@/theme/colors';
 import { about } from '@/theme/about';
@@ -23,11 +24,12 @@ const team = [
   },
 ];
 
-export default function TeamSection() {
+export default async function TeamSection() {
+  const t = await getTranslations('AboutPage');
   return (
     <Stack gap={6}>
       <Text color={colors.colorZinc500} fontSize="xs" textTransform="uppercase">
-        Team
+        {t('teamTitle')}
       </Text>
 
       <SimpleGrid

@@ -1,6 +1,44 @@
 import { colors } from './colors';
+import { fontWeights } from './font';
 
 export const about = {
+  aboutWrapper: {
+    bg: colors.background,
+    w: '100%',
+    minH: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  aboutContainer: {
+    maxW: '1100px',
+    py: { base: 10, md: 16 },
+    px: { base: 5, md: 8 },
+  },
+  heroTitle: {
+    color: colors.brandPrimary,
+    fontSize: 'xs',
+    fontWeight: fontWeights.bold,
+    textTransform: 'uppercase',
+  },
+  heroHeading: {
+    color: colors.colorWhite,
+    fontWeight: fontWeights.bold,
+    lineHeight: '1.05',
+    maxW: '720px',
+    fontSize: {
+      base: '3xl',
+      md: '5xl',
+    },
+  },
+  heroDescr: {
+    maxW: '650px',
+    color: colors.mutedForeground,
+    fontSize: {
+      base: 'md',
+      md: 'lg',
+    },
+    lineHeight: '1.8',
+  },
   stackItemConteiner: {
     px: '4',
     py: '2',

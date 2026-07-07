@@ -1,5 +1,9 @@
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
-import { getTranslations, setRequestLocale } from 'next-intl/server';
+import {
+  getTranslations,
+  setRequestLocale,
+  getMessages,
+} from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
@@ -44,8 +48,10 @@ export default async function LocaleLayout({
 
   setRequestLocale(lang);
 
+  const messages = await getMessages();
+
   return (
-    <NextIntlClientProvider>
+    <NextIntlClientProvider locale={lang} messages={messages}>
       <ErrorBoundaryWrapper>
         <Flex direction="column" minH="100vh">
           <Header />

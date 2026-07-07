@@ -1,3 +1,4 @@
+import { getTranslations } from 'next-intl/server';
 import { Badge, Stack, Text, Wrap, WrapItem } from '@chakra-ui/react';
 import { colors } from '@/theme/colors';
 import { about } from '@/theme/about';
@@ -10,11 +11,12 @@ const stack = [
   'Vite',
 ];
 
-export default function StackSection() {
+export default async function StackSection() {
+  const t = await getTranslations('AboutPage');
   return (
     <Stack gap={5}>
       <Text color={colors.colorZinc500} fontSize="xs" textTransform="uppercase">
-        Stack
+        {t('stackTitle')}
       </Text>
 
       <Wrap gap={3}>
