@@ -1,4 +1,4 @@
-import NextLink from 'next/link';
+import { Link as NextLink } from '@/i18n/navigation';
 import { Link, type LinkProps } from '@chakra-ui/react';
 
 type AppLinkProps = LinkProps & {

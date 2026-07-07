@@ -9,41 +9,43 @@ import type { SignUpFormData } from '@/lib/validation/auth-schemas';
 import { signUp } from '@/app/actions/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ROUTES } from '@/constants/routes';
-
-const SIGN_UP_FIELDS = [
-  {
-    name: 'email' as const,
-    label: 'Email',
-    type: 'email' as const,
-    placeholder: 'you@example.com',
-  },
-  {
-    name: 'password' as const,
-    label: 'Password',
-    type: 'password' as const,
-    placeholder: '••••••••',
-  },
-  {
-    name: 'confirmPassword' as const,
-    label: 'Confirm Password',
-    type: 'password' as const,
-    placeholder: '••••••••',
-  },
-];
+import { useTranslations } from 'next-intl';
 
 export function SignUp() {
+  const t = useTranslations('Auth');
+
+  const SIGN_UP_FIELDS = [
+    {
+      name: 'email' as const,
+      label: t('fields.email.label'),
+      type: 'email' as const,
+      placeholder: 'you@example.com',
+    },
+    {
+      name: 'password' as const,
+      label: t('fields.password.label'),
+      type: 'password' as const,
+      placeholder: '••••••••',
+    },
+    {
+      name: 'confirmPassword' as const,
+      label: t('fields.confirmPassword.label'),
+      type: 'password' as const,
+      placeholder: '••••••••',
+    },
+  ];
+
   return (
     <AuthForm<SignUpFormData>
-      title="Create Account"
-      subtitle="Save schemas and access request history"
-      submitLabel="Sign Up"
+      title={t('signUp.title')}
+      subtitle={t('signUp.subtitle')}
+      submitLabel={t('signUp.submitLabel')}
       fields={SIGN_UP_FIELDS}
       resolver={zodResolver(signUpSchema)}
       onSubmitAction={signUp}
       helperContent={
         <Text textAlign="center" color={colors.colorZinc400} fontSize="xs">
-          Min 8 characters, at least one letter, one digit and one special
-          character.
+          {t('signUp.passwordHint')}
         </Text>
       }
       switchFormLink={
@@ -52,8 +54,8 @@ export function SignUp() {
           {...typography.text}
           color={colors.colorZinc400}
         >
-          Already have an account?{' '}
-          <TextLink href={ROUTES.SIGN_IN}>Sign in</TextLink>
+          {t('signUp.hasAccount')}{' '}
+          <TextLink href={ROUTES.SIGN_IN}>{t('signUp.signIn')}</TextLink>
         </Text>
       }
     />

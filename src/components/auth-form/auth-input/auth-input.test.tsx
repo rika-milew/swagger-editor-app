@@ -1,9 +1,15 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ChakraProvider, defaultSystem } from '@chakra-ui/react';
 import type { ReactElement } from 'react';
 import { AuthInput } from './auth-input';
+
+const mockTranslations = (key: string) => key;
+
+vi.mock('next-intl', () => ({
+  useTranslations: () => mockTranslations,
+}));
 
 const renderWithChakra = (ui: ReactElement) => {
   return render(<ChakraProvider value={defaultSystem}>{ui}</ChakraProvider>);
@@ -97,18 +103,18 @@ describe('AuthInput', () => {
     const toggleButton = screen.getByRole('button');
 
     expect(input).toHaveAttribute('type', 'password');
-    expect(toggleButton).toHaveAttribute('aria-label', 'Show password');
+    expect(toggleButton).toHaveAttribute('aria-label', 'fields.password.show');
     expect(toggleButton.innerHTML).toContain('svg');
 
     await user.click(toggleButton);
 
     expect(input).toHaveAttribute('type', 'text');
-    expect(toggleButton).toHaveAttribute('aria-label', 'Hide password');
+    expect(toggleButton).toHaveAttribute('aria-label', 'fields.password.hide');
 
     await user.click(toggleButton);
 
     expect(input).toHaveAttribute('type', 'password');
-    expect(toggleButton).toHaveAttribute('aria-label', 'Show password');
+    expect(toggleButton).toHaveAttribute('aria-label', 'fields.password.show');
   });
 
   it('should preserve input value when toggling visibility', async () => {
