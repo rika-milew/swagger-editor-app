@@ -8,13 +8,7 @@ import { useEditorLanguage } from '@/hooks/use-editor';
 import { EditorHeader } from '@/components/swagger/editor-header/editor-header';
 
 export const Editor = () => {
-  const [code, setCode] = useState<string>(
-    '# Write code here! \n server:\n' +
-      '  host: 192.168.1.100\n' +
-      '  port: 8080\n' +
-      '  timeout: 30\n' +
-      '  enabled: true',
-  );
+  const [code, setCode] = useState<string>('# Write code here!');
   const [format, setFormat] = useState<EditorFormat>('yaml');
 
   const { extensions, handleDocChange } = useEditorLanguage(
