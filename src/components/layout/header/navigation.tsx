@@ -13,6 +13,7 @@ type NavigationProps = {
 
 export default function Navigation({ direction = 'row' }: NavigationProps) {
   const pathname = usePathname();
+  const currentPath = pathname.replace(/^\/(en|ru)/, '') || '/';
   const t = useTranslations('Navigation');
   return (
     <Stack
@@ -24,9 +25,9 @@ export default function Navigation({ direction = 'row' }: NavigationProps) {
     >
       <AppLink
         href="/"
-        color={pathname === '/' ? colors.nav.active : colors.nav.inactive}
+        color={currentPath === '/' ? colors.nav.active : colors.nav.inactive}
         _hover={
-          pathname === '/'
+          currentPath === '/'
             ? undefined
             : { color: colors.colorWhite, textDecoration: 'none' }
         }
@@ -36,9 +37,11 @@ export default function Navigation({ direction = 'row' }: NavigationProps) {
 
       <AppLink
         href="/about"
-        color={pathname === '/about' ? colors.nav.active : colors.nav.inactive}
+        color={
+          currentPath === '/about' ? colors.nav.active : colors.nav.inactive
+        }
         _hover={
-          pathname === '/about'
+          currentPath === '/about'
             ? undefined
             : { color: colors.colorWhite, textDecoration: 'none' }
         }
