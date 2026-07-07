@@ -1,5 +1,3 @@
-'use client';
-
 import classNames from 'classnames/bind';
 import styles from '../../app/page.module.css';
 import { Editor } from '@/components/swagger/editor/editor';
