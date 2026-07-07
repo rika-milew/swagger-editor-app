@@ -40,7 +40,7 @@ export default function Footer() {
             fontSize={{ base: '2xs', sm: 'sm' }}
             color={colors.colorZinc600}
           >
-            © 2026 NexusOpen
+            © 2026 Swagger Editor App
           </Text>
         </Stack>
       </Flex>

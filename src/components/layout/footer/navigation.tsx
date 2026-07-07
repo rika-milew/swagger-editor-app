@@ -33,7 +33,7 @@ export default function Navigation() {
         RS SCHOOL
       </AppLink>
       <AppLink
-        href="https://github.com"
+        href="https://github.com/rika-milew/swagger-editor-app"
         color={colors.colorZinc600}
         {...typography.navFooter}
         _hover={{
