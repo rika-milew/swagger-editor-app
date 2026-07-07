@@ -1,38 +1,19 @@
 import { Box, Heading, Link, Stack, Flex, Text } from '@chakra-ui/react';
+import Image from 'next/image';
 
 import { colors } from '@/theme/colors';
+import { about } from '@/theme/about';
 
 export default function SchoolSection() {
   return (
     <Stack gap={6}>
-      <Text
-        color={colors.colorZinc500}
-        fontSize="xs"
-        letterSpacing="0.35em"
-        textTransform="uppercase"
-      >
+      <Text color={colors.colorZinc500} fontSize="xs" textTransform="uppercase">
         RS School
       </Text>
 
-      <Flex
-        bg={colors.panel}
-        border="1px solid"
-        borderColor={colors.border}
-        borderRadius="xl"
-      >
+      <Flex {...about.rsFlexContent}>
         <Box p={{ base: 6, md: 8 }}>
-          <Stack
-            direction={{
-              base: 'column',
-              md: 'row',
-            }}
-            justify="space-between"
-            align={{
-              base: 'start',
-              md: 'center',
-            }}
-            gap={8}
-          >
+          <Stack {...about.rsStackContainer}>
             <Box maxW="700px">
               <Heading color={colors.colorWhite} size="lg" mb={4}>
                 RS School Graduation Project
@@ -46,13 +27,8 @@ export default function SchoolSection() {
               </Text>
             </Box>
 
-            <Link
-              href="https://rs.school/"
-              target="_blank"
-              colorScheme="cyan"
-              whiteSpace="nowrap"
-            >
-              Visit RS School
+            <Link {...about.rsLogoLink}>
+              <Image src="/rs-school.png" alt="RS School" {...about.rsImage} />
             </Link>
           </Stack>
         </Box>

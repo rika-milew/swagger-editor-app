@@ -8,7 +8,6 @@ export default function HeroSection() {
         color={colors.brandPrimary}
         fontSize="xs"
         fontWeight="700"
-        letterSpacing="0.35em"
         textTransform="uppercase"
       >
         About
