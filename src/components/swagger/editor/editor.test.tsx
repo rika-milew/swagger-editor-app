@@ -28,12 +28,7 @@ describe('Editor', () => {
     const textarea = screen.getByTestId('mock-codemirror');
     expect(textarea).toBeInTheDocument();
 
-    const defaultCode =
-      '# Write code here! \n server:\n' +
-      '  host: 192.168.1.100\n' +
-      '  port: 8080\n' +
-      '  timeout: 30\n' +
-      '  enabled: true';
+    const defaultCode = '# Write code here!';
 
     expect(textarea).toHaveValue(defaultCode);
 
