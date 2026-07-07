@@ -15,6 +15,7 @@ const messages = {
   SwaggerViewer: {
     description: 'API documentation',
     endpoints: 'Endpoints',
+    noEndpoints: 'No endpoints found',
   },
 };
 
@@ -52,8 +53,12 @@ describe('SwaggerViewer', () => {
       screen.getByText(`v${mockSwagger.info.version}`),
     ).toBeInTheDocument();
 
-    expect(screen.getByText('API documentation')).toBeInTheDocument();
-    expect(screen.getByText('Endpoints')).toBeInTheDocument();
+    expect(
+      screen.getByText(messages.SwaggerViewer.description),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(messages.SwaggerViewer.endpoints),
+    ).toBeInTheDocument();
 
     expect(screen.getByText('/users')).toBeInTheDocument();
     expect(screen.getByText('/auth/login')).toBeInTheDocument();
@@ -70,7 +75,9 @@ describe('SwaggerViewer', () => {
 
     renderComponent();
 
-    expect(screen.getByText('No endpoints found')).toBeInTheDocument();
+    expect(
+      screen.getByText(messages.SwaggerViewer.noEndpoints),
+    ).toBeInTheDocument();
   });
 
   it('calls parseSwagger with mockSwagger', () => {
