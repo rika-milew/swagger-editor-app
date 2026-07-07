@@ -7,7 +7,7 @@ export const typography = {
   },
 
   navFooter: {
-    fontSize: 'sm',
+    fontSize: { base: 'xs', md: 'sm' },
     fontWeight: fontWeights.medium,
     textTransform: 'uppercase',
   },
