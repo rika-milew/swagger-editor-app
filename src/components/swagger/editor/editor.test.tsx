@@ -2,7 +2,6 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import '@testing-library/jest-dom';
 import { Editor } from './editor';
-import type { EditorFormat } from '@/types/editor.types';
 
 vi.mock('@uiw/react-codemirror', () => {
   return {
@@ -23,25 +22,24 @@ vi.mock('@uiw/react-codemirror', () => {
 });
 
 describe('Editor', () => {
-  it('should render CodeMirror and call handlers on change', () => {
-    const mockOnChange = vi.fn();
-    const mockOnFormatChange = vi.fn();
-    const initialFormat: EditorFormat = 'yaml';
-
-    render(
-      <Editor
-        code="initial content"
-        format={initialFormat}
-        onChange={mockOnChange}
-        onFormatChange={mockOnFormatChange}
-      />,
-    );
+  it('should render with initial default code and update text on change', () => {
+    render(<Editor />);
 
     const textarea = screen.getByTestId('mock-codemirror');
     expect(textarea).toBeInTheDocument();
 
-    fireEvent.change(textarea, { target: { value: '{"new": "json"}' } });
+    const defaultCode =
+      '# Write code here! \n server:\n' +
+      '  host: 192.168.1.100\n' +
+      '  port: 8080\n' +
+      '  timeout: 30\n' +
+      '  enabled: true';
 
-    expect(mockOnChange).toHaveBeenCalledWith('{"new": "json"}');
+    expect(textarea).toHaveValue(defaultCode);
+
+    const newCode = 'server:\n  port: 9000';
+    fireEvent.change(textarea, { target: { value: newCode } });
+
+    expect(textarea).toHaveValue(newCode);
   });
 });
