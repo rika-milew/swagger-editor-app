@@ -1,29 +1,44 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import * as yaml from 'js-yaml';
 import { toaster } from '@/components/ui/toaster';
 import type { EditorFormat } from '@/types/editor.types';
 
 type UseFormatConverterReturn = {
-  code: string;
+  value: string;
   format: EditorFormat;
-  setCode: (code: string) => void;
-  handleFormatChange: (newFormat: EditorFormat) => void;
-  updateFormatWithoutConversion: (newFormat: EditorFormat) => void;
+  setValue: (value: string) => void;
+  changeFormat: (newFormat: EditorFormat, shouldConvert?: boolean) => void;
 };
 
 export const useFormatConverter = (
-  initialCode: string,
+  initialValue: string,
   initialFormat: EditorFormat = 'yaml',
 ): UseFormatConverterReturn => {
-  const [code, setCode] = useState<string>(initialCode);
+  const [value, setValue] = useState<string>(initialValue);
   const [format, setFormat] = useState<EditorFormat>(initialFormat);
+  const toastIdRef = useRef<string | undefined>(undefined);
 
-  const handleFormatChange = (newFormat: EditorFormat): void => {
+  useEffect(() => {
+    if (toastIdRef.current) {
+      toaster.dismiss(toastIdRef.current);
+      toastIdRef.current = undefined;
+    }
+  }, [value]);
+
+  const changeFormat = (
+    newFormat: EditorFormat,
+    shouldConvert = true,
+  ): void => {
     if (newFormat === format) {
       return;
     }
 
-    const cleanedCode = code.trim();
+    if (!shouldConvert) {
+      setFormat(newFormat);
+      return;
+    }
+
+    const cleanedCode = value.trim();
 
     if (!cleanedCode) {
       setFormat(newFormat);
@@ -35,33 +50,36 @@ export const useFormatConverter = (
       if (parsed !== null && parsed !== undefined) {
         if (newFormat === 'json') {
           const jsonString = JSON.stringify(parsed, null, 2);
-          setCode(jsonString);
+          setValue(jsonString);
         } else {
           const yamlString = yaml.dump(parsed, { indent: 2 });
-          setCode(yamlString);
+          setValue(yamlString);
         }
         setFormat(newFormat);
       }
     } catch (error) {
-      toaster.create({
+      if (toastIdRef.current) {
+        toaster.dismiss(toastIdRef.current);
+      }
+
+      const message =
+        error instanceof Error ? error.message : 'Invalid syntax format';
+
+      const id = toaster.create({
         title: 'Conversion Error',
-        description:
-          error instanceof Error ? error.message : 'Invalid syntax format',
+        description: message,
         type: 'error',
-        duration: 3000,
+        duration: Infinity,
       });
+
+      toastIdRef.current = id;
     }
   };
 
-  const updateFormatWithoutConversion = (newFormat: EditorFormat): void => {
-    setFormat(newFormat);
-  };
-
   return {
-    code,
+    value,
     format,
-    setCode,
-    handleFormatChange,
-    updateFormatWithoutConversion,
+    setValue,
+    changeFormat,
   };
 };

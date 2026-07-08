@@ -9,26 +9,23 @@ import { useEditorLanguage } from '@/hooks/use-editor';
 const initialCodeValue = '# Write code here!';
 
 export const Editor = () => {
-  const {
-    code,
-    format,
-    setCode,
-    handleFormatChange,
-    updateFormatWithoutConversion,
-  } = useFormatConverter(initialCodeValue, 'yaml');
+  const { value, format, setValue, changeFormat } = useFormatConverter(
+    initialCodeValue,
+    'yaml',
+  );
 
   const { extensions, handleDocChange } = useEditorLanguage(
     format,
-    setCode,
-    updateFormatWithoutConversion,
+    setValue,
+    (newFormat) => changeFormat(newFormat, false),
   );
 
   return (
     <>
-      <EditorHeader format={format} onFormatChange={handleFormatChange} />
+      <EditorHeader format={format} onFormatChange={changeFormat} />
 
       <CodeMirror
-        value={code}
+        value={value}
         width="100%"
         theme={oneDark}
         style={{

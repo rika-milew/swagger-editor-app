@@ -6,6 +6,7 @@ import { toaster } from '@/components/ui/toaster';
 vi.mock('@/components/ui/toaster', () => ({
   toaster: {
     create: vi.fn(),
+    dismiss: vi.fn(),
   },
 }));
 
@@ -19,7 +20,7 @@ describe('useFormatConverter', () => {
       useFormatConverter('key: value', 'yaml'),
     );
 
-    expect(result.current.code).toBe('key: value');
+    expect(result.current.value).toBe('key: value');
     expect(result.current.format).toBe('yaml');
   });
 
@@ -27,10 +28,10 @@ describe('useFormatConverter', () => {
     const { result } = renderHook(() => useFormatConverter(''));
 
     act(() => {
-      result.current.setCode('new code');
+      result.current.setValue('new code');
     });
 
-    expect(result.current.code).toBe('new code');
+    expect(result.current.value).toBe('new code');
   });
 
   it('should convert YAML string to formatted JSON string', () => {
@@ -40,10 +41,10 @@ describe('useFormatConverter', () => {
     const { result } = renderHook(() => useFormatConverter(yamlCode, 'yaml'));
 
     act(() => {
-      result.current.handleFormatChange('json');
+      result.current.changeFormat('json');
     });
 
-    expect(result.current.code).toBe(expectedJson);
+    expect(result.current.value).toBe(expectedJson);
     expect(result.current.format).toBe('json');
   });
 
@@ -54,10 +55,10 @@ describe('useFormatConverter', () => {
     const { result } = renderHook(() => useFormatConverter(jsonCode, 'json'));
 
     act(() => {
-      result.current.handleFormatChange('yaml');
+      result.current.changeFormat('yaml');
     });
 
-    expect(result.current.code).toBe(expectedYaml);
+    expect(result.current.value).toBe(expectedYaml);
     expect(result.current.format).toBe('yaml');
   });
 
@@ -67,10 +68,10 @@ describe('useFormatConverter', () => {
     );
 
     act(() => {
-      result.current.handleFormatChange('yaml');
+      result.current.changeFormat('yaml');
     });
 
-    expect(result.current.code).toBe('key: value');
+    expect(result.current.value).toBe('key: value');
     expect(result.current.format).toBe('yaml');
   });
 
@@ -78,10 +79,10 @@ describe('useFormatConverter', () => {
     const { result } = renderHook(() => useFormatConverter('   ', 'yaml'));
 
     act(() => {
-      result.current.handleFormatChange('json');
+      result.current.changeFormat('json');
     });
 
-    expect(result.current.code).toBe('   ');
+    expect(result.current.value).toBe('   ');
     expect(result.current.format).toBe('json');
   });
 
@@ -91,10 +92,10 @@ describe('useFormatConverter', () => {
     );
 
     act(() => {
-      result.current.updateFormatWithoutConversion('json');
+      result.current.changeFormat('json', false);
     });
 
-    expect(result.current.code).toBe('server:\n  host: 127.0.0.1');
+    expect(result.current.value).toBe('server:\n  host: 127.0.0.1');
     expect(result.current.format).toBe('json');
   });
 
@@ -104,10 +105,10 @@ describe('useFormatConverter', () => {
     );
 
     act(() => {
-      result.current.handleFormatChange('yaml');
+      result.current.changeFormat('yaml');
     });
 
-    expect(result.current.code).toBe('{ invalid json');
+    expect(result.current.value).toBe('{ invalid json');
     expect(result.current.format).toBe('json');
     expect(toaster.create).toHaveBeenCalledWith(
       expect.objectContaining({
