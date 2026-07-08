@@ -25,6 +25,7 @@
   },
   "NotFound": {
     "title": "Page not found",
+    "description": "The page you're looking for doesn't exist or has been moved.",
     "button": "Back to Home"
   },
   "ErrorBoundary": {

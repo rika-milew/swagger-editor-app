@@ -4,14 +4,28 @@ import { AUTH_ROUTES, PRIVATE_ROUTES, ROUTES } from '@/constants/routes';
 import { updateSession } from '@/lib/auth/update-session';
 import { copyCookies } from '@/utils/copy-cookies';
 import { getLocaleFromPath } from '@/utils/get-locale';
+import { intlMiddleware } from '../middleware';
 
 export async function proxy(request: NextRequest): Promise<NextResponse> {
   const { pathname } = request.nextUrl;
 
-  if (!/^\/(en|ru)(\/|$)/.test(pathname)) {
-    const url = request.nextUrl.clone();
-    url.pathname = `/en${pathname}`;
-    return NextResponse.redirect(url);
+  if (
+    pathname.startsWith('/_next') ||
+    pathname.startsWith('/en/_next') ||
+    pathname.startsWith('/ru/_next') ||
+    pathname.includes('.')
+  ) {
+    return NextResponse.next();
+  }
+
+  const locale = getLocaleFromPath(pathname);
+  const intlResponse = intlMiddleware(request);
+
+  const location = intlResponse.headers.get('location');
+
+  if (location) {
+    intlResponse.headers.set('x-next-intl-locale', locale);
+    return intlResponse;
   }
 
   let supabaseResponse = NextResponse.next({ request });
@@ -36,25 +50,21 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
     url.pathname = `/${locale}${ROUTES.HOME}`;
     url.search = '';
     const response = NextResponse.redirect(url);
+    response.headers.set('x-next-intl-locale', locale);
     copyCookies(supabaseResponse, response);
     return response;
   }
 
   if (isPrivateRoute && !user) {
+    supabaseResponse.headers.set('x-next-intl-locale', locale);
     copyCookies(supabaseResponse, supabaseResponse);
     return supabaseResponse;
   }
 
+  supabaseResponse.headers.set('x-next-intl-locale', locale);
   return supabaseResponse;
 }
 
 export const config = {
-  matcher: [
-    '/sign-in',
-    '/sign-up',
-    '/history',
-    '/(en|ru)/sign-in',
-    '/(en|ru)/sign-up',
-    '/(en|ru)/history',
-  ],
+  matcher: [String.raw`/((?!api|_next|.*\..*).*)`],
 };
