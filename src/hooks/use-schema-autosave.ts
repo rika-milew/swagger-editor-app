@@ -19,7 +19,6 @@ export const useSchemaAutosave = (
   const save = useCallback(
     async (value: string, format: EditorFormat) => {
       loadSchema(value, format);
-      console.log('Store updated:', useSchemaStore.getState());
 
       if (!user) {
         console.log('Schema saved to store (anonymous)');
