@@ -6,4 +6,3 @@ export const intlMiddleware = createMiddleware({
   defaultLocale: routing.defaultLocale,
   localeDetection: false,
 });
-
