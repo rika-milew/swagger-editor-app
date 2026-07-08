@@ -1,28 +1,31 @@
 'use client';
 
-import { useState } from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { oneDark } from '@codemirror/theme-one-dark';
-import type { EditorFormat } from '@/types/editor.types';
-import { useEditorLanguage } from '@/hooks/use-editor';
 import { EditorHeader } from '@/components/swagger/editor-header/editor-header';
+import { useFormatConverter } from '@/hooks/use-format-converter';
+import { useEditorLanguage } from '@/hooks/use-editor';
+
+const initialCodeValue = '# Write code here!';
 
 export const Editor = () => {
-  const [code, setCode] = useState<string>('# Write code here!');
-  const [format, setFormat] = useState<EditorFormat>('yaml');
+  const { value, format, setValue, changeFormat } = useFormatConverter(
+    initialCodeValue,
+    'yaml',
+  );
 
   const { extensions, handleDocChange } = useEditorLanguage(
     format,
-    setCode,
-    setFormat,
+    setValue,
+    (newFormat) => changeFormat(newFormat, false),
   );
 
   return (
     <>
-      <EditorHeader format={format} onFormatChange={setFormat} />
+      <EditorHeader format={format} onFormatChange={changeFormat} />
 
       <CodeMirror
-        value={code}
+        value={value}
         width="100%"
         theme={oneDark}
         style={{
