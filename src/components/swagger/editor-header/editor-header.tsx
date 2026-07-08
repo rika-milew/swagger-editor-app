@@ -1,19 +1,15 @@
 'use client';
 
 import React from 'react';
-import { useCallback } from 'react';
 import classNames from 'classnames/bind';
 import styles from './editor-header.module.css';
 import type { EditorFormat } from '@/types/editor.types';
-import { useUserStore } from '@/store/user-store';
-import { saveSchema } from '@/app/actions/schema';
 
 const cx = classNames.bind(styles);
 
 type EditorHeaderProps = {
   format: EditorFormat;
   onFormatChange: (format: EditorFormat) => void;
-  code: string;
 };
 
 const isValidFormat = (value: string): value is EditorFormat => {
@@ -23,10 +19,7 @@ const isValidFormat = (value: string): value is EditorFormat => {
 export const EditorHeader: React.FC<EditorHeaderProps> = ({
   format,
   onFormatChange,
-  code,
 }) => {
-  const user = useUserStore((state) => state.user);
-
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
@@ -34,26 +27,6 @@ export const EditorHeader: React.FC<EditorHeaderProps> = ({
       onFormatChange(value);
     }
   };
-
-  const handleSave = useCallback(() => {
-    void (async () => {
-      try {
-        const result = await saveSchema({
-          schema: code,
-          format: format,
-        });
-        if (result.success) {
-          console.log('Schema saved successfully');
-        } else if (result.error) {
-          console.error('Save failed:', result.error);
-          // TODO: Add server error display
-        }
-      } catch (error: unknown) {
-        console.error('Save failed:', error);
-        // TODO: Add server error display
-      }
-    })();
-  }, [code, format]);
 
   return (
     <div className={cx('editor-header')}>
@@ -93,15 +66,6 @@ export const EditorHeader: React.FC<EditorHeaderProps> = ({
             JSON
           </label>
         </div>
-        {user && (
-          <button
-            type="button"
-            className={cx('save-code')}
-            onClick={handleSave}
-          >
-            Save
-          </button>
-        )}
       </div>
     </div>
   );
