@@ -3,6 +3,15 @@
     "title": "Swagger Editor App",
     "description": "Online Swagger/OpenAPI editor and viewer"
   },
+  "AboutPage": {
+    "heroTitle": "About",
+    "heroHeading": "Swagger Editor App",
+    "heroDescr": "Swagger Editor App is the RS School graduation project — a full-featured Swagger/OpenAPI editor with an interactive viewer, API request execution and analytics, built with Next.js, React and TypeScript.",
+    "stackTitle": "Stack",
+    "schoolTitle": "RS School React Course Graduation Project",
+    "schoolDescr": "This application was created as the final team project during the <course>RS School React course</course>. Our goal was to build a modern developer tool with an intuitive interface for working with OpenAPI specifications.",
+    "teamTitle": "Team"
+  },
   "Header": {
     "navigationMenu": "Navigation menu",
     "openMenu": "Open menu",
