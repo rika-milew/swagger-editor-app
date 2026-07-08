@@ -20,10 +20,13 @@ describe('StackSection', () => {
 
     expect(screen.getByText(translations.stackTitle)).toBeInTheDocument();
 
-    expect(screen.getByText('TanStack Start')).toBeInTheDocument();
-    expect(screen.getByText('React 19')).toBeInTheDocument();
+    expect(screen.getByText('Next.js')).toBeInTheDocument();
+    expect(screen.getByText('React')).toBeInTheDocument();
     expect(screen.getByText('TypeScript')).toBeInTheDocument();
-    expect(screen.getByText('Tailwind v4')).toBeInTheDocument();
-    expect(screen.getByText('Vite')).toBeInTheDocument();
+    expect(screen.getByText('Chakra UI')).toBeInTheDocument();
+    expect(screen.getByText('CodeMirror')).toBeInTheDocument();
+    expect(screen.getByText('Supabase')).toBeInTheDocument();
+    expect(screen.getByText('Zustand')).toBeInTheDocument();
+    expect(screen.getByText('Vitest')).toBeInTheDocument();
   });
 });
