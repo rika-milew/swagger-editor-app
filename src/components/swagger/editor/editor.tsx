@@ -2,42 +2,45 @@
 
 import CodeMirror from '@uiw/react-codemirror';
 import { oneDark } from '@codemirror/theme-one-dark';
-import type { EditorFormat } from '@/types/editor.types';
+import { EditorHeader } from '@/components/swagger/editor-header/editor-header';
+import { useFormatConverter } from '@/hooks/use-format-converter';
 import { useEditorLanguage } from '@/hooks/use-editor';
 
-type EditorProps = {
-  code: string;
-  format: EditorFormat;
-  onChange: (value: string) => void;
-  onFormatChange: (format: EditorFormat) => void;
-};
+const initialCodeValue = '# Write code here!';
 
-export const Editor = ({
-  code,
-  format,
-  onChange,
-  onFormatChange,
-}: EditorProps) => {
+export const Editor = () => {
+  const {
+    code,
+    format,
+    setCode,
+    handleFormatChange,
+    updateFormatWithoutConversion,
+  } = useFormatConverter(initialCodeValue, 'yaml');
+
   const { extensions, handleDocChange } = useEditorLanguage(
     format,
-    onChange,
-    onFormatChange,
+    setCode,
+    updateFormatWithoutConversion,
   );
 
   return (
-    <CodeMirror
-      value={code}
-      width="100%"
-      theme={oneDark}
-      style={{
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'column',
-        width: '100%',
-        minHeight: 0,
-      }}
-      extensions={extensions}
-      onChange={handleDocChange}
-    />
+    <>
+      <EditorHeader format={format} onFormatChange={handleFormatChange} />
+
+      <CodeMirror
+        value={code}
+        width="100%"
+        theme={oneDark}
+        style={{
+          flex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          width: '100%',
+          minHeight: 0,
+        }}
+        extensions={extensions}
+        onChange={handleDocChange}
+      />
+    </>
   );
 };

@@ -15,7 +15,13 @@ export default function Navigation({ direction = 'row' }: NavigationProps) {
   const pathname = usePathname();
   const t = useTranslations('Navigation');
   return (
-    <Stack as="nav" gap="6" direction={direction} align="center">
+    <Stack
+      as="nav"
+      aria-label="Header navigation"
+      gap="6"
+      direction={direction}
+      align="center"
+    >
       <AppLink
         href="/"
         color={pathname === '/' ? colors.nav.active : colors.nav.inactive}

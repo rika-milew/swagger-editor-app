@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form';
 import type { Path, Resolver } from 'react-hook-form';
 import type { FieldValues } from 'react-hook-form';
 import { getErrorMessage } from '@/utils/get-error-message';
+import { useTranslations } from 'next-intl';
 
 type FieldConfig<T extends FieldValues> = {
   name: Path<T>;
@@ -37,6 +38,8 @@ export function AuthForm<T extends FieldValues>({
   resolver,
   onSubmitAction,
 }: AuthFormProps<T>) {
+  const t = useTranslations('Auth');
+
   const {
     register,
     handleSubmit,
@@ -50,10 +53,11 @@ export function AuthForm<T extends FieldValues>({
     const actionResult = await onSubmitAction(data);
 
     if (actionResult.error) {
-      console.error('Server error:', actionResult.error);
+      const errorMessage = getErrorMessage({ message: actionResult.error }, t);
+      console.error('Server error:', errorMessage);
       setError('root.serverError', {
         type: 'server',
-        message: actionResult.error,
+        message: errorMessage,
       });
       // TODO: Add server error display
     }
@@ -79,7 +83,7 @@ export function AuthForm<T extends FieldValues>({
                 label={field.label}
                 type={field.type}
                 placeholder={field.placeholder}
-                error={getErrorMessage(errors[field.name])}
+                error={getErrorMessage(errors[field.name], t)}
                 {...register(field.name)}
               />
             ))}
@@ -90,7 +94,7 @@ export function AuthForm<T extends FieldValues>({
               loading={isSubmitting}
               disabled={isSubmitting}
             >
-              {isSubmitting ? 'Please wait...' : submitLabel}
+              {isSubmitting ? t('loading') : submitLabel}
             </Button>
           </VStack>
         </form>
