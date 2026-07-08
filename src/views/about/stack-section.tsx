@@ -4,11 +4,14 @@ import { colors } from '@/theme/colors';
 import { about } from '@/theme/about';
 
 const stack = [
-  'TanStack Start',
-  'React 19',
+  'Next.js',
+  'React',
   'TypeScript',
-  'Tailwind v4',
-  'Vite',
+  'Chakra UI',
+  'CodeMirror',
+  'Supabase',
+  'Zustand',
+  'Vitest',
 ];
 
 export default async function StackSection() {

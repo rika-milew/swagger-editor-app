@@ -22,7 +22,11 @@ export default async function SchoolSection() {
               </Heading>
 
               <Text color={colors.mutedForeground} lineHeight="1.8">
-                {t('schoolDescr')}
+                {t.rich('schoolDescr', {
+                  course: (chunks) => (
+                    <Link {...about.rsCourseLink}>{chunks}</Link>
+                  ),
+                })}
               </Text>
             </Box>
 

@@ -94,6 +94,14 @@ export const about = {
     },
     gap: 8,
   },
+  rsCourseLink: {
+    href: 'https://rs.school/courses/reactjs',
+    target: '_blank',
+    rel: 'noopener noreferrer',
+    color: colors.brandPrimary,
+    fontWeight: fontWeights.medium,
+    _hover: { textDecoration: 'underline' },
+  },
   rsLogoLink: {
     href: 'https://rs.school/',
     target: '_blank',

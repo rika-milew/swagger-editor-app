@@ -4,10 +4,10 @@ import { renderWithProviders } from '@/test-utils/render-with-providers';
 import HeroSection from './hero-section';
 
 const translations = {
-  heroTitle: 'About',
+  heroTitle: 'Swagger Editor App',
   heroHeading: 'A modern workbench for OpenAPI specifications.',
   heroDescr:
-    'NexusOpen is the RS School graduation project — a Swagger/OpenAPI editor.',
+    'Swagger Editor App is the RS School graduation project — a Swagger/OpenAPI editor.',
 };
 
 vi.mock('next-intl/server', () => ({
@@ -21,7 +21,7 @@ describe('HeroSection', () => {
 
     renderWithProviders(Component);
 
-    expect(screen.getByText('About')).toBeInTheDocument();
+    expect(screen.getByText('Swagger Editor App')).toBeInTheDocument();
 
     expect(
       screen.getByText('A modern workbench for OpenAPI specifications.'),
@@ -29,7 +29,7 @@ describe('HeroSection', () => {
 
     expect(
       screen.getByText(
-        'NexusOpen is the RS School graduation project — a Swagger/OpenAPI editor.',
+        'Swagger Editor App is the RS School graduation project — a Swagger/OpenAPI editor.',
       ),
     ).toBeInTheDocument();
   });
