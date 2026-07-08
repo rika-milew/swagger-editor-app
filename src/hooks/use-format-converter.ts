@@ -10,6 +10,19 @@ type UseFormatConverterReturn = {
   changeFormat: (newFormat: EditorFormat, shouldConvert?: boolean) => void;
 };
 
+const getConvertedValue = (
+  val: string,
+  targetFormat: EditorFormat,
+): string | undefined => {
+  const parsed = yaml.load(val);
+  if (parsed === null || parsed === undefined) {
+    return undefined;
+  }
+  return targetFormat === 'json'
+    ? JSON.stringify(parsed, null, 2)
+    : yaml.dump(parsed, { indent: 2 });
+};
+
 export const useFormatConverter = (
   initialValue: string,
   initialFormat: EditorFormat = 'yaml',
@@ -46,15 +59,9 @@ export const useFormatConverter = (
     }
 
     try {
-      const parsed = yaml.load(cleanedCode);
-      if (parsed !== null && parsed !== undefined) {
-        if (newFormat === 'json') {
-          const jsonString = JSON.stringify(parsed, null, 2);
-          setValue(jsonString);
-        } else {
-          const yamlString = yaml.dump(parsed, { indent: 2 });
-          setValue(yamlString);
-        }
+      const converted = getConvertedValue(cleanedCode, newFormat);
+      if (converted !== undefined) {
+        setValue(converted);
         setFormat(newFormat);
       }
     } catch (error) {
@@ -65,14 +72,12 @@ export const useFormatConverter = (
       const message =
         error instanceof Error ? error.message : 'Invalid syntax format';
 
-      const id = toaster.create({
+      toastIdRef.current = toaster.create({
         title: 'Conversion Error',
         description: message,
         type: 'error',
         duration: Infinity,
       });
-
-      toastIdRef.current = id;
     }
   };
 
