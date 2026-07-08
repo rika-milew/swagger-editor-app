@@ -4,26 +4,19 @@ import { describe, it, expect, vi } from 'vitest';
 import { EditorHeader } from './editor-header';
 import type { EditorFormat } from '@/types/editor.types';
 
-vi.mock('@/store/user-store', () => ({
-  useUserStore: vi.fn(() => ({ id: 'test-user' })),
-}));
-
 describe('EditorHeader Component', () => {
   const mockOnFormatChange = vi.fn();
   const defaultFormat: EditorFormat = 'yaml';
-  const defaultCode = 'test: code';
 
   it('renders all main elements', () => {
     render(
       <EditorHeader
         format={defaultFormat}
         onFormatChange={mockOnFormatChange}
-        code={defaultCode}
       />,
     );
 
     expect(screen.getByText(/Valid OpenAPI 3.0/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /save/i })).toBeInTheDocument();
     expect(screen.getByLabelText('YAML')).toBeInTheDocument();
     expect(screen.getByLabelText('JSON')).toBeInTheDocument();
   });
@@ -33,7 +26,6 @@ describe('EditorHeader Component', () => {
       <EditorHeader
         format={defaultFormat}
         onFormatChange={mockOnFormatChange}
-        code={defaultCode}
       />,
     );
 
@@ -45,11 +37,7 @@ describe('EditorHeader Component', () => {
 
     const nextFormat: EditorFormat = 'json';
     rerender(
-      <EditorHeader
-        format={nextFormat}
-        onFormatChange={mockOnFormatChange}
-        code={defaultCode}
-      />,
+      <EditorHeader format={nextFormat} onFormatChange={mockOnFormatChange} />,
     );
 
     expect(jsonRadio).toBeChecked();
@@ -62,7 +50,6 @@ describe('EditorHeader Component', () => {
       <EditorHeader
         format={defaultFormat}
         onFormatChange={mockOnFormatChange}
-        code={defaultCode}
       />,
     );
 

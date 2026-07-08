@@ -21,6 +21,26 @@ vi.mock('@uiw/react-codemirror', () => {
   };
 });
 
+const mockT = (key: string) => key;
+
+vi.mock('next-intl', () => ({
+  useTranslations: () => mockT,
+  useLocale: () => 'en',
+}));
+
+vi.mock('@/store/user-store', () => ({
+  useUserStore: () => ({ user: null }),
+}));
+
+vi.mock('@/store/schema-store', () => ({
+  useSchemaStore: () => ({ loadSchema: vi.fn() }),
+}));
+
+vi.mock('@/app/actions/schema', () => ({
+  getLatestSchema: vi.fn(),
+  saveSchema: vi.fn(),
+}));
+
 describe('Editor', () => {
   it('should render with initial default code and update text on change', () => {
     render(<Editor />);
