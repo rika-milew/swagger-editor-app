@@ -147,6 +147,12 @@ export default defineConfig([
       ],
     },
   },
+   {
+    files: ['src/proxy.ts'],
+    rules: {
+      'unicorn/prefer-string-raw': 'off',
+    },
+  },
   {
     files: ['**/*.test.ts', '**/*.test.tsx'],
     rules: {

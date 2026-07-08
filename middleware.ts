@@ -7,6 +7,3 @@ export const intlMiddleware = createMiddleware({
   localeDetection: false,
 });
 
-export const config = {
-  matcher: [String.raw`/((?!api|_next|.*\..*).*)`],
-};
