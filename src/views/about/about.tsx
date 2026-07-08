@@ -1,9 +1,9 @@
 import { Box, Stack } from '@chakra-ui/react';
 import { about } from '@/theme/about';
-import HeroSection from './hero-section';
-import StackSection from './stack-section';
-import TeamSection from './team-section';
-import SchoolSection from './school-section';
+import HeroSection from '../../components/about-sections/hero-section';
+import StackSection from '../../components/about-sections/stack-section';
+import TeamSection from '../../components/about-sections/team-section';
+import SchoolSection from '../../components/about-sections/school-section';
 
 export default function AboutView() {
   return (

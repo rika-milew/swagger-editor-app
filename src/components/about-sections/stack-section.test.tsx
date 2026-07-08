@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { renderWithProviders } from '@/test-utils/render-with-providers';
-import StackSection from './stack-section';
+import StackSection from '../../components/about-sections/stack-section';
 
 const translations = {
   stackTitle: 'Stack',

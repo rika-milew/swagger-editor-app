@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from 'vitest';
 
 import { renderWithProviders } from '@/test-utils/render-with-providers';
 
-import SchoolSection from './school-section';
+import SchoolSection from '../../components/about-sections/school-section';
 
 const translations = {
   schoolTitle: 'RS School React Course Graduation Project',

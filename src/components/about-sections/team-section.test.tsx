@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { renderWithProviders } from '@/test-utils/render-with-providers';
-import TeamSection from './team-section';
+import TeamSection from '../../components/about-sections/team-section';
 
 const translations = {
   teamTitle: 'Team',
