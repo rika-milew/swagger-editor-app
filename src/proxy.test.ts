@@ -7,6 +7,11 @@ vi.mock('@/lib/auth/update-session', () => ({
   updateSession: mockUpdateSession,
 }));
 
+const mockIntlMiddleware = vi.fn();
+vi.mock('../middleware', () => ({
+  intlMiddleware: mockIntlMiddleware,
+}));
+
 const { proxy } = await import('@/proxy');
 
 function createRequest(pathname: string): NextRequest {
@@ -34,6 +39,17 @@ describe('Proxy Middleware', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockUpdateSession.mockReset();
+
+    mockIntlMiddleware.mockImplementation((request: NextRequest) => {
+      const response = NextResponse.next({ request });
+
+      const pathname = request.nextUrl.pathname;
+      if (!/^\/(en|ru)/.test(pathname)) {
+        response.headers.set('location', `http://localhost:3000/en${pathname}`);
+      }
+
+      return response;
+    });
   });
 
   it('redirects /sign-in to /en/sign-in', async () => {
