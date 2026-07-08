@@ -4,8 +4,8 @@
     "description": "Онлайн редактор и просмотр Swagger/OpenAPI"
   },
   "AboutPage": {
-    "heroTitle": "О проекте Swagger Editor App",
-    "heroHeading": "Современная рабочая среда для OpenAPI спецификаций.",
+    "heroTitle": "О проекте",
+    "heroHeading": "Swagger Editor App",
     "heroDescr": "Swagger Editor App — выпускной проект RS School: полнофункциональный редактор Swagger/OpenAPI с интерактивным просмотром, выполнением API-запросов и аналитикой, созданный на базе Next.js, React и TypeScript.",
     "stackTitle": "Используемые технологии",
     "schoolTitle": "Выпускной проект курса React RS School",

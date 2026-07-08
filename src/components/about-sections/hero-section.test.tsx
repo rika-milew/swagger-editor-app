@@ -4,8 +4,8 @@ import { renderWithProviders } from '@/test-utils/render-with-providers';
 import HeroSection from './hero-section';
 
 const translations = {
-  heroTitle: 'Swagger Editor App',
-  heroHeading: 'A modern workbench for OpenAPI specifications.',
+  heroTitle: 'About',
+  heroHeading: 'Swagger Editor App',
   heroDescr:
     'Swagger Editor App is the RS School graduation project — a Swagger/OpenAPI editor.',
 };
@@ -21,11 +21,9 @@ describe('HeroSection', () => {
 
     renderWithProviders(Component);
 
-    expect(screen.getByText('Swagger Editor App')).toBeInTheDocument();
+    expect(screen.getByText('About')).toBeInTheDocument();
 
-    expect(
-      screen.getByText('A modern workbench for OpenAPI specifications.'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Swagger Editor App')).toBeInTheDocument();
 
     expect(
       screen.getByText(
