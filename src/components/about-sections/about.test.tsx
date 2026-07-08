@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { renderWithProviders } from '@/test-utils/render-with-providers';
-import AboutView from './about';
+import AboutView from '../../views/about/about';
 
 vi.mock('./hero-section', () => ({
   default: () => <div>HeroSection</div>,
