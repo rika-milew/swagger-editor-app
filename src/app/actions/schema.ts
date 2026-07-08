@@ -71,6 +71,7 @@ export async function getLatestSchema(): Promise<LatestSchema> {
       .maybeSingle();
 
     if (error) {
+      console.error('Get latest schema query failed:', error);
       return null;
     }
 
