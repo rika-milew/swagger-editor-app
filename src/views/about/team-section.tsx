@@ -67,6 +67,7 @@ export default async function TeamSection() {
                 <Link
                   href={member.github}
                   target="_blank"
+                  rel="noopener noreferrer"
                   color={colors.mutedForeground}
                   borderColor={colors.border}
                 >
