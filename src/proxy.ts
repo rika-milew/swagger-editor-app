@@ -57,7 +57,6 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
 
   if (isPrivateRoute && !user) {
     supabaseResponse.headers.set('x-next-intl-locale', locale);
-    copyCookies(supabaseResponse, supabaseResponse);
     return supabaseResponse;
   }
 
