@@ -1,9 +1,8 @@
 'use client';
 
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { Stack, Button } from '@chakra-ui/react';
-import { useTranslations } from 'next-intl';
-
+import { useTranslations, useLocale } from 'next-intl';
 import { buttons } from '@/theme/buttons';
 import { ROUTES } from '@/constants/routes';
 import { useUserStore } from '@/store/user-store';
@@ -18,13 +17,14 @@ export default function HeaderButtons({
   direction = 'row',
 }: HeaderButtonsProps) {
   const t = useTranslations('Buttons');
+  const locale = useLocale();
 
   const user = useUserStore((state) => state.user);
   const clearUser = useUserStore((state) => state.clearUser);
 
   const handleSignOut = async () => {
     try {
-      await signOut();
+      await signOut(locale);
     } catch (error) {
       console.error('Failed to sign out:', error);
     } finally {

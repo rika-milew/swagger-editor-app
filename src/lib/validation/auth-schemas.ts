@@ -6,36 +6,30 @@ const MIN_PASSWORD_LENGTH = 8;
 export const signInSchema = z.object({
   email: z
     .string()
-    .min(1, 'Email is required')
-    .refine(
-      (value) => emailRegex.test(value),
-      'Please enter a valid email address',
-    ),
-  password: z.string().min(1, 'Password is required'),
+    .min(1, 'validationErrors.emailRequired')
+    .refine((value) => emailRegex.test(value), 'validationErrors.invalidEmail'),
+  password: z.string().min(1, 'validationErrors.passwordRequired'),
 });
 
 export const signUpSchema = z
   .object({
     email: z
       .string()
-      .min(1, 'Email is required')
+      .min(1, 'validationErrors.emailRequired')
       .refine(
         (value) => emailRegex.test(value),
-        'Please enter a valid email address',
+        'validationErrors.invalidEmail',
       ),
     password: z
       .string()
-      .min(MIN_PASSWORD_LENGTH, 'Password must be at least 8 characters')
-      .regex(/\p{L}/u, 'Password must contain at least one letter')
-      .regex(/\p{N}/u, 'Password must contain at least one digit')
-      .regex(
-        /[^\p{L}\p{N}]/u,
-        'Password must contain at least one special character',
-      ),
-    confirmPassword: z.string().min(1, 'Please confirm your password'),
+      .min(MIN_PASSWORD_LENGTH, 'validationErrors.passwordMinLength')
+      .regex(/\p{L}/u, 'validationErrors.passwordLetter')
+      .regex(/\p{N}/u, 'validationErrors.passwordDigit')
+      .regex(/[^\p{L}\p{N}]/u, 'validationErrors.passwordSpecial'),
+    confirmPassword: z.string().min(1, 'validationErrors.confirmRequired'),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
+    message: 'validationErrors.passwordsMatch',
     path: ['confirmPassword'],
   });
 

@@ -9,7 +9,7 @@ import { typography } from '@/theme/typography';
 export default function Navigation() {
   const t = useTranslations('Navigation');
   return (
-    <HStack gap="6">
+    <HStack as="nav" aria-label="Footer navigation" gap="5">
       <AppLink
         href="/about"
         color={colors.colorZinc600}
@@ -33,7 +33,7 @@ export default function Navigation() {
         RS SCHOOL
       </AppLink>
       <AppLink
-        href="https://github.com"
+        href="https://github.com/rika-milew/swagger-editor-app"
         color={colors.colorZinc600}
         {...typography.navFooter}
         _hover={{
