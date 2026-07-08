@@ -6,7 +6,17 @@ export const detectLanguage = (text: string): EditorFormat => {
     return 'yaml';
   }
 
-  const result = hljs.highlightAuto(text, ['json', 'yaml']);
+  const textWithoutComments = text
+    .split('\n')
+    .map((line) => line.trim())
+    .filter((line) => line.length > 0 && !line.startsWith('#'))
+    .join('\n');
+
+  if (!textWithoutComments.trim()) {
+    return 'yaml';
+  }
+
+  const result = hljs.highlightAuto(textWithoutComments, ['json', 'yaml']);
 
   return result.language === 'json' ? 'json' : 'yaml';
 };

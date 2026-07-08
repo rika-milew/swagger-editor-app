@@ -17,7 +17,6 @@ export const HomePage = () => {
           >
             <Editor />
           </section>
-
           <section
             className={cx('viewer-container')}
             data-testid="viewer-block"
