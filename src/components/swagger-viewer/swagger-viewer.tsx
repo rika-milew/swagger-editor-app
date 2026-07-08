@@ -1,15 +1,13 @@
-'use client';
-
 import { Box, Text, Badge, VStack, Heading, Flex } from '@chakra-ui/react';
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import { mockSwagger } from './mock-swagger';
 import { parseSwagger } from '@/utils/parse-swagger';
 import getColor from './get-swagger-color';
 import { colors } from '@/theme/colors';
 import { swagger } from '@/theme/swagger';
 
-export function SwaggerViewer() {
-  const t = useTranslations('SwaggerViewer');
+export async function SwaggerViewer() {
+  const t = await getTranslations('SwaggerViewer');
   const endpoints = parseSwagger(mockSwagger);
 
   if (!endpoints.length) {
