@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useCallback } from 'react';
+import { useEffect } from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { useTranslations } from 'next-intl';
 import { oneDark } from '@codemirror/theme-one-dark';
@@ -9,11 +9,10 @@ import { useFormatConverter } from '@/hooks/use-format-converter';
 import { useEditorLanguage } from '@/hooks/use-editor';
 import { useUserStore } from '@/store/user-store';
 import { useSchemaStore } from '@/store/schema-store';
-import { getLatestSchema, saveSchema } from '@/app/actions/schema';
-import type { EditorFormat } from '@/types/editor.types';
+import { getLatestSchema } from '@/app/actions/schema';
+import { useSchemaAutosave } from '@/hooks/use-schema-autosave';
 
 const initialCodeValue = '# Write code here!';
-const SAVE_DEBOUNCE_MS = 1000;
 
 export const Editor = () => {
   const t = useTranslations('Editor');
@@ -56,43 +55,7 @@ export const Editor = () => {
     void fetchSchema();
   }, [user]);
 
-  const saveWithErrorHandling = useCallback(
-    async (value: string, format: EditorFormat) => {
-      loadSchema(value, format);
-
-      if (!user) {
-        console.log('Schema saved to store (anonymous)');
-        return;
-      }
-
-      try {
-        const result = await saveSchema({ schema: value, format });
-
-        if (result.error) {
-          console.error(t('schemaErrors.saveError'));
-          return;
-        }
-
-        console.log('Schema auto-saved successfully');
-      } catch {
-        console.error(t('schemaErrors.saveError'));
-        // TODO: add toast
-      }
-    },
-    [t, user, loadSchema],
-  );
-
-  useEffect(() => {
-    if (value === initialCodeValue) {
-      return;
-    }
-
-    const timer = setTimeout(() => {
-      void saveWithErrorHandling(value, format);
-    }, SAVE_DEBOUNCE_MS);
-
-    return () => clearTimeout(timer);
-  }, [value, format, user, loadSchema, saveWithErrorHandling]);
+  useSchemaAutosave(value, format);
 
   return (
     <>
