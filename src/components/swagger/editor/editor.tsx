@@ -77,7 +77,7 @@ export const Editor = () => {
   );
 
   useEffect(() => {
-    if (!user || value === initialCodeValue) {
+    if (value === initialCodeValue) {
       return;
     }
 
