@@ -21,12 +21,12 @@ export async function saveSchema(
   const result = saveSchemaSchema.safeParse(data);
   if (!result.success) {
     console.error('Validation failed:', result.error.issues);
-    return { error: 'schema.saveError' };
+    return { error: 'Invalid schema data' };
   }
 
   const user = await getSession();
   if (!user) {
-    return { error: 'schema.unauthorized' };
+    return { error: 'You must be signed in to save' };
   }
 
   try {
@@ -51,7 +51,7 @@ export async function saveSchema(
     return { success: true };
   } catch (error) {
     console.error('Save schema failed:', error);
-    return { error: 'schema.saveError' };
+    return { error: 'Failed to save schema' };
   }
 }
 

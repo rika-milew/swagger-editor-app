@@ -1,20 +1,24 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import CodeMirror from '@uiw/react-codemirror';
+import { useTranslations } from 'next-intl';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { EditorHeader } from '@/components/swagger/editor-header/editor-header';
 import { useFormatConverter } from '@/hooks/use-format-converter';
 import { useEditorLanguage } from '@/hooks/use-editor';
 import { useUserStore } from '@/store/user-store';
 import { useSchemaStore } from '@/store/schema-store';
-import { getLatestSchema } from '@/app/actions/schema';
-import { saveSchema } from '@/app/actions/schema';
+import { getLatestSchema, saveSchema } from '@/app/actions/schema';
+import type { EditorFormat } from '@/types/editor.types';
+import { getErrorMessage } from '@/utils/get-error-message';
 
 const initialCodeValue = '# Write code here!';
-const SAVE_DEBOUNCE_MS = 2000;
+const SAVE_DEBOUNCE_MS = 1000;
 
 export const Editor = () => {
+  const t = useTranslations('Editor');
+
   const { value, format, setValue, changeFormat } = useFormatConverter(
     initialCodeValue,
     'yaml',
@@ -30,33 +34,59 @@ export const Editor = () => {
   );
 
   useEffect(() => {
-    if (user) {
-      const fetchSchema = async () => {
-        try {
-          const schema = await getLatestSchema();
-          if (schema) {
-            setValue(schema.schema);
-            changeFormat(schema.format, false);
-            loadSchema(schema.schema, schema.format);
-          }
-        } catch (error: unknown) {
-          void error;
-        }
-      };
-      void fetchSchema();
+    if (!user) {
+      return;
     }
+
+    const fetchSchema = async () => {
+      try {
+        const schema = await getLatestSchema();
+        if (schema) {
+          setValue(schema.schema);
+          changeFormat(schema.format, false);
+          loadSchema(schema.schema, schema.format);
+        }
+      } catch {
+        console.error(t('schemaErrors.loadError'));
+        // TODO: add toast
+      }
+    };
+
+    void fetchSchema();
   }, [user]);
 
-  useEffect(() => {
-    if (user && value !== initialCodeValue) {
-      const timer = setTimeout(() => {
-        loadSchema(value, format);
-        void saveSchema({ schema: value, format });
-      }, SAVE_DEBOUNCE_MS);
+  const saveWithErrorHandling = useCallback(
+    async (value: string, format: EditorFormat) => {
+      try {
+        const result = await saveSchema({ schema: value, format });
 
-      return () => clearTimeout(timer);
+        if (result.error) {
+          console.error(t('schemaErrors.saveError'));
+          return;
+        }
+
+        console.log('Schema auto-saved successfully');
+      } catch (error: unknown) {
+        const errorMessage = getErrorMessage(error, t);
+        console.error(errorMessage);
+        // TODO: add toast
+        console.error(t('schemaErrors.saveError'));
+      }
+    },
+    [t],
+  );
+
+  useEffect(() => {
+    if (!user || value === initialCodeValue) {
+      return;
     }
-  }, [value, format, user, loadSchema]);
+
+    const timer = setTimeout(() => {
+      void saveWithErrorHandling(value, format);
+    }, SAVE_DEBOUNCE_MS);
+
+    return () => clearTimeout(timer);
+  }, [value, format, user, loadSchema, saveWithErrorHandling]);
 
   return (
     <>

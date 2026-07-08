@@ -88,12 +88,12 @@
       "tooManyRequests": "Too many attempts. Please try again later.",
       "sessionExpired": "Session expired. Please sign in again.",
       "default": "Something went wrong. Please try again."
-    },
-    "Schema": {
-      "unauthorized": "You must be signed in to perform this action",
+    }
+  },
+  "Editor": {
+    "schemaErrors": {
       "saveError": "Failed to save schema",
-      "loadError": "Failed to load schema",
-      "saveSuccess": "Schema saved successfully"
+      "loadError": "Failed to load schema"
     }
   }
 }
