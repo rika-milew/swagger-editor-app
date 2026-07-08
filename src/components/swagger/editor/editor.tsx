@@ -11,7 +11,6 @@ import { useUserStore } from '@/store/user-store';
 import { useSchemaStore } from '@/store/schema-store';
 import { getLatestSchema, saveSchema } from '@/app/actions/schema';
 import type { EditorFormat } from '@/types/editor.types';
-import { getErrorMessage } from '@/utils/get-error-message';
 
 const initialCodeValue = '# Write code here!';
 const SAVE_DEBOUNCE_MS = 1000;
@@ -57,6 +56,13 @@ export const Editor = () => {
 
   const saveWithErrorHandling = useCallback(
     async (value: string, format: EditorFormat) => {
+      loadSchema(value, format);
+
+      if (!user) {
+        console.log('Schema saved to store (anonymous)');
+        return;
+      }
+
       try {
         const result = await saveSchema({ schema: value, format });
 
@@ -66,14 +72,12 @@ export const Editor = () => {
         }
 
         console.log('Schema auto-saved successfully');
-      } catch (error: unknown) {
-        const errorMessage = getErrorMessage(error, t);
-        console.error(errorMessage);
-        // TODO: add toast
+      } catch {
         console.error(t('schemaErrors.saveError'));
+        // TODO: add toast
       }
     },
-    [t],
+    [t, user, loadSchema],
   );
 
   useEffect(() => {
