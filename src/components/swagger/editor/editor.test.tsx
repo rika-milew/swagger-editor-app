@@ -57,7 +57,7 @@ describe('Editor', () => {
     vi.clearAllMocks();
     vi.useFakeTimers();
 
-    vi.mocked(useUserStore).mockReturnValue({ user: null });
+    vi.mocked(useUserStore).mockReturnValue(null);
   });
 
   afterEach(() => {
@@ -81,7 +81,7 @@ describe('Editor', () => {
   });
 
   it('should not fetch schema when user is not authenticated', async () => {
-    vi.mocked(useUserStore).mockReturnValue({ user: null });
+    vi.mocked(useUserStore).mockReturnValue(null);
 
     render(<Editor />);
 

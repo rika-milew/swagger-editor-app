@@ -34,6 +34,8 @@ export const Editor = () => {
 
   useEffect(() => {
     if (!user) {
+      setValue(initialCodeValue);
+      changeFormat('yaml', false);
       return;
     }
 

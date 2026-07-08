@@ -35,8 +35,8 @@ export async function saveSchema(
     const { error } = await supabase.from('user_schemas').upsert(
       {
         user_id: user.id,
-        schema: data.schema,
-        format: data.format,
+        schema: result.data.schema,
+        format: result.data.format,
         updated_at: new Date().toISOString(),
       },
       {
