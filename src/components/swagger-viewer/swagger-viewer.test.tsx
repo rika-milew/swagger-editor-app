@@ -57,6 +57,9 @@ describe('SwaggerViewer', () => {
     expect(screen.getByText(translations.description)).toBeInTheDocument();
 
     expect(screen.getByText(translations.endpoints)).toBeInTheDocument();
+
+    expect(screen.getByText('/users')).toBeInTheDocument();
+    expect(screen.getByText('Get all users')).toBeInTheDocument();
   });
 
   it('renders "No endpoints found" when there are no endpoints', async () => {

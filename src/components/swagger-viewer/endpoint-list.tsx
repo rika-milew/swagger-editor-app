@@ -35,6 +35,7 @@ export function EndpointList({ endpoints, translations }: EndpointListProps) {
         return (
           <Box key={endpointId} width="100%">
             <Flex
+              as="button"
               {...swagger.cardContainer}
               cursor="pointer"
               onClick={() => handleToggle(endpointId)}
