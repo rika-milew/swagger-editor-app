@@ -9,7 +9,7 @@ import { useFormatConverter } from '@/hooks/use-format-converter';
 import { useEditorLanguage } from '@/hooks/use-editor';
 import { useUserStore } from '@/store/user-store';
 import { useSchemaStore } from '@/store/schema-store';
-import { getLatestSchema } from '@/app/actions/schema';
+import { getSchema } from '@/app/actions/schema';
 import { useSchemaAutosave } from '@/hooks/use-schema-autosave';
 import { toaster } from '@/components/toaster/toaster';
 
@@ -41,7 +41,7 @@ export const Editor = () => {
 
     const fetchSchema = async () => {
       try {
-        const schema = await getLatestSchema();
+        const schema = await getSchema();
         if (schema) {
           setValue(schema.schema);
           changeFormat(schema.format, false);

@@ -6,13 +6,11 @@ import { useUserStore } from '@/store/user-store';
 import type { UserStore } from '@/store/user-store';
 import type { AppUser } from '@/types/auth.types';
 
-const { mockLoadSchema, mockGetLatestSchema, mockSaveSchema } = vi.hoisted(
-  () => ({
-    mockLoadSchema: vi.fn(),
-    mockGetLatestSchema: vi.fn(),
-    mockSaveSchema: vi.fn(),
-  }),
-);
+const { mockLoadSchema, mockGetSchema, mockSaveSchema } = vi.hoisted(() => ({
+  mockLoadSchema: vi.fn(),
+  mockGetSchema: vi.fn(),
+  mockSaveSchema: vi.fn(),
+}));
 
 const MOCK_TIMEOUT_MS = 500;
 
@@ -64,7 +62,7 @@ vi.mock('@/store/schema-store', () => ({
 }));
 
 vi.mock('@/app/actions/schema', () => ({
-  getLatestSchema: mockGetLatestSchema,
+  getSchema: mockGetSchema,
   saveSchema: mockSaveSchema,
 }));
 
@@ -111,7 +109,7 @@ describe('Editor', () => {
 
   it('should fetch latest schema when user is authenticated', async () => {
     const mockSchema = { schema: 'code', format: 'yaml' as const };
-    mockGetLatestSchema.mockResolvedValueOnce(mockSchema);
+    mockGetSchema.mockResolvedValueOnce(mockSchema);
     vi.mocked(useUserStore).mockImplementation(
       (selector: (state: UserStore) => unknown): unknown =>
         selector(createMockUserStore(createMockUser('1'))),
@@ -123,7 +121,7 @@ describe('Editor', () => {
       await vi.runAllTimersAsync();
     });
 
-    expect(mockGetLatestSchema).toHaveBeenCalled();
+    expect(mockGetSchema).toHaveBeenCalled();
     expect(mockLoadSchema).toHaveBeenCalledWith(
       mockSchema.schema,
       mockSchema.format,
@@ -136,7 +134,7 @@ describe('Editor', () => {
       .mockImplementation(() => {
         vi.fn();
       });
-    mockGetLatestSchema.mockRejectedValueOnce(new Error('Fetch failed'));
+    mockGetSchema.mockRejectedValueOnce(new Error('Fetch failed'));
     vi.mocked(useUserStore).mockImplementation(
       (selector: (state: UserStore) => unknown): unknown =>
         selector(createMockUserStore(createMockUser('1'))),

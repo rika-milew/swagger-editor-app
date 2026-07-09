@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { saveSchema, getLatestSchema } from './schema';
+import { saveSchema, getSchema } from './schema';
 
 const { mockGetSession, mockCreateServerClient, mockSafeParse } = vi.hoisted(
   () => ({
@@ -111,7 +111,7 @@ describe('saveSchema', () => {
   });
 });
 
-describe('getLatestSchema', () => {
+describe('getSchema', () => {
   const mockSelect = vi.fn();
   const mockEq = vi.fn();
   const mockMaybeSingle = vi.fn();
@@ -131,7 +131,7 @@ describe('getLatestSchema', () => {
   it('should return null if user is not authenticated', async () => {
     mockGetSession.mockResolvedValue(null);
 
-    const result = await getLatestSchema();
+    const result = await getSchema();
 
     expect(result).toBeNull();
   });
@@ -143,7 +143,7 @@ describe('getLatestSchema', () => {
       error: null,
     });
 
-    const result = await getLatestSchema();
+    const result = await getSchema();
 
     expect(result).toEqual({ schema: 'code', format: 'yaml' });
   });
@@ -152,7 +152,7 @@ describe('getLatestSchema', () => {
     mockGetSession.mockResolvedValue({ id: 'user-1' });
     mockMaybeSingle.mockResolvedValue({ data: null, error: null });
 
-    const result = await getLatestSchema();
+    const result = await getSchema();
 
     expect(result).toBeNull();
   });
@@ -164,7 +164,7 @@ describe('getLatestSchema', () => {
       error: new Error('Database error'),
     });
 
-    const result = await getLatestSchema();
+    const result = await getSchema();
 
     expect(result).toBeNull();
   });
@@ -176,7 +176,7 @@ describe('getLatestSchema', () => {
       error: null,
     });
 
-    const result = await getLatestSchema();
+    const result = await getSchema();
 
     expect(result).toBeNull();
   });
@@ -188,7 +188,7 @@ describe('getLatestSchema', () => {
       error: null,
     });
 
-    const result = await getLatestSchema();
+    const result = await getSchema();
 
     expect(result).toBeNull();
   });
@@ -197,7 +197,7 @@ describe('getLatestSchema', () => {
     mockGetSession.mockResolvedValue({ id: 'user-1' });
     mockCreateServerClient.mockRejectedValue(new Error('Connection failed'));
 
-    const result = await getLatestSchema();
+    const result = await getSchema();
 
     expect(result).toBeNull();
   });

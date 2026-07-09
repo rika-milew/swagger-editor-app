@@ -18,15 +18,15 @@ type SavedSchema = {
 export async function saveSchema(
   data: z.infer<typeof endpointsSchema>,
 ): Promise<SchemaResult> {
+  const user = await getSession();
+  if (!user) {
+    return { error: 'You must be signed in to save' };
+  }
+
   const result = endpointsSchema.safeParse(data);
   if (!result.success) {
     console.error('Validation failed:', result.error.issues);
     return { error: 'Invalid schema data' };
-  }
-
-  const user = await getSession();
-  if (!user) {
-    return { error: 'You must be signed in to save' };
   }
 
   try {
@@ -55,7 +55,7 @@ export async function saveSchema(
   }
 }
 
-export async function getLatestSchema(): Promise<SavedSchema> {
+export async function getSchema(): Promise<SavedSchema> {
   try {
     const user = await getSession();
     if (!user) {
