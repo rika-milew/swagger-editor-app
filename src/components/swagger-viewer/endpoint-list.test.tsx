@@ -53,6 +53,7 @@ describe('EndpointList', () => {
           requestBody: 'Request body',
           responses: 'Responses',
           noParameters: 'No parameters available',
+          noRequestBody: 'No request body',
         }}
       />,
     );
@@ -99,6 +100,7 @@ describe('EndpointList', () => {
           requestBody: 'Request body',
           responses: 'Responses',
           noParameters: 'No parameters available',
+          noRequestBody: 'No request body',
         }}
       />,
     );
@@ -137,6 +139,7 @@ describe('EndpointList', () => {
           requestBody: 'Request body',
           responses: 'Responses',
           noParameters: 'No parameters available',
+          noRequestBody: 'No request body',
         }}
       />,
     );
@@ -144,5 +147,38 @@ describe('EndpointList', () => {
     await user.click(screen.getByText('/users'));
 
     expect(screen.getByText('No parameters available')).toBeInTheDocument();
+  });
+
+  it('shows message when endpoint has no request body', async () => {
+    const user = userEvent.setup();
+
+    renderWithProviders(
+      <EndpointList
+        endpoints={[
+          {
+            path: '/users',
+            method: 'get',
+            summary: 'Get users',
+            responses: {
+              '200': {
+                description: 'Success',
+              },
+            },
+          },
+        ]}
+        translations={{
+          parameters: 'Parameters',
+          requestBody: 'Request body',
+          responses: 'Responses',
+          noParameters: 'No parameters available',
+          noRequestBody: 'No request body',
+        }}
+      />,
+    );
+
+    await user.click(screen.getByText('/users'));
+
+    expect(screen.getByText('Request body')).toBeInTheDocument();
+    expect(screen.getByText('No request body')).toBeInTheDocument();
   });
 });

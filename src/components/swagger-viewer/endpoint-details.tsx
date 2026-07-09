@@ -35,7 +35,11 @@ export function EndpointDetails({
         {translations.responses}
       </Text>
 
-      <pre>{JSON.stringify(endpoint.responses, null, 2)}</pre>
+      {endpoint.requestBody ? (
+        <pre>{JSON.stringify(endpoint.requestBody, null, 2)}</pre>
+      ) : (
+        <Text>{translations.noRequestBody}</Text>
+      )}
     </Box>
   );
 }

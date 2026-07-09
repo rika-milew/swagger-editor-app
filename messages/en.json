@@ -51,7 +51,8 @@
     "parameters": "Parameters",
     "requestBody": "Request body",
     "responses": "Responses",
-    "noParameters": "No parameters available"
+    "noParameters": "No parameters available",
+    "noRequestBody": "No request body"
   },
   "Unauthorized": {
     "title": "Unauthorized",

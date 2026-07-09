@@ -51,7 +51,8 @@
     "parameters": "Параметры",
     "requestBody": "Тело запроса",
     "responses": "Ответы",
-    "noParameters": "Параметры отсутствуют"
+    "noParameters": "Параметры отсутствуют",
+    "noRequestBody": "Тело запроса отсутствует"
   },
   "Unauthorized": {
     "title": "Нет доступа",
