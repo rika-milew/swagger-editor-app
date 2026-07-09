@@ -5,6 +5,7 @@ import { useSchemaStore } from '@/store/schema-store';
 import { saveSchema } from '@/app/actions/schema';
 import type { EditorFormat } from '@/types/editor.types';
 import { toaster } from '@/components/toaster/toaster';
+import { endpointsSchema } from '@/lib/validation/endpoints-schema';
 
 const SAVE_DEBOUNCE_MS = 1000;
 const INITIAL_CODE = '# Write code here!';
@@ -19,8 +20,6 @@ export const useSchemaAutosave = (
 
   const save = useCallback(
     async (value: string, format: EditorFormat) => {
-      loadSchema(value, format);
-
       if (!user) {
         return;
       }
@@ -41,11 +40,25 @@ export const useSchemaAutosave = (
         });
       }
     },
-    [t, user, loadSchema],
+    [t, user],
   );
 
   useEffect(() => {
     if (value === INITIAL_CODE) {
+      return;
+    }
+
+    loadSchema(value, format);
+  }, [value, format, loadSchema]);
+
+  useEffect(() => {
+    if (!user || value === INITIAL_CODE) {
+      return;
+    }
+
+    const result = endpointsSchema.safeParse({ schema: value, format });
+    if (!result.success) {
+      console.error(t('schemaErrors.saveError'));
       return;
     }
 
@@ -56,5 +69,5 @@ export const useSchemaAutosave = (
     return (): void => {
       clearTimeout(timer);
     };
-  }, [value, format, save]);
+  }, [user, t, value, format, save]);
 };
