@@ -4,6 +4,7 @@ import { Inter, JetBrains_Mono } from 'next/font/google';
 import '@/styles/index.css';
 import { ChakraUIProvider } from '@/providers/chakra-provider';
 import { UserProvider } from '@/providers/user-provider';
+import { Toaster } from '@/components/toaster/toaster';
 import { getSession } from '@/lib/auth/get-session';
 import { getErrorMessage } from '@/utils/get-error-message';
 
@@ -45,6 +46,7 @@ export default async function RootLayout({
       <body>
         <ChakraUIProvider>
           <UserProvider user={user}>{children}</UserProvider>
+          <Toaster />
         </ChakraUIProvider>
       </body>
     </html>

@@ -50,7 +50,7 @@ export const colors = {
 `,
 
   nav: {
-    active: 'hsl(0deg 0% 100%)',
+    active: 'hsl(183deg 100% 50%)',
     inactive: 'hsl(240deg 5% 65%)',
   },
 } as const;
