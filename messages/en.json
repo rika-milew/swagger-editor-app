@@ -46,7 +46,12 @@
   "SwaggerViewer": {
     "description": "Sample API auto-rendered from the loaded specification. Expand any endpoint to inspect parameters and try it out.",
     "endpoints": "Endpoints",
-    "noEndpoints": "No endpoints found."
+    "noEndpoints": "No endpoints found.",
+
+    "parameters": "Parameters",
+    "requestBody": "Request body",
+    "responses": "Responses",
+    "noParameters": "No parameters available"
   },
   "Unauthorized": {
     "title": "Unauthorized",

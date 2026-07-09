@@ -2,6 +2,9 @@ import {
   type SwaggerSchema,
   type HttpMethod,
   HTTP_METHODS,
+  type SwaggerParameter,
+  type RequestBody,
+  type ResponseObject,
 } from '@/components/swagger-viewer/types';
 
 export function isHttpMethod(method: string): method is HttpMethod {
@@ -18,6 +21,12 @@ export type Endpoint = {
   path: string;
   method: HttpMethod;
   summary?: string;
+
+  parameters?: SwaggerParameter[];
+
+  requestBody?: RequestBody;
+
+  responses?: Record<string, ResponseObject>;
 };
 
 export function parseSwagger(schema: SwaggerSchema): Endpoint[] {
@@ -41,6 +50,12 @@ export function parseSwagger(schema: SwaggerSchema): Endpoint[] {
         path,
         method,
         summary: operation.summary,
+
+        parameters: operation.parameters ?? [],
+
+        requestBody: operation.requestBody,
+
+        responses: operation.responses ?? {},
       });
     }
   }

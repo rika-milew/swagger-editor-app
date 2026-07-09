@@ -14,7 +14,56 @@ export type SwaggerSchema = {
 
 export type PathItem = Partial<Record<HttpMethod, OperationObject>>;
 
+export type ParameterLocation = 'path' | 'query' | 'header' | 'cookie';
+
+export type SwaggerParameter = {
+  name: string;
+  in: ParameterLocation;
+  required?: boolean;
+
+  schema?: {
+    type?: string;
+    example?: unknown;
+  };
+};
+
+export type RequestBody = {
+  required?: boolean;
+
+  content?: Record<
+    string,
+    {
+      schema?: unknown;
+      example?: unknown;
+    }
+  >;
+};
+
+export type ResponseObject = {
+  description?: string;
+
+  content?: Record<
+    string,
+    {
+      schema?: unknown;
+      example?: unknown;
+    }
+  >;
+};
+
 export type OperationObject = {
   summary?: string;
   description?: string;
+
+  parameters?: SwaggerParameter[];
+
+  requestBody?: RequestBody;
+
+  responses?: Record<string, ResponseObject>;
+};
+
+export type EndpointDetailsTranslations = {
+  parameters: string;
+  requestBody: string;
+  responses: string;
 };
