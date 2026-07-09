@@ -29,6 +29,7 @@ export const useSchemaAutosave = (
         const result = await saveSchema({ schema: value, format });
         if (result.error) {
           console.error(t('schemaErrors.saveError'));
+          return;
         }
         console.log('Schema auto-saved successfully');
       } catch {

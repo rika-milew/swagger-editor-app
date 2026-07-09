@@ -167,7 +167,7 @@ describe('Editor', () => {
   });
 
   it('should auto-save to server for authenticated user', async () => {
-    mockSaveSchema.mockResolvedValueOnce({ error: null });
+    mockSaveSchema.mockResolvedValueOnce({ success: true });
     vi.mocked(useUserStore).mockImplementation(
       (selector: (state: UserStore) => unknown): unknown =>
         selector(createMockUserStore(createMockUser('1'))),
@@ -231,7 +231,7 @@ describe('Editor', () => {
   });
 
   it('should debounce save calls', async () => {
-    mockSaveSchema.mockResolvedValue({ error: null });
+    mockSaveSchema.mockResolvedValueOnce({ success: true });
     vi.mocked(useUserStore).mockImplementation(
       (selector: (state: UserStore) => unknown): unknown =>
         selector(createMockUserStore(createMockUser('1'))),
@@ -262,7 +262,7 @@ describe('Editor', () => {
   });
 
   it('should clear save timeout on unmount', async () => {
-    mockSaveSchema.mockResolvedValue({ error: null });
+    mockSaveSchema.mockResolvedValueOnce({ success: true });
     vi.mocked(useUserStore).mockImplementation(
       (selector: (state: UserStore) => unknown): unknown =>
         selector(createMockUserStore(createMockUser('1'))),
