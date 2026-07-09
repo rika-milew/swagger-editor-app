@@ -1,8 +1,5 @@
-import styles from './viewer.module.css';
-import classNames from 'classnames/bind';
-
-const cx = classNames.bind(styles);
+import { SwaggerViewer } from '@/components/swagger-viewer/swagger-viewer';
 
 export const Viewer = () => {
-  return <div className={cx('viewer')}></div>;
+  return <SwaggerViewer />;
 };

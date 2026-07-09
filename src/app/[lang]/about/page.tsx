@@ -1,7 +1,7 @@
 import { setRequestLocale } from 'next-intl/server';
-import { HomePage } from '@/views/home/home-page';
+import AboutView from '@/views/about/about';
 
-export default async function HomeRoute({
+export default async function AboutPage({
   params,
 }: {
   params: Promise<{ lang: string }>;
@@ -10,5 +10,5 @@ export default async function HomeRoute({
 
   setRequestLocale(lang);
 
-  return <HomePage />;
+  return <AboutView />;
 }

@@ -1,6 +1,15 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
-import Home from './[lang]/page';
+import HomeRoute from './[lang]/page';
+import { renderWithProviders } from '@/test-utils/render-with-providers';
+
+vi.mock('next-intl/server', () => ({
+  setRequestLocale: vi.fn(),
+}));
+
+vi.mock('@/components/swagger-viewer/swagger-viewer', () => ({
+  SwaggerViewer: () => <div data-testid="swagger-viewer-mock" />,
+}));
 
 const mockT = (key: string) => key;
 
@@ -9,14 +18,20 @@ vi.mock('next-intl', () => ({
   useLocale: () => 'en',
 }));
 
+async function renderComponent() {
+  const Component = await HomeRoute({
+    params: Promise.resolve({ lang: 'en' }),
+  });
+
+  renderWithProviders(Component);
+}
+
 describe('Home page layout', () => {
-  it('renders with the editor and a viewer', () => {
-    render(<Home />);
+  it('renders editor and viewer', async () => {
+    await renderComponent();
 
-    const editor = screen.getByTestId('editor-block');
-    expect(editor).toBeInTheDocument();
+    expect(screen.getByTestId('editor-block')).toBeInTheDocument();
 
-    const viewer = screen.getByTestId('viewer-block');
-    expect(viewer).toBeInTheDocument();
+    expect(screen.getByTestId('viewer-block')).toBeInTheDocument();
   });
 });

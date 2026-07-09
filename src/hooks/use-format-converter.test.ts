@@ -1,9 +1,9 @@
 import { renderHook, act } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { useFormatConverter } from './use-format-converter';
-import { toaster } from '@/components/ui/toaster';
+import { toaster } from '@/components/toaster/toaster';
 
-vi.mock('@/components/ui/toaster', () => ({
+vi.mock('@/components/toaster/toaster', () => ({
   toaster: {
     create: vi.fn(),
     dismiss: vi.fn(),
