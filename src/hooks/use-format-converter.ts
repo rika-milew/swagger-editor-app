@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import * as yaml from 'js-yaml';
-import { toaster } from '@/components/ui/toaster';
+import { toaster } from '@/components/toaster/toaster';
 import type { EditorFormat } from '@/types/editor.types';
 
 type UseFormatConverterReturn = {

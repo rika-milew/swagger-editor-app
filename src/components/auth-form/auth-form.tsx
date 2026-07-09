@@ -9,6 +9,7 @@ import type { Path, Resolver } from 'react-hook-form';
 import type { FieldValues } from 'react-hook-form';
 import { getErrorMessage } from '@/utils/get-error-message';
 import { useTranslations } from 'next-intl';
+import { toaster } from '../toaster/toaster';
 
 type FieldConfig<T extends FieldValues> = {
   name: Path<T>;
@@ -59,7 +60,12 @@ export function AuthForm<T extends FieldValues>({
         type: 'server',
         message: errorMessage,
       });
-      // TODO: Add server error display
+      toaster.create({
+        type: 'error',
+        title: 'Error',
+        description: errorMessage,
+        closable: true,
+      });
     }
   };
   return (
