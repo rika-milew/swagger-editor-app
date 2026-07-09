@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const saveSchemaSchema = z.object({
+export const endpointsSchema = z.object({
   schema: z
     .string()
     .trim()

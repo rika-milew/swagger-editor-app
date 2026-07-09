@@ -2,7 +2,7 @@
 
 import { createServerClient } from '@/lib/database/server';
 import { getSession } from '@/lib/auth/get-session';
-import { saveSchemaSchema } from '@/lib/validation/schema-schemas';
+import { endpointsSchema } from '@/lib/validation/endpoints-schema';
 import type { z } from 'zod';
 
 type SchemaResult = {
@@ -10,15 +10,15 @@ type SchemaResult = {
   success?: boolean;
 };
 
-type LatestSchema = {
+type SavedSchema = {
   schema: string;
   format: 'json' | 'yaml';
 } | null;
 
 export async function saveSchema(
-  data: z.infer<typeof saveSchemaSchema>,
+  data: z.infer<typeof endpointsSchema>,
 ): Promise<SchemaResult> {
-  const result = saveSchemaSchema.safeParse(data);
+  const result = endpointsSchema.safeParse(data);
   if (!result.success) {
     console.error('Validation failed:', result.error.issues);
     return { error: 'Invalid schema data' };
@@ -55,7 +55,7 @@ export async function saveSchema(
   }
 }
 
-export async function getLatestSchema(): Promise<LatestSchema> {
+export async function getLatestSchema(): Promise<SavedSchema> {
   try {
     const user = await getSession();
     if (!user) {

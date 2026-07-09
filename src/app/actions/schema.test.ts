@@ -17,8 +17,8 @@ vi.mock('@/lib/database/server', () => ({
   createServerClient: mockCreateServerClient,
 }));
 
-vi.mock('@/lib/validation/schema-schemas', () => ({
-  saveSchemaSchema: {
+vi.mock('@/lib/validation/endpointsSchema', () => ({
+  endpointsSchema: {
     safeParse: mockSafeParse,
   },
 }));
