@@ -1,6 +1,8 @@
-import { Box, Text } from '@chakra-ui/react';
+import { Box, Text, Stack, Flex } from '@chakra-ui/react';
 import type { Endpoint } from '@/utils/parse-swagger';
 import type { EndpointDetailsTranslations } from './types';
+import { swagger } from '@/theme/swagger';
+import { colors } from '@/theme';
 
 type EndpointDetailsProps = {
   endpoint: Endpoint;
@@ -12,34 +14,61 @@ export function EndpointDetails({
   translations,
 }: EndpointDetailsProps) {
   return (
-    <Box mt={4} p={4} bg="gray.700" borderRadius="md">
-      <Text fontWeight="bold">{translations.parameters}</Text>
-
-      {endpoint.parameters?.length ? (
-        endpoint.parameters.map((param) => (
-          <Text key={`${param.in}-${param.name}`}>
-            {param.in}: {param.name}
+    <Box {...swagger.endpointDetailsContainer}>
+      <Stack gap={6}>
+        <Box>
+          <Text mb={3} fontWeight="semibold" color={colors.foreground}>
+            {translations.parameters}
           </Text>
-        ))
-      ) : (
-        <Text>{translations.noParameters}</Text>
-      )}
 
-      <Text mt={4} fontWeight="bold">
-        {translations.requestBody}
-      </Text>
+          {endpoint.parameters?.length ? (
+            <Stack gap={2}>
+              {endpoint.parameters.map((param) => (
+                <Flex
+                  key={`${param.in}-${param.name}`}
+                  {...swagger.endpointParametersContainer}
+                >
+                  <Text {...swagger.paramTypeText}>{param.in}</Text>
 
-      <pre>{JSON.stringify(endpoint.requestBody, null, 2)}</pre>
+                  <Text {...swagger.paramText}>{param.name}</Text>
 
-      <Text mt={4} fontWeight="bold">
-        {translations.responses}
-      </Text>
+                  {param.required && (
+                    <Text ml="auto" fontSize="xs" color={colors.destructive}>
+                      required
+                    </Text>
+                  )}
+                </Flex>
+              ))}
+            </Stack>
+          ) : (
+            <Text color={colors.mutedForeground}>
+              {translations.noParameters}
+            </Text>
+          )}
+        </Box>
 
-      {endpoint.requestBody ? (
-        <pre>{JSON.stringify(endpoint.requestBody, null, 2)}</pre>
-      ) : (
-        <Text>{translations.noRequestBody}</Text>
-      )}
+        <Box>
+          <Text {...swagger.sectionTitle}>{translations.requestBody}</Text>
+
+          {endpoint.requestBody ? (
+            <Box as="pre" {...swagger.requestBodyContent}>
+              {JSON.stringify(endpoint.requestBody, null, 2)}
+            </Box>
+          ) : (
+            <Text color={colors.mutedForeground}>
+              {translations.noRequestBody}
+            </Text>
+          )}
+        </Box>
+
+        <Box>
+          <Text {...swagger.sectionTitle}>{translations.responses}</Text>
+
+          <Box as="pre" {...swagger.responsesContent}>
+            {JSON.stringify(endpoint.responses, null, 2)}
+          </Box>
+        </Box>
+      </Stack>
     </Box>
   );
 }

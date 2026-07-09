@@ -66,9 +66,13 @@ describe('EndpointList', () => {
 
     expect(screen.getByText('Responses')).toBeInTheDocument();
 
-    expect(screen.getByText(/path.*id/)).toBeInTheDocument();
+    expect(screen.getByText('path')).toBeInTheDocument();
 
-    expect(screen.getByText(/header.*token/)).toBeInTheDocument();
+    expect(screen.getByText('id')).toBeInTheDocument();
+
+    expect(screen.getByText('header')).toBeInTheDocument();
+
+    expect(screen.getByText('token')).toBeInTheDocument();
   });
 
   it('closes endpoint details panel after second click', async () => {
