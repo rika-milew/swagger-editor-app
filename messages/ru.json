@@ -104,5 +104,17 @@
       "sessionExpired": "Сессия истекла. Войдите снова.",
       "default": "Что-то пошло не так. Попробуйте снова."
     }
+  },
+  "EditorHeader": {
+    "validOpenApi": "Валидно OpenAPI 3.0",
+    "save": "Сохранить"
+  },
+  "SchemaValidation": {
+    "invalidStructure": "Неверная структура",
+    "invalidSyntax": "Неверная синтаксическая структура"
+  },
+  "FormatConverter": {
+    "title": "Ошибка конвертации",
+    "invalidSyntax": "Неверный синтаксический формат"
   }
 }

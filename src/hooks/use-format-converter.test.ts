@@ -10,6 +10,16 @@ vi.mock('@/components/toaster/toaster', () => ({
   },
 }));
 
+vi.mock('next-intl', () => ({
+  useTranslations: () => {
+    const messages: Record<string, string> = {
+      title: 'Conversion Error',
+      invalidSyntax: 'Invalid syntax format',
+    };
+    return (key: string): string => messages[key] || key;
+  },
+}));
+
 describe('useFormatConverter', () => {
   beforeEach(() => {
     vi.clearAllMocks();

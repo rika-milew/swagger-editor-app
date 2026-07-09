@@ -2,6 +2,7 @@
 
 import React from 'react';
 import classNames from 'classnames/bind';
+import { useTranslations } from 'next-intl';
 import styles from './editor-header.module.css';
 import type { EditorFormat } from '@/types/editor.types';
 
@@ -20,6 +21,8 @@ export const EditorHeader: React.FC<EditorHeaderProps> = ({
   format,
   onFormatChange,
 }) => {
+  const t = useTranslations('EditorHeader');
+
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
@@ -37,7 +40,7 @@ export const EditorHeader: React.FC<EditorHeaderProps> = ({
       </div>
 
       <div className={cx('controls-container')}>
-        <p className={cx('valid-openapi')}>● Valid OpenAPI 3.0</p>
+        <p className={cx('valid-openapi')}>● {t('validOpenApi')}</p>
 
         <div className={cx('lang-switcher')}>
           <input
@@ -68,7 +71,7 @@ export const EditorHeader: React.FC<EditorHeaderProps> = ({
         </div>
 
         <button type="button" className={cx('save-code')}>
-          Save
+          {t('save')}
         </button>
       </div>
     </div>

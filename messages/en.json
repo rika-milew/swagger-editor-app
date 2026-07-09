@@ -104,5 +104,17 @@
       "sessionExpired": "Session expired. Please sign in again.",
       "default": "Something went wrong. Please try again."
     }
+  },
+  "EditorHeader": {
+    "validOpenApi": "Valid OpenAPI 3.0",
+    "save": "Save"
+  },
+  "SchemaValidation": {
+    "invalidStructure": "Invalid structure",
+    "invalidSyntax": "Invalid syntax structure"
+  },
+  "FormatConverter": {
+    "title": "Conversion Error",
+    "invalidSyntax": "Invalid syntax format"
   }
 }

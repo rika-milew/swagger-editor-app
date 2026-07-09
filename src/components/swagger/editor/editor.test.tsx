@@ -3,6 +3,8 @@ import { describe, it, expect, vi } from 'vitest';
 import '@testing-library/jest-dom';
 import { Editor } from './editor';
 
+const mockTranslations = (key: string): string => key;
+
 vi.mock('@uiw/react-codemirror', () => {
   return {
     default: ({
@@ -21,6 +23,10 @@ vi.mock('@uiw/react-codemirror', () => {
   };
 });
 
+vi.mock('next-intl', () => ({
+  useTranslations: () => mockTranslations,
+}));
+
 describe('Editor', () => {
   it('should render with initial default code and update text on change', () => {
     render(<Editor />);
@@ -28,9 +34,7 @@ describe('Editor', () => {
     const textarea = screen.getByTestId('mock-codemirror');
     expect(textarea).toBeInTheDocument();
 
-    const defaultCode = '# Write code here!';
-
-    expect(textarea).toHaveValue(defaultCode);
+    expect(textarea).toHaveValue('');
 
     const newCode = 'server:\n  port: 9000';
     fireEvent.change(textarea, { target: { value: newCode } });

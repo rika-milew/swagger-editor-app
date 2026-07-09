@@ -4,6 +4,16 @@ import { describe, it, expect, vi } from 'vitest';
 import { EditorHeader } from './editor-header';
 import type { EditorFormat } from '@/types/editor.types';
 
+vi.mock('next-intl', () => ({
+  useTranslations: () => {
+    const messages: Record<string, string> = {
+      validOpenApi: 'Valid OpenAPI 3.0',
+      save: 'Save',
+    };
+    return (key: string) => messages[key] || key;
+  },
+}));
+
 describe('EditorHeader Component', () => {
   const mockOnFormatChange = vi.fn();
   const defaultFormat: EditorFormat = 'yaml';
