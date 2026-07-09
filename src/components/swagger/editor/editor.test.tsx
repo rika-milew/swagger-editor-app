@@ -279,4 +279,83 @@ describe('Editor', () => {
 
     expect(mockSaveSchema).not.toHaveBeenCalled();
   });
+
+  it('should not auto-save invalid schema for authenticated user', async () => {
+    vi.mocked(useUserStore).mockImplementation(
+      (selector: (state: UserStore) => unknown): unknown =>
+        selector(createMockUserStore(createMockUser('1'))),
+    );
+
+    render(<Editor />);
+
+    const textarea = screen.getByTestId('mock-codemirror');
+    fireEvent.change(textarea, { target: { value: '' } });
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(1000);
+    });
+
+    expect(mockLoadSchema).toHaveBeenCalledWith('', 'yaml');
+    expect(mockSaveSchema).not.toHaveBeenCalled();
+  });
+
+  it('should update store instantly but save with debounce', async () => {
+    mockSaveSchema.mockResolvedValueOnce({ success: true });
+    vi.mocked(useUserStore).mockImplementation(
+      (selector: (state: UserStore) => unknown): unknown =>
+        selector(createMockUserStore(createMockUser('1'))),
+    );
+
+    render(<Editor />);
+
+    const textarea = screen.getByTestId('mock-codemirror');
+    fireEvent.change(textarea, { target: { value: 'new content' } });
+
+    expect(mockLoadSchema).toHaveBeenCalledWith('new content', 'yaml');
+
+    expect(mockSaveSchema).not.toHaveBeenCalled();
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(1000);
+    });
+
+    expect(mockSaveSchema).toHaveBeenCalledWith({
+      schema: 'new content',
+      format: 'yaml',
+    });
+  });
+
+  it('should update store for non-authenticated user but not save', async () => {
+    render(<Editor />);
+
+    const textarea = screen.getByTestId('mock-codemirror');
+    fireEvent.change(textarea, { target: { value: 'anonymous content' } });
+
+    expect(mockLoadSchema).toHaveBeenCalledWith('anonymous content', 'yaml');
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(1000);
+    });
+
+    expect(mockSaveSchema).not.toHaveBeenCalled();
+  });
+
+  it('should not save when format changes but value is initial code', async () => {
+    mockSaveSchema.mockResolvedValueOnce({ success: true });
+    vi.mocked(useUserStore).mockImplementation(
+      (selector: (state: UserStore) => unknown): unknown =>
+        selector(createMockUserStore(createMockUser('1'))),
+    );
+
+    render(<Editor />);
+
+    const formatButton = screen.getByText('JSON');
+    fireEvent.click(formatButton);
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(1000);
+    });
+
+    expect(mockSaveSchema).not.toHaveBeenCalled();
+  });
 });

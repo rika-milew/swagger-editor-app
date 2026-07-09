@@ -17,7 +17,7 @@ vi.mock('@/lib/database/server', () => ({
   createServerClient: mockCreateServerClient,
 }));
 
-vi.mock('@/lib/validation/endpointsSchema', () => ({
+vi.mock('@/lib/validation/endpoints-schema', () => ({
   endpointsSchema: {
     safeParse: mockSafeParse,
   },
@@ -36,17 +36,6 @@ describe('saveSchema', () => {
     mockCreateServerClient.mockResolvedValue(mockSupabase);
   });
 
-  it('should return error if validation fails', async () => {
-    mockSafeParse.mockReturnValue({
-      success: false,
-      error: { issues: [{ message: 'Invalid' }] },
-    });
-
-    const result = await saveSchema({ schema: 'test', format: 'yaml' });
-
-    expect(result).toEqual({ error: 'Invalid schema data' });
-  });
-
   it('should return error if user is not authenticated', async () => {
     mockSafeParse.mockReturnValue({
       success: true,
@@ -57,6 +46,18 @@ describe('saveSchema', () => {
     const result = await saveSchema({ schema: 'test', format: 'yaml' });
 
     expect(result).toEqual({ error: 'You must be signed in to save' });
+  });
+
+  it('should return error if validation fails', async () => {
+    mockGetSession.mockResolvedValue({ id: 'user-1' });
+    mockSafeParse.mockReturnValue({
+      success: false,
+      error: { issues: [{ message: 'Invalid' }] },
+    });
+
+    const result = await saveSchema({ schema: 'test', format: 'yaml' });
+
+    expect(result).toEqual({ error: 'Invalid schema data' });
   });
 
   it('should save schema successfully', async () => {
