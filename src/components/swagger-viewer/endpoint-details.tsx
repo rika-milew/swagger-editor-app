@@ -15,11 +15,15 @@ export function EndpointDetails({
     <Box mt={4} p={4} bg="gray.700" borderRadius="md">
       <Text fontWeight="bold">{translations.parameters}</Text>
 
-      {endpoint.parameters?.map((param) => (
-        <Text key={param.name}>
-          {param.in}: {param.name}
-        </Text>
-      ))}
+      {endpoint.parameters?.length ? (
+        endpoint.parameters.map((param) => (
+          <Text key={`${param.in}-${param.name}`}>
+            {param.in}: {param.name}
+          </Text>
+        ))
+      ) : (
+        <Text>{translations.noParameters}</Text>
+      )}
 
       <Text mt={4} fontWeight="bold">
         {translations.requestBody}

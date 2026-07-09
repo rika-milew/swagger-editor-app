@@ -52,6 +52,7 @@ describe('EndpointList', () => {
           parameters: 'Parameters',
           requestBody: 'Request body',
           responses: 'Responses',
+          noParameters: 'No parameters available',
         }}
       />,
     );
@@ -97,6 +98,7 @@ describe('EndpointList', () => {
           parameters: 'Parameters',
           requestBody: 'Request body',
           responses: 'Responses',
+          noParameters: 'No parameters available',
         }}
       />,
     );
@@ -110,5 +112,37 @@ describe('EndpointList', () => {
     await user.click(endpoint);
 
     expect(screen.queryByText('Parameters')).not.toBeInTheDocument();
+  });
+
+  it('shows message when endpoint does not have parameters field', async () => {
+    const user = userEvent.setup();
+
+    renderWithProviders(
+      <EndpointList
+        endpoints={[
+          {
+            path: '/users',
+            method: 'get',
+            summary: 'Get users',
+
+            responses: {
+              '200': {
+                description: 'Success',
+              },
+            },
+          },
+        ]}
+        translations={{
+          parameters: 'Parameters',
+          requestBody: 'Request body',
+          responses: 'Responses',
+          noParameters: 'No parameters available',
+        }}
+      />,
+    );
+
+    await user.click(screen.getByText('/users'));
+
+    expect(screen.getByText('No parameters available')).toBeInTheDocument();
   });
 });

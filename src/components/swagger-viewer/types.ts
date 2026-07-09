@@ -66,4 +66,5 @@ export type EndpointDetailsTranslations = {
   parameters: string;
   requestBody: string;
   responses: string;
+  noParameters: string;
 };
