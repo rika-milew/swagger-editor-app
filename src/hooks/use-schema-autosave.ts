@@ -4,6 +4,7 @@ import { useUserStore } from '@/store/user-store';
 import { useSchemaStore } from '@/store/schema-store';
 import { saveSchema } from '@/app/actions/schema';
 import type { EditorFormat } from '@/types/editor.types';
+import { toaster } from '@/components/toaster/toaster';
 
 const SAVE_DEBOUNCE_MS = 1000;
 const INITIAL_CODE = '# Write code here!';
@@ -21,7 +22,6 @@ export const useSchemaAutosave = (
       loadSchema(value, format);
 
       if (!user) {
-        console.log('Schema saved to store (anonymous)');
         return;
       }
 
@@ -31,10 +31,14 @@ export const useSchemaAutosave = (
           console.error(t('schemaErrors.saveError'));
           return;
         }
-        console.log('Schema auto-saved successfully');
       } catch {
         console.error(t('schemaErrors.saveError'));
-        // TODO: add toast
+        toaster.create({
+          type: 'error',
+          title: 'Error',
+          description: t('schemaErrors.saveError'),
+          closable: true,
+        });
       }
     },
     [t, user, loadSchema],

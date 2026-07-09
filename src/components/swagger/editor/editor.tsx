@@ -11,6 +11,7 @@ import { useUserStore } from '@/store/user-store';
 import { useSchemaStore } from '@/store/schema-store';
 import { getLatestSchema } from '@/app/actions/schema';
 import { useSchemaAutosave } from '@/hooks/use-schema-autosave';
+import { toaster } from '@/components/toaster/toaster';
 
 const initialCodeValue = '# Write code here!';
 
@@ -48,7 +49,12 @@ export const Editor = () => {
         }
       } catch {
         console.error(t('schemaErrors.loadError'));
-        // TODO: add toast
+        toaster.create({
+          type: 'error',
+          title: 'Error',
+          description: t('schemaErrors.loadError'),
+          closable: true,
+        });
       }
     };
 
