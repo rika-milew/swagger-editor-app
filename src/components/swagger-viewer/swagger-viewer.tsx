@@ -1,13 +1,16 @@
+'use client';
+
 import { Box, Text, Heading, Flex } from '@chakra-ui/react';
-import { getTranslations } from 'next-intl/server';
-import { mockSwagger } from './mock-swagger';
+import { useTranslations } from 'next-intl';
+import { useSchemaStore } from '@/store/schema-store';
+import { parseSchema } from '@/utils/parse-schema';
 import { parseSwagger } from '@/utils/parse-swagger';
 import { colors } from '@/theme/colors';
 import { swagger } from '@/theme/swagger';
 import { EndpointList } from './endpoint-list';
 
-export async function SwaggerViewer() {
-  const t = await getTranslations('SwaggerViewer');
+export function SwaggerViewer() {
+  const t = useTranslations('SwaggerViewer');
   const detailsTranslations = {
     parameters: t('parameters'),
     requestBody: t('requestBody'),
@@ -17,7 +20,20 @@ export async function SwaggerViewer() {
     noRequestBody: t('noRequestBody'),
     noResponses: t('noResponses'),
   };
-  const endpoints = parseSwagger(mockSwagger);
+  const code = useSchemaStore((state) => state.code);
+  const format = useSchemaStore((state) => state.format);
+
+  if (!code) {
+    return null;
+  }
+
+  const schema = parseSchema(code, format);
+
+  if (!schema) {
+    return <Text>{t('invalidSchema')}</Text>;
+  }
+
+  const endpoints = parseSwagger(schema);
 
   if (!endpoints.length) {
     return <Text>{t('noEndpoints')}</Text>;
@@ -28,11 +44,11 @@ export async function SwaggerViewer() {
       <Box>
         <Flex justify="space-between" align="center" mb={2}>
           <Heading size="lg" color="white">
-            {mockSwagger.info.title}
+            {schema.info.title}
           </Heading>
 
           <Text color={colors.colorZinc500} fontSize="sm">
-            v{mockSwagger.info.version}
+            v{schema.info.version}
           </Text>
         </Flex>
 
