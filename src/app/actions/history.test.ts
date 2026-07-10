@@ -164,4 +164,20 @@ describe('saveToHistory', () => {
 
     expect(result).toEqual({ data: null, error: 'Failed to save history' });
   });
+
+  it('returns error for invalid request data', async () => {
+    mockGetSession.mockResolvedValue({ id: 'user-1' });
+
+    const result = await saveToHistory({
+      endpoint_url: '',
+      request_method: 'GET',
+      request_size: -1,
+      response_status_code: 0,
+      response_size: -1,
+      request_duration: -1,
+      error_details: null,
+    });
+
+    expect(result).toEqual({ data: null, error: 'Invalid request data' });
+  });
 });
