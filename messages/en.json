@@ -112,5 +112,11 @@
       "sessionExpired": "Session expired. Please sign in again.",
       "default": "Something went wrong. Please try again."
     }
+  },
+  "Editor": {
+    "schemaErrors": {
+      "saveError": "Failed to save schema",
+      "loadError": "Failed to load schema"
+    }
   }
 }
