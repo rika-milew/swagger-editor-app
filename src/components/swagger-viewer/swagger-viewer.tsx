@@ -2,6 +2,7 @@
 
 import { Box, Text, Heading, Flex } from '@chakra-ui/react';
 import { useTranslations } from 'next-intl';
+import { useMemo } from 'react';
 import { useSchemaStore } from '@/store/schema-store';
 import { parseSchema } from '@/utils/parse-schema';
 import { parseSwagger } from '@/utils/parse-swagger';
@@ -23,17 +24,29 @@ export function SwaggerViewer() {
   const code = useSchemaStore((state) => state.code);
   const format = useSchemaStore((state) => state.format);
 
+  const schema = useMemo(() => {
+    if (!code) {
+      return null;
+    }
+
+    return parseSchema(code, format);
+  }, [code, format]);
+
+  const endpoints = useMemo(() => {
+    if (!schema) {
+      return [];
+    }
+
+    return parseSwagger(schema);
+  }, [schema]);
+
   if (!code) {
     return null;
   }
 
-  const schema = parseSchema(code, format);
-
   if (!schema) {
     return <Text>{t('invalidSchema')}</Text>;
   }
-
-  const endpoints = parseSwagger(schema);
 
   if (!endpoints.length) {
     return <Text>{t('noEndpoints')}</Text>;
