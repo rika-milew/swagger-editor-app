@@ -7,7 +7,7 @@ const translations = {
   teamTitle: 'Team',
 };
 
-const NUMBER_OF_CARDS = 3;
+const NUMBER_OF_CARDS = 4;
 
 vi.mock('next-intl/server', () => ({
   getTranslations: () =>
@@ -22,9 +22,12 @@ describe('TeamSection', () => {
 
     expect(screen.getByText(translations.teamTitle)).toBeInTheDocument();
 
+    expect(screen.getByText('Anna Zhuravleva')).toBeInTheDocument();
     expect(screen.getByText('Erika Milevskaya')).toBeInTheDocument();
     expect(screen.getByText('Michael Tavyrin')).toBeInTheDocument();
     expect(screen.getByText('Nina Yeulash')).toBeInTheDocument();
+
+    expect(screen.getByText('Mentor')).toBeInTheDocument();
 
     expect(screen.getByText('Team Lead/Frontend Engineer')).toBeInTheDocument();
 

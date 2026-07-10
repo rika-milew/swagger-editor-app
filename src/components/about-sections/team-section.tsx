@@ -5,6 +5,12 @@ import { about } from '@/theme/about';
 
 const team = [
   {
+    initials: 'AZ',
+    name: 'Anna Zhuravleva',
+    role: 'Mentor',
+    github: 'https://github.com/ansivgit',
+  },
+  {
     initials: 'EM',
     name: 'Erika Milevskaya',
     role: 'Team Lead/Frontend Engineer',

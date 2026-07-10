@@ -10,7 +10,7 @@ export default defineConfig({
     globals: true,
     setupFiles: ['./src/test-utils/setup-tests.ts'],
     include: ['src/**/*.{test,spec}.{ts,tsx}'],
-    silent: 'passed-only',
+    //silent: 'passed-only',
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],

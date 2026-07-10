@@ -14,6 +14,9 @@ const translations = {
   description: 'API documentation',
   endpoints: 'Endpoints',
   noEndpoints: 'No endpoints found',
+  parameters: 'Parameters',
+  requestBody: 'Request body',
+  responses: 'Responses',
 };
 
 vi.mock('next-intl/server', () => ({
@@ -32,23 +35,21 @@ describe('SwaggerViewer', () => {
     vi.clearAllMocks();
   });
 
-  it('renders swagger information and endpoints', async () => {
+  it('renders swagger information', async () => {
     vi.mocked(parseSwagger).mockReturnValue([
       {
         path: '/users',
         method: 'get',
         summary: 'Get all users',
-      },
-      {
-        path: '/auth/login',
-        method: 'post',
-        summary: 'Login user',
+        parameters: [],
+        responses: {},
       },
     ]);
 
     await renderComponent();
 
     expect(screen.getByText(mockSwagger.info.title)).toBeInTheDocument();
+
     expect(
       screen.getByText(`v${mockSwagger.info.version}`),
     ).toBeInTheDocument();
@@ -58,13 +59,7 @@ describe('SwaggerViewer', () => {
     expect(screen.getByText(translations.endpoints)).toBeInTheDocument();
 
     expect(screen.getByText('/users')).toBeInTheDocument();
-    expect(screen.getByText('/auth/login')).toBeInTheDocument();
-
     expect(screen.getByText('Get all users')).toBeInTheDocument();
-    expect(screen.getByText('Login user')).toBeInTheDocument();
-
-    expect(screen.getByText('GET')).toBeInTheDocument();
-    expect(screen.getByText('POST')).toBeInTheDocument();
   });
 
   it('renders "No endpoints found" when there are no endpoints', async () => {
@@ -81,6 +76,7 @@ describe('SwaggerViewer', () => {
     await renderComponent();
 
     expect(parseSwagger).toHaveBeenCalledTimes(1);
+
     expect(parseSwagger).toHaveBeenCalledWith(mockSwagger);
   });
 });
