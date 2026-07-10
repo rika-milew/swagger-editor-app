@@ -46,7 +46,15 @@
   "SwaggerViewer": {
     "description": "Sample API auto-rendered from the loaded specification. Expand any endpoint to inspect parameters and try it out.",
     "endpoints": "Endpoints",
-    "noEndpoints": "No endpoints found."
+    "noEndpoints": "No endpoints found.",
+
+    "parameters": "Parameters",
+    "requestBody": "Request body",
+    "responses": "Responses",
+    "required": "Required",
+    "noParameters": "No parameters available",
+    "noRequestBody": "No request body",
+    "noResponses": "No responses available"
   },
   "Unauthorized": {
     "title": "Unauthorized",
@@ -103,6 +111,12 @@
       "tooManyRequests": "Too many attempts. Please try again later.",
       "sessionExpired": "Session expired. Please sign in again.",
       "default": "Something went wrong. Please try again."
+    }
+  },
+  "Editor": {
+    "schemaErrors": {
+      "saveError": "Failed to save schema",
+      "loadError": "Failed to load schema"
     }
   }
 }

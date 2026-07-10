@@ -6,6 +6,7 @@ import { useTranslations, useLocale } from 'next-intl';
 import { buttons } from '@/theme/buttons';
 import { ROUTES } from '@/constants/routes';
 import { useUserStore } from '@/store/user-store';
+import { useSchemaStore } from '@/store/schema-store';
 import { signOut } from '@/app/actions/auth';
 import type { StackDirection } from '@/types/layout.types';
 
@@ -21,6 +22,7 @@ export default function HeaderButtons({
 
   const user = useUserStore((state) => state.user);
   const clearUser = useUserStore((state) => state.clearUser);
+  const clearSchema = useSchemaStore((state) => state.clearSchema);
 
   const handleSignOut = async () => {
     try {
@@ -31,6 +33,7 @@ export default function HeaderButtons({
       }
     } finally {
       clearUser();
+      clearSchema();
     }
   };
 

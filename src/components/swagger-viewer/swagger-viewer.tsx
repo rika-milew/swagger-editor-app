@@ -1,13 +1,22 @@
-import { Box, Text, Badge, VStack, Heading, Flex } from '@chakra-ui/react';
+import { Box, Text, Heading, Flex } from '@chakra-ui/react';
 import { getTranslations } from 'next-intl/server';
 import { mockSwagger } from './mock-swagger';
 import { parseSwagger } from '@/utils/parse-swagger';
-import getColor from './get-swagger-color';
 import { colors } from '@/theme/colors';
 import { swagger } from '@/theme/swagger';
+import { EndpointList } from './endpoint-list';
 
 export async function SwaggerViewer() {
   const t = await getTranslations('SwaggerViewer');
+  const detailsTranslations = {
+    parameters: t('parameters'),
+    requestBody: t('requestBody'),
+    responses: t('responses'),
+    required: t('required'),
+    noParameters: t('noParameters'),
+    noRequestBody: t('noRequestBody'),
+    noResponses: t('noResponses'),
+  };
   const endpoints = parseSwagger(mockSwagger);
 
   if (!endpoints.length) {
@@ -33,23 +42,7 @@ export async function SwaggerViewer() {
 
         <Text {...swagger.topText}>{t('endpoints')}</Text>
       </Box>
-      <VStack {...swagger.cardsWrapper}>
-        {endpoints.map((ep) => (
-          <Flex key={`${ep.method}-${ep.path}`} {...swagger.cardContainer}>
-            <Flex align="center" gap={4}>
-              <Badge bg={getColor(ep.method)} {...swagger.cardBadge}>
-                {ep.method.toUpperCase()}
-              </Badge>
-
-              <Text {...swagger.cardPathText}>{ep.path}</Text>
-            </Flex>
-
-            <Text color={colors.colorZinc400} fontSize="sm" textAlign="right">
-              {ep.summary}
-            </Text>
-          </Flex>
-        ))}
-      </VStack>
+      <EndpointList endpoints={endpoints} translations={detailsTranslations} />
     </Box>
   );
 }
