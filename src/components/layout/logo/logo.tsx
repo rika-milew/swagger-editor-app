@@ -26,7 +26,7 @@ export default function Logo() {
             color={colors.colorWhite}
             fontSize={{ base: 'md', sm: 'xl' }}
           >
-            NEXUS
+            SWAGGER
           </Text>
 
           <Text
