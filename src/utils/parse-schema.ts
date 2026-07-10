@@ -3,7 +3,24 @@ import type { EditorFormat } from '@/types/editor.types';
 import type { SwaggerSchema } from '@/components/swagger-viewer/types';
 
 function isSwaggerSchema(value: unknown): value is SwaggerSchema {
-  return typeof value === 'object' && value !== null && 'paths' in value;
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+
+  if (!('info' in value) || !('paths' in value)) {
+    return false;
+  }
+
+  if (typeof value.info !== 'object' || value.info === null) {
+    return false;
+  }
+
+  return (
+    'title' in value.info &&
+    typeof value.info.title === 'string' &&
+    'version' in value.info &&
+    typeof value.info.version === 'string'
+  );
 }
 
 export function parseSchema(
