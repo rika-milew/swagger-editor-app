@@ -48,10 +48,12 @@ export function EndpointDetails({
         </Box>
 
         <Box>
-          <Text {...swagger.sectionTitle}>{translations.requestBody}</Text>
+          <Text {...swagger.endpointSectionTitle}>
+            {translations.requestBody}
+          </Text>
 
           {endpoint.requestBody ? (
-            <Box as="pre" {...swagger.requestBodyContent}>
+            <Box as="pre" {...swagger.endpointSectionContent}>
               {JSON.stringify(endpoint.requestBody, null, 2)}
             </Box>
           ) : (
@@ -62,9 +64,11 @@ export function EndpointDetails({
         </Box>
 
         <Box>
-          <Text {...swagger.sectionTitle}>{translations.responses}</Text>
+          <Text {...swagger.endpointSectionTitle}>
+            {translations.responses}
+          </Text>
 
-          <Box as="pre" {...swagger.responsesContent}>
+          <Box as="pre" {...swagger.endpointSectionContent}>
             {JSON.stringify(endpoint.responses, null, 2)}
           </Box>
         </Box>

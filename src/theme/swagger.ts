@@ -122,22 +122,12 @@ export const swagger = {
     textTransform: 'uppercase',
     letterSpacing: '0.05em',
   },
-  sectionTitle: {
+  endpointSectionTitle: {
     mb: 3,
     fontWeight: fontWeights.bold,
     color: colors.foreground,
   },
-  requestBodyContent: {
-    p: 4,
-    bg: colors.background,
-    border: '1px solid',
-    borderColor: colors.border,
-    borderRadius: 'md',
-    color: colors.cardForeground,
-    fontSize: 'sm',
-    overflowX: 'auto',
-  },
-  responsesContent: {
+  endpointSectionContent: {
     p: 4,
     bg: colors.background,
     border: '1px solid',
