@@ -19,15 +19,15 @@ type GetHistoryResponse = ActionResponse<RequestHistoryRecord[]>;
 type SaveHistoryResponse = ActionResponse<RequestHistoryRecord>;
 
 export async function getHistory(): Promise<GetHistoryResponse> {
-  const user = await getSession();
-
-  if (!user) {
-    return { data: null, error: 'Not authenticated' };
-  }
-
-  const supabase = await createServerClient();
-
   try {
+    const user = await getSession();
+
+    if (!user) {
+      return { data: null, error: 'Not authenticated' };
+    }
+
+    const supabase = await createServerClient();
+
     const { data, error } = await supabase
       .from('request_history')
       .select('*')
@@ -49,21 +49,22 @@ export async function getHistory(): Promise<GetHistoryResponse> {
 export async function saveToHistory(
   request: RequestInput,
 ): Promise<SaveHistoryResponse> {
-  const user = await getSession();
-
-  if (!user) {
-    return { data: null, error: 'Not authenticated' };
-  }
-
-  const result = requestSchema.safeParse(request);
-  if (!result.success) {
-    console.error('Validation failed:', result.error.issues);
-    return { data: null, error: 'Invalid request data' };
-  }
-
-  const supabase = await createServerClient();
-
   try {
+    const user = await getSession();
+
+    if (!user) {
+      return { data: null, error: 'Not authenticated' };
+    }
+
+    const result = requestSchema.safeParse(request);
+
+    if (!result.success) {
+      console.error('Validation failed:', result.error.issues);
+      return { data: null, error: 'Invalid request data' };
+    }
+
+    const supabase = await createServerClient();
+
     const { data, error } = await supabase
       .from('request_history')
       .insert({
