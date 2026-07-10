@@ -14,6 +14,48 @@ export type Database = {
   }
   public: {
     Tables: {
+      request_history: {
+        Row: {
+          created_at: string
+          endpoint_url: string
+          error_details: string | null
+          id: string
+          request_duration: number | null
+          request_method: string
+          request_size: number
+          request_timestamp: string
+          response_size: number | null
+          response_status_code: number | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          endpoint_url: string
+          error_details?: string | null
+          id?: string
+          request_duration?: number | null
+          request_method: string
+          request_size: number
+          request_timestamp?: string
+          response_size?: number | null
+          response_status_code?: number | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          endpoint_url?: string
+          error_details?: string | null
+          id?: string
+          request_duration?: number | null
+          request_method?: string
+          request_size?: number
+          request_timestamp?: string
+          response_size?: number | null
+          response_status_code?: number | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_schemas: {
         Row: {
           created_at: string

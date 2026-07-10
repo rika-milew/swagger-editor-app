@@ -28,7 +28,9 @@ export default function HeaderButtons({
     try {
       await signOut(locale);
     } catch (error) {
-      console.error('Failed to sign out:', error);
+      if (!(error instanceof Error && error.message === 'NEXT_REDIRECT')) {
+        console.error('Failed to sign out:', error);
+      }
     } finally {
       clearUser();
       clearSchema();

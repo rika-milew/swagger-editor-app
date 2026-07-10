@@ -1,0 +1,88 @@
+'use server';
+
+import { createServerClient } from '@/lib/database/server';
+import { revalidatePath } from 'next/cache';
+import { getSession } from '@/lib/auth/get-session';
+import { requestSchema } from '@/lib/validation/request-schema';
+import type { RequestInput } from '@/lib/validation/request-schema';
+import { ROUTES } from '@/constants/routes';
+import type { Tables } from '@/types/database.types';
+
+type RequestHistoryRecord = Tables<'request_history'>;
+
+type ActionResponse<T> = {
+  data: T | null;
+  error: string | null;
+};
+
+type GetHistoryResponse = ActionResponse<RequestHistoryRecord[]>;
+type SaveHistoryResponse = ActionResponse<RequestHistoryRecord>;
+
+export async function getHistory(): Promise<GetHistoryResponse> {
+  try {
+    const user = await getSession();
+
+    if (!user) {
+      return { data: null, error: 'Not authenticated' };
+    }
+
+    const supabase = await createServerClient();
+
+    const { data, error } = await supabase
+      .from('request_history')
+      .select('*')
+      .eq('user_id', user.id)
+      .order('request_timestamp', { ascending: false });
+
+    if (error) {
+      console.error('Failed to load history:', error);
+      return { data: null, error: 'Failed to load history' };
+    }
+
+    return { data, error: null };
+  } catch (error) {
+    console.error('Failed to load history:', error);
+    return { data: null, error: 'Failed to load history' };
+  }
+}
+
+export async function saveToHistory(
+  request: RequestInput,
+): Promise<SaveHistoryResponse> {
+  try {
+    const user = await getSession();
+
+    if (!user) {
+      return { data: null, error: 'Not authenticated' };
+    }
+
+    const result = requestSchema.safeParse(request);
+
+    if (!result.success) {
+      console.error('Validation failed:', result.error.issues);
+      return { data: null, error: 'Invalid request data' };
+    }
+
+    const supabase = await createServerClient();
+
+    const { data, error } = await supabase
+      .from('request_history')
+      .insert({
+        user_id: user.id,
+        ...result.data,
+      })
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Failed to save history:', error);
+      return { data: null, error: 'Failed to save history' };
+    }
+
+    revalidatePath(ROUTES.HISTORY);
+    return { data, error: null };
+  } catch (error) {
+    console.error('Failed to save history:', error);
+    return { data: null, error: 'Failed to save history' };
+  }
+}
