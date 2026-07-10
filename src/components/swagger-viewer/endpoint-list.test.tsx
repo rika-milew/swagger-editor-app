@@ -54,6 +54,7 @@ describe('EndpointList', () => {
           responses: 'Responses',
           noParameters: 'No parameters available',
           noRequestBody: 'No request body',
+          noResponses: 'No responses available',
         }}
       />,
     );
@@ -105,6 +106,7 @@ describe('EndpointList', () => {
           responses: 'Responses',
           noParameters: 'No parameters available',
           noRequestBody: 'No request body',
+          noResponses: 'No responses available',
         }}
       />,
     );
@@ -144,6 +146,7 @@ describe('EndpointList', () => {
           responses: 'Responses',
           noParameters: 'No parameters available',
           noRequestBody: 'No request body',
+          noResponses: 'No responses available',
         }}
       />,
     );
@@ -176,6 +179,7 @@ describe('EndpointList', () => {
           responses: 'Responses',
           noParameters: 'No parameters available',
           noRequestBody: 'No request body',
+          noResponses: 'No responses available',
         }}
       />,
     );

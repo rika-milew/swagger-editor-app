@@ -14,6 +14,7 @@ export async function SwaggerViewer() {
     responses: t('responses'),
     noParameters: t('noParameters'),
     noRequestBody: t('noRequestBody'),
+    noResponses: t('noResponses'),
   };
   const endpoints = parseSwagger(mockSwagger);
 

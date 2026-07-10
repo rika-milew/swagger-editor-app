@@ -13,6 +13,8 @@ export function EndpointDetails({
   endpoint,
   translations,
 }: EndpointDetailsProps) {
+  const hasResponses =
+    endpoint.responses && Object.keys(endpoint.responses).length > 0;
   return (
     <Box {...swagger.endpointDetailsContainer}>
       <Stack gap={6}>
@@ -68,9 +70,15 @@ export function EndpointDetails({
             {translations.responses}
           </Text>
 
-          <Box as="pre" {...swagger.endpointSectionContent}>
-            {JSON.stringify(endpoint.responses, null, 2)}
-          </Box>
+          {hasResponses ? (
+            <Box as="pre" {...swagger.endpointSectionContent}>
+              {JSON.stringify(endpoint.responses, null, 2)}
+            </Box>
+          ) : (
+            <Text color={colors.mutedForeground}>
+              {translations.noResponses}
+            </Text>
+          )}
         </Box>
       </Stack>
     </Box>
