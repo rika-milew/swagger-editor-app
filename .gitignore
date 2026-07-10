@@ -49,7 +49,7 @@ Thumbs.db
 *.swo
 
 # env
-.env
+.env.example
 .env.local
 .env.*.local
 

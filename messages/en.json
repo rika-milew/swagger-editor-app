@@ -104,5 +104,21 @@
       "sessionExpired": "Session expired. Please sign in again.",
       "default": "Something went wrong. Please try again."
     }
+  },
+  "HistoryPage": {
+    "historyTitle": "History & Analytics",
+    "historyDesc": "Every request executed from the viewer is recorded server side",
+    "totalRequests": "Total Requests",
+    "avgDuration": "Average Duration",
+    "successRate": "Success Rate",
+    "columns": {
+      "time": "Time",
+      "method": "Method",
+      "endpoint": "Endpoint",
+      "status": "Status",
+      "duration": "Duration",
+      "req": "Req",
+      "res": "Res"
+    }
   }
 }
