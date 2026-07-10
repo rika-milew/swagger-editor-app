@@ -127,6 +127,12 @@ export const swagger = {
     fontWeight: fontWeights.bold,
     color: colors.foreground,
   },
+  endpointRequiredText: {
+    ml: 'auto',
+    fontSize: 'xs',
+    color: colors.destructive,
+    textTransform: 'lowercase',
+  },
   endpointSectionContent: {
     p: 4,
     bg: colors.background,

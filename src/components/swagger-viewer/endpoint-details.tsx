@@ -35,8 +35,8 @@ export function EndpointDetails({
                   <Text {...swagger.paramText}>{param.name}</Text>
 
                   {param.required && (
-                    <Text ml="auto" fontSize="xs" color={colors.destructive}>
-                      required
+                    <Text {...swagger.endpointRequiredText}>
+                      {translations.required}
                     </Text>
                   )}
                 </Flex>

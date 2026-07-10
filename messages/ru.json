@@ -51,6 +51,7 @@
     "parameters": "Параметры",
     "requestBody": "Тело запроса",
     "responses": "Ответы",
+    "required": "Обязательный",
     "noParameters": "Параметры отсутствуют",
     "noRequestBody": "Тело запроса отсутствует",
     "noResponses": "Ответы отсутствуют"

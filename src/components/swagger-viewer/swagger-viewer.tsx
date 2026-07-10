@@ -12,6 +12,7 @@ export async function SwaggerViewer() {
     parameters: t('parameters'),
     requestBody: t('requestBody'),
     responses: t('responses'),
+    required: t('required'),
     noParameters: t('noParameters'),
     noRequestBody: t('noRequestBody'),
     noResponses: t('noResponses'),

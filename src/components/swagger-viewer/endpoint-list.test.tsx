@@ -52,6 +52,7 @@ describe('EndpointList', () => {
           parameters: 'Parameters',
           requestBody: 'Request body',
           responses: 'Responses',
+          required: 'Required',
           noParameters: 'No parameters available',
           noRequestBody: 'No request body',
           noResponses: 'No responses available',
@@ -66,6 +67,8 @@ describe('EndpointList', () => {
     expect(screen.getByText('Request body')).toBeInTheDocument();
 
     expect(screen.getByText('Responses')).toBeInTheDocument();
+
+    expect(screen.getAllByText('Required')).toHaveLength(2);
 
     expect(screen.getByText('path')).toBeInTheDocument();
 
@@ -104,6 +107,7 @@ describe('EndpointList', () => {
           parameters: 'Parameters',
           requestBody: 'Request body',
           responses: 'Responses',
+          required: 'Required',
           noParameters: 'No parameters available',
           noRequestBody: 'No request body',
           noResponses: 'No responses available',
@@ -144,6 +148,7 @@ describe('EndpointList', () => {
           parameters: 'Parameters',
           requestBody: 'Request body',
           responses: 'Responses',
+          required: 'Required',
           noParameters: 'No parameters available',
           noRequestBody: 'No request body',
           noResponses: 'No responses available',
@@ -177,6 +182,7 @@ describe('EndpointList', () => {
           parameters: 'Parameters',
           requestBody: 'Request body',
           responses: 'Responses',
+          required: 'Required',
           noParameters: 'No parameters available',
           noRequestBody: 'No request body',
           noResponses: 'No responses available',

@@ -51,6 +51,7 @@
     "parameters": "Parameters",
     "requestBody": "Request body",
     "responses": "Responses",
+    "required": "Required",
     "noParameters": "No parameters available",
     "noRequestBody": "No request body",
     "noResponses": "No responses available"
