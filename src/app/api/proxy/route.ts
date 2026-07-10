@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { HTTP_STATUS } from '@/constants/http-status';
 
 type ProxyRequest = {
   url: string;
@@ -36,7 +37,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     if (!isProxyRequest(payload)) {
       return NextResponse.json(
         { error: 'Invalid request body' },
-        { status: 400 },
+        { status: HTTP_STATUS.BAD_REQUEST },
       );
     }
     const targetUrl = payload.url;
@@ -47,7 +48,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     if (isInternalUrl(targetUrl)) {
       return NextResponse.json(
         { error: 'Requests to internal addresses are not allowed' },
-        { status: 403 },
+        { status: HTTP_STATUS.FORBIDDEN },
       );
     }
 
@@ -78,13 +79,13 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     } catch (error) {
       return NextResponse.json(
         { error: error instanceof Error ? error.message : 'Request failed' },
-        { status: 502 },
+        { status: HTTP_STATUS.BAD_GATEWAY },
       );
     }
   } catch {
     return NextResponse.json(
       { error: 'Invalid request body' },
-      { status: 400 },
+      { status: HTTP_STATUS.BAD_REQUEST },
     );
   }
 }
