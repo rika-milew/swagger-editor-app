@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import type { AppUser } from '@/types/auth.types';
 
-type UserStore = {
+export type UserStore = {
   user: AppUser | null;
   setUser: (user: AppUser | null) => void;
   clearUser: () => void;
