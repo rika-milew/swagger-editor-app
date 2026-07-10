@@ -14,13 +14,17 @@ const translations: Record<string, string> = {
   description: 'API documentation',
   endpoints: 'Endpoints',
   noEndpoints: 'No endpoints found',
+  invalidSchema: 'Invalid OpenAPI schema',
   parameters: 'Parameters',
   requestBody: 'Request body',
   responses: 'Responses',
-  invalidSchema: 'Invalid OpenAPI schema',
+  required: 'Required',
+  noParameters: 'No parameters',
+  noRequestBody: 'No request body',
+  noResponses: 'No responses',
 };
 
-const mockTranslations = (key: string) => translations[key];
+const mockTranslations = (key: keyof typeof translations) => translations[key];
 
 vi.mock('next-intl', () => ({
   useTranslations: () => mockTranslations,

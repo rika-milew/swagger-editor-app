@@ -45,7 +45,7 @@ export function SwaggerViewer() {
   }
 
   if (!schema) {
-    return <Text>{t('invalidSchema')}</Text>;
+    return <Text color={colors.destructive}>{t('invalidSchema')}</Text>;
   }
 
   if (!endpoints.length) {
