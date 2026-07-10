@@ -1,51 +1,83 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { HTTP_STATUS } from '@/constants/http-status';
+import type { RequestInput } from '@/lib/validation/request-schema';
+import { isProxyRequest, isInternalUrl, isRequestMethod } from '@/types/guards';
+import { recordHistory } from '@/app/actions/history';
 
-type ProxyRequest = {
+type ProxyRequestParsed = {
   url: string;
-  method?: string;
-  headers?: Record<string, string>;
+  method: RequestInput['request_method'];
+  headers: Record<string, string>;
   body?: string;
 };
 
-const BLOCKED_HOSTS = new Set(['localhost', '127.0.0.1', '0.0.0.0', '::1']);
+type ProxyResult = {
+  status: number;
+  statusText: string;
+  headers: Record<string, string>;
+  body: string;
+};
 
-function isInternalUrl(url: string): boolean {
-  try {
-    const parsed = new URL(url);
-    return BLOCKED_HOSTS.has(parsed.hostname);
-  } catch {
-    return true;
+function parseRequest(payload: unknown): ProxyRequestParsed | null {
+  if (!isProxyRequest(payload)) {
+    return null;
   }
+
+  const rawMethod = typeof payload.method === 'string' ? payload.method : 'GET';
+  const method = isRequestMethod(rawMethod) ? rawMethod : 'GET';
+
+  return {
+    url: payload.url,
+    method,
+    headers: payload.headers ?? {},
+    body: payload.body,
+  };
 }
 
-function isProxyRequest(value: unknown): value is ProxyRequest {
-  if (!value || typeof value !== 'object') {
-    return false;
-  }
+async function fetchExternal(
+  targetUrl: string,
+  method: string,
+  headers: Record<string, string>,
+  body?: string,
+): Promise<ProxyResult> {
+  const response = await fetch(targetUrl, {
+    method,
+    headers: { 'Content-Type': 'application/json', ...headers },
+    body: method !== 'GET' && method !== 'HEAD' ? body : undefined,
+  });
 
-  return (
-    'url' in value && typeof value.url === 'string' && value.url.length > 0
-  );
+  const responseBody = await response.text();
+
+  const responseHeaders: Record<string, string> = {};
+  response.headers.forEach((value, key) => {
+    responseHeaders[key] = value;
+  });
+
+  return {
+    status: response.status,
+    statusText: response.statusText,
+    headers: responseHeaders,
+    body: responseBody,
+  };
 }
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
     const payload: unknown = await request.json();
 
-    if (!isProxyRequest(payload)) {
+    const parsed = parseRequest(payload);
+
+    if (!parsed) {
       return NextResponse.json(
         { error: 'Invalid request body' },
         { status: HTTP_STATUS.BAD_REQUEST },
       );
     }
-    const targetUrl = payload.url;
-    const method = payload.method ?? 'GET';
-    const headers = payload.headers ?? {};
-    const body = payload.body;
 
-    if (isInternalUrl(targetUrl)) {
+    const { url, method, headers, body } = parsed;
+
+    if (isInternalUrl(url)) {
       return NextResponse.json(
         { error: 'Requests to internal addresses are not allowed' },
         { status: HTTP_STATUS.FORBIDDEN },
@@ -55,28 +87,36 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     const startTime = Date.now();
 
     try {
-      const response = await fetch(targetUrl, {
-        method,
-        headers: { 'Content-Type': 'application/json', ...headers },
-        body: method !== 'GET' && method !== 'HEAD' ? body : undefined,
-      });
-
-      const responseBody = await response.text();
+      const result = await fetchExternal(url, method, headers, body);
       const duration = Date.now() - startTime;
 
-      const responseHeaders: Record<string, string> = {};
-      response.headers.forEach((value, key) => {
-        responseHeaders[key] = value;
+      await recordHistory({
+        targetUrl: url,
+        method,
+        body,
+        responseStatus: result.status,
+        responseBody: result.body,
+        duration,
+        errorDetails:
+          result.status < HTTP_STATUS.BAD_REQUEST
+            ? null
+            : `HTTP ${String(result.status)}: ${result.statusText}`,
       });
 
-      return NextResponse.json({
-        status: response.status,
-        statusText: response.statusText,
-        headers: responseHeaders,
-        body: responseBody,
-        duration,
-      });
+      return NextResponse.json({ ...result, duration });
     } catch (error) {
+      const duration = Date.now() - startTime;
+
+      await recordHistory({
+        targetUrl: url,
+        method,
+        body,
+        responseStatus: null,
+        responseBody: null,
+        duration,
+        errorDetails: error instanceof Error ? error.message : 'Request failed',
+      });
+
       return NextResponse.json(
         { error: error instanceof Error ? error.message : 'Request failed' },
         { status: HTTP_STATUS.BAD_GATEWAY },
