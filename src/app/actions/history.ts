@@ -5,20 +5,10 @@ import { revalidatePath } from 'next/cache';
 import { getSession } from '@/lib/auth/get-session';
 import { requestSchema } from '@/lib/validation/request-schema';
 import type { RequestInput } from '@/lib/validation/request-schema';
+import { ROUTES } from '@/constants/routes';
+import type { Tables } from '@/types/database.types';
 
-export type RequestHistoryRecord = {
-  id: string;
-  user_id: string;
-  endpoint_url: string;
-  request_method: string;
-  request_size: number;
-  request_timestamp: string;
-  response_status_code: number | null;
-  response_size: number | null;
-  request_duration: number | null;
-  error_details: string | null;
-  created_at: string | null;
-};
+type RequestHistoryRecord = Tables<'request_history'>;
 
 type ActionResponse<T> = {
   data: T | null;
@@ -46,7 +36,7 @@ export async function getHistory(): Promise<GetHistoryResponse> {
 
     if (error) {
       console.error('Failed to load history:', error);
-      return { data: null, error: error.message };
+      return { data: null, error: 'Failed to load history' };
     }
 
     return { data, error: null };
@@ -85,13 +75,13 @@ export async function saveToHistory(
 
     if (error) {
       console.error('Failed to save history:', error);
-      return { data: null, error: error.message };
+      return { data: null, error: 'Failed to save history' };
     }
 
-    revalidatePath('/history');
+    revalidatePath(ROUTES.HISTORY);
     return { data, error: null };
   } catch (error) {
     console.error('Failed to save history:', error);
-    return { data: null, error: 'Failed to save request' };
+    return { data: null, error: 'Failed to save history' };
   }
 }
