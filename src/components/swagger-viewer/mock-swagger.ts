@@ -7,7 +7,7 @@ export const mockSwagger: SwaggerSchema = {
   },
   paths: {},*/
   info: {
-    title: 'Nexus Core API',
+    title: 'Swagger Core API',
     version: '1.2.4',
   },
   paths: {
