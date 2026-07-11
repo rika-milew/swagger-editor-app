@@ -118,7 +118,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       });
 
       return NextResponse.json(
-        { error: error instanceof Error ? error.message : 'Request failed' },
+        { error: 'Failed to reach the target URL' },
         { status: HTTP_STATUS.BAD_GATEWAY },
       );
     }

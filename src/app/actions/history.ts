@@ -114,7 +114,9 @@ export async function recordHistory(params: {
     error_details: params.errorDetails,
   };
 
-  saveToHistory(entry).catch((error: unknown) =>
-    console.error('Failed to save history:', error),
-  );
+  try {
+    await saveToHistory(entry);
+  } catch (error) {
+    console.error('Failed to save history:', error);
+  }
 }
