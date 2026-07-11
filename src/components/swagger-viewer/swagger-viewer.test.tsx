@@ -1,7 +1,9 @@
 import { screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-
 import { renderWithProviders } from '@/test-utils/render-with-providers';
+import { createMockSchema } from '@/test-utils/mock-schema';
+import { mockTranslations } from '@/test-utils/mock-swagger-viewer-translations';
+import { createMockEndpoint } from '@/test-utils/mock-swagger-viewer-endpoint';
 import { SwaggerViewer } from './swagger-viewer';
 import { parseSwagger } from '@/utils/parse-swagger';
 import { useSchemaStore } from '@/store/schema-store';
@@ -10,49 +12,14 @@ vi.mock('@/utils/parse-swagger', () => ({
   parseSwagger: vi.fn(),
 }));
 
-const translations: Record<string, string> = {
-  description: 'API documentation',
-  endpoints: 'Endpoints',
-  noEndpoints: 'No endpoints found',
-  invalidSchema: 'Invalid OpenAPI schema',
-  parameters: 'Parameters',
-  requestBody: 'Request body',
-  responses: 'Responses',
-  required: 'Required',
-  noParameters: 'No parameters',
-  noRequestBody: 'No request body',
-  noResponses: 'No responses',
-  tryItOut: 'Try it out',
-  execute: 'Execute',
-  generateCurl: 'Generate cURL',
-};
-
-const mockTranslations = (key: keyof typeof translations) => translations[key];
+const getTranslation = (key: keyof typeof mockTranslations) =>
+  mockTranslations[key];
 
 vi.mock('next-intl', () => ({
-  useTranslations: () => mockTranslations,
+  useTranslations: () => getTranslation,
 }));
 
-const validSchema = {
-  openapi: '3.0.0',
-  info: {
-    title: 'Test API',
-    version: '1.0.0',
-    description: 'API documentation',
-  },
-  paths: {
-    '/users': {
-      get: {
-        summary: 'Get all users',
-        responses: {
-          '200': {
-            description: 'Successful response',
-          },
-        },
-      },
-    },
-  },
-};
+const validSchema = createMockSchema();
 
 describe('SwaggerViewer', () => {
   beforeEach(() => {
@@ -66,13 +33,10 @@ describe('SwaggerViewer', () => {
 
   it('renders swagger endpoints', () => {
     vi.mocked(parseSwagger).mockReturnValue([
-      {
+      createMockEndpoint({
         path: '/users',
-        method: 'get',
         summary: 'Get all users',
-        parameters: [],
-        responses: {},
-      },
+      }),
     ]);
 
     renderWithProviders(<SwaggerViewer />);
@@ -87,7 +51,7 @@ describe('SwaggerViewer', () => {
 
     renderWithProviders(<SwaggerViewer />);
 
-    expect(screen.getByText('No endpoints found')).toBeInTheDocument();
+    expect(screen.getByText(mockTranslations.noEndpoints)).toBeInTheDocument();
   });
 
   it('renders invalid schema message', () => {
@@ -98,7 +62,9 @@ describe('SwaggerViewer', () => {
 
     renderWithProviders(<SwaggerViewer />);
 
-    expect(screen.getByText('Invalid OpenAPI schema')).toBeInTheDocument();
+    expect(
+      screen.getByText(mockTranslations.invalidSchema),
+    ).toBeInTheDocument();
   });
 
   it('passes parsed schema to parseSwagger', () => {
@@ -110,11 +76,9 @@ describe('SwaggerViewer', () => {
 
     expect(parseSwagger).toHaveBeenCalledWith(
       expect.objectContaining({
-        openapi: '3.0.0',
         info: {
           title: 'Test API',
           version: '1.0.0',
-          description: 'API documentation',
         },
       }),
     );

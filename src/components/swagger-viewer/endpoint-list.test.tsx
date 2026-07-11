@@ -1,23 +1,11 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
-
 import { renderWithProviders } from '@/test-utils/render-with-providers';
+import { mockTranslations } from '@/test-utils/mock-swagger-viewer-translations';
+import { createMockEndpoint } from '@/test-utils/mock-swagger-viewer-endpoint';
 
 import { EndpointList } from './endpoint-list';
-
-const translations = {
-  parameters: 'Parameters',
-  requestBody: 'Request body',
-  responses: 'Responses',
-  required: 'Required',
-  noParameters: 'No parameters available',
-  noRequestBody: 'No request body',
-  noResponses: 'No responses available',
-  tryItOut: 'Try it out',
-  execute: 'Execute',
-  generateCurl: 'Generate cURL',
-};
 
 describe('EndpointList', () => {
   it('opens endpoint details panel with parameters', async () => {
@@ -26,11 +14,9 @@ describe('EndpointList', () => {
     renderWithProviders(
       <EndpointList
         endpoints={[
-          {
+          createMockEndpoint({
             path: '/users/{id}',
-            method: 'get',
             summary: 'Get user by id',
-
             parameters: [
               {
                 name: 'id',
@@ -49,19 +35,12 @@ describe('EndpointList', () => {
                 },
               },
             ],
-
             requestBody: {
               required: false,
             },
-
-            responses: {
-              '200': {
-                description: 'Success',
-              },
-            },
-          },
+          }),
         ]}
-        translations={translations}
+        translations={mockTranslations}
       />,
     );
 
@@ -90,11 +69,8 @@ describe('EndpointList', () => {
     renderWithProviders(
       <EndpointList
         endpoints={[
-          {
+          createMockEndpoint({
             path: '/users/{id}',
-            method: 'get',
-            summary: 'Get user by id',
-
             parameters: [
               {
                 name: 'id',
@@ -104,11 +80,10 @@ describe('EndpointList', () => {
                 },
               },
             ],
-
             responses: {},
-          },
+          }),
         ]}
-        translations={translations}
+        translations={mockTranslations}
       />,
     );
 
@@ -129,25 +104,18 @@ describe('EndpointList', () => {
     renderWithProviders(
       <EndpointList
         endpoints={[
-          {
+          createMockEndpoint({
             path: '/users',
-            method: 'get',
-            summary: 'Get users',
-
-            responses: {
-              '200': {
-                description: 'Success',
-              },
-            },
-          },
+            parameters: undefined,
+          }),
         ]}
-        translations={translations}
+        translations={mockTranslations}
       />,
     );
 
     await user.click(screen.getByText('/users'));
 
-    expect(screen.getByText('No parameters available')).toBeInTheDocument();
+    expect(screen.getByText(mockTranslations.noParameters)).toBeInTheDocument();
   });
 
   it('shows message when endpoint has no request body', async () => {
@@ -156,26 +124,21 @@ describe('EndpointList', () => {
     renderWithProviders(
       <EndpointList
         endpoints={[
-          {
+          createMockEndpoint({
             path: '/users',
-            method: 'get',
-            summary: 'Get users',
-
-            responses: {
-              '200': {
-                description: 'Success',
-              },
-            },
-          },
+            requestBody: undefined,
+          }),
         ]}
-        translations={translations}
+        translations={mockTranslations}
       />,
     );
 
     await user.click(screen.getByText('/users'));
 
-    expect(screen.getByText('Request body')).toBeInTheDocument();
+    expect(screen.getByText(mockTranslations.requestBody)).toBeInTheDocument();
 
-    expect(screen.getByText('No request body')).toBeInTheDocument();
+    expect(
+      screen.getByText(mockTranslations.noRequestBody),
+    ).toBeInTheDocument();
   });
 });

@@ -23,6 +23,8 @@ export function SwaggerViewer() {
     tryItOut: t('tryItOut'),
     execute: t('execute'),
     generateCurl: t('generateCurl'),
+    addRequestBody: t('addRequestBody'),
+    enterRequestBody: t('enterRequestBody'),
   };
   const code = useSchemaStore((state) => state.code);
   const format = useSchemaStore((state) => state.format);

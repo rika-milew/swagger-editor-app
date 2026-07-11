@@ -1,27 +1,19 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
-
 import { renderWithProviders } from '@/test-utils/render-with-providers';
+import { mockTranslations } from '@/test-utils/mock-swagger-viewer-translations';
+import { createMockEndpoint } from '@/test-utils/mock-swagger-viewer-endpoint';
 
-import { TryItOut } from './try-it-out';
-
-const translations = {
-  parameters: 'Parameters',
-  requestBody: 'Request body',
-  responses: 'Responses',
-  required: 'Required',
-  noParameters: 'No parameters available',
-  noRequestBody: 'No request body',
-  noResponses: 'No responses available',
-  tryItOut: 'Try it out',
-  execute: 'Execute',
-  generateCurl: 'Generate cURL',
-};
+import { TryItOut } from '../try-it-out/try-it-out';
 
 describe('TryItOut', () => {
+  const endpoint = createMockEndpoint();
+
   it('renders try it out button initially', () => {
-    renderWithProviders(<TryItOut translations={translations} />);
+    renderWithProviders(
+      <TryItOut endpoint={endpoint} translations={mockTranslations} />,
+    );
 
     expect(
       screen.getByRole('button', { name: /try it out/i }),
@@ -35,7 +27,9 @@ describe('TryItOut', () => {
   it('shows action buttons after clicking try it out', async () => {
     const user = userEvent.setup();
 
-    renderWithProviders(<TryItOut translations={translations} />);
+    renderWithProviders(
+      <TryItOut endpoint={endpoint} translations={mockTranslations} />,
+    );
 
     await user.click(screen.getByRole('button', { name: /try it out/i }));
 
@@ -51,7 +45,9 @@ describe('TryItOut', () => {
   it('hides try it out button after activation', async () => {
     const user = userEvent.setup();
 
-    renderWithProviders(<TryItOut translations={translations} />);
+    renderWithProviders(
+      <TryItOut endpoint={endpoint} translations={mockTranslations} />,
+    );
 
     await user.click(screen.getByRole('button', { name: /try it out/i }));
 

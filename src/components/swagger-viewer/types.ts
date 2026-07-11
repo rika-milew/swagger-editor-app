@@ -73,4 +73,6 @@ export type EndpointDetailsTranslations = {
   tryItOut: string;
   execute: string;
   generateCurl: string;
+  addRequestBody: string;
+  enterRequestBody: string;
 };

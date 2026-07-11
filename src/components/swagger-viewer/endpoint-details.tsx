@@ -3,7 +3,7 @@ import type { Endpoint } from '@/utils/parse-swagger';
 import type { EndpointDetailsTranslations } from './types';
 import { swagger } from '@/theme/swagger';
 import { colors } from '@/theme';
-import { TryItOut } from './try-it-out';
+import { TryItOut } from '../try-it-out/try-it-out';
 
 type EndpointDetailsProps = {
   endpoint: Endpoint;
@@ -66,7 +66,7 @@ export function EndpointDetails({
           )}
         </Box>
 
-        <TryItOut translations={translations} />
+        <TryItOut endpoint={endpoint} translations={translations} />
 
         <Box>
           <Text {...swagger.endpointSectionTitle}>

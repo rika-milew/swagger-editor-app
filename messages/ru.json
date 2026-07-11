@@ -59,7 +59,10 @@
 
     "tryItOut": "Попробовать",
     "execute": "Выполнить",
-    "generateCurl": "Сгенерировать cURL"
+    "generateCurl": "Сгенерировать cURL",
+
+    "addRequestBody": "Добавьте тело запроса",
+    "enterRequestBody": "Введите данные запроса в формате JSON"
   },
   "Unauthorized": {
     "title": "Нет доступа",
