@@ -15,7 +15,7 @@ export function TryItOut({ translations }: TryItOutProps) {
   if (!isTryMode) {
     return (
       <VStack align="start">
-        <Button {...buttons.truItOut} onClick={() => setIsTryMode(true)}>
+        <Button {...buttons.tryItOut} onClick={() => setIsTryMode(true)}>
           {translations.tryItOut}
         </Button>
       </VStack>
@@ -25,7 +25,7 @@ export function TryItOut({ translations }: TryItOutProps) {
   return (
     <VStack align="start">
       <HStack gap={2}>
-        <Button {...buttons.execute}>{translations.execute}</Button>
+        <Button {...buttons.tryItOut}>{translations.execute}</Button>
 
         <Button {...buttons.generateCurl}>{translations.generateCurl}</Button>
       </HStack>

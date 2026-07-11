@@ -81,7 +81,7 @@ export const buttons = {
       bg: colors.methodPut,
     },
   },
-  truItOut: {
+  tryItOut: {
     size: 'sm',
     h: '32px',
     px: 4,
@@ -92,22 +92,7 @@ export const buttons = {
     borderRadius: 'md',
     transition: 'all 0.2s',
     _hover: {
-      bg: 'hsl(183deg 100% 45%)',
-      boxShadow: `0 0 10px ${colors.brandPrimary}`,
-    },
-  },
-  execute: {
-    size: 'sm',
-    h: '32px',
-    px: 4,
-    bg: colors.brandPrimary,
-    color: colors.primaryForeground,
-    fontSize: 'sm',
-    fontWeight: '600',
-    borderRadius: 'md',
-    transition: 'all 0.2s',
-    _hover: {
-      bg: 'hsl(183deg 100% 45%)',
+      bg: colors.brandPrimeryLight,
       boxShadow: `0 0 10px ${colors.brandPrimary}`,
     },
   },
