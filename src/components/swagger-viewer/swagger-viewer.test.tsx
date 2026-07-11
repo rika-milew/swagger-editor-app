@@ -22,6 +22,9 @@ const translations: Record<string, string> = {
   noParameters: 'No parameters',
   noRequestBody: 'No request body',
   noResponses: 'No responses',
+  tryItOut: 'Try it out',
+  execute: 'Execute',
+  generateCurl: 'Generate cURL',
 };
 
 const mockTranslations = (key: keyof typeof translations) => translations[key];

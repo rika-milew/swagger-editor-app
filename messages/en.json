@@ -55,7 +55,11 @@
     "required": "Required",
     "noParameters": "No parameters available",
     "noRequestBody": "No request body",
-    "noResponses": "No responses available"
+    "noResponses": "No responses available",
+
+    "tryItOut": "Try it out",
+    "execute": "Execute",
+    "generateCurl": "Generate cURL"
   },
   "Unauthorized": {
     "title": "Unauthorized",
