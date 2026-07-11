@@ -60,7 +60,17 @@ async function fetchExternal(
     const responseHeaders: Record<string, string> = {};
     response.headers.forEach((value, key) => {
       if (
-        !['content-encoding', 'transfer-encoding'].includes(key.toLowerCase())
+        ![
+          'content-encoding',
+          'transfer-encoding',
+          'cf-ray',
+          'cf-cache-status',
+          'report-to',
+          'reporting-endpoints',
+          'nel',
+          'server',
+          'alt-svc',
+        ].includes(key.toLowerCase())
       ) {
         responseHeaders[key] = value;
       }
