@@ -5,6 +5,8 @@ import type { RequestInput } from '@/lib/validation/request-schema';
 import { isProxyRequest, isInternalUrl, isRequestMethod } from '@/types/guards';
 import { recordHistory } from '@/app/actions/history';
 
+const PROXY_TIMEOUT_MS = 10_000;
+
 type ProxyRequestParsed = {
   url: string;
   method: RequestInput['request_method'];
@@ -41,25 +43,44 @@ async function fetchExternal(
   headers: Record<string, string>,
   body?: string,
 ): Promise<ProxyResult> {
-  const response = await fetch(targetUrl, {
-    method,
-    headers: { 'Content-Type': 'application/json', ...headers },
-    body: method !== 'GET' && method !== 'HEAD' ? body : undefined,
-  });
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), PROXY_TIMEOUT_MS);
 
-  const responseBody = await response.text();
+  try {
+    const response = await fetch(targetUrl, {
+      method,
+      headers: { 'Content-Type': 'application/json', ...headers },
+      body: method !== 'GET' && method !== 'HEAD' ? body : undefined,
+      signal: controller.signal,
+      redirect: 'manual',
+    });
 
-  const responseHeaders: Record<string, string> = {};
-  response.headers.forEach((value, key) => {
-    responseHeaders[key] = value;
-  });
+    const responseBody = await response.text();
 
-  return {
-    status: response.status,
-    statusText: response.statusText,
-    headers: responseHeaders,
-    body: responseBody,
-  };
+    const responseHeaders: Record<string, string> = {};
+    response.headers.forEach((value, key) => {
+      if (
+        !['content-encoding', 'transfer-encoding'].includes(key.toLowerCase())
+      ) {
+        responseHeaders[key] = value;
+      }
+    });
+
+    return {
+      status: response.status,
+      statusText: response.statusText,
+      headers: responseHeaders,
+      body: responseBody,
+    };
+  } catch (error) {
+    if (error instanceof DOMException && error.name === 'AbortError') {
+      throw new Error('Request timeout');
+    }
+
+    throw error;
+  } finally {
+    clearTimeout(timeout);
+  }
 }
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
