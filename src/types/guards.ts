@@ -27,8 +27,8 @@ export function isRequestMethod(
 
 export function isInternalUrl(url: string): boolean {
   try {
-    const parsed = new URL(url);
-    return BLOCKED_HOSTS.has(parsed.hostname);
+    const hostname = new URL(url).hostname.toLowerCase().replace(/\.$/, '');
+    return BLOCKED_HOSTS.has(hostname);
   } catch {
     return true;
   }
@@ -39,7 +39,22 @@ export function isProxyRequest(value: unknown): value is ProxyRequestInput {
     return false;
   }
 
-  return (
-    'url' in value && typeof value.url === 'string' && value.url.length > 0
-  );
+  if (
+    !('url' in value) ||
+    typeof value.url !== 'string' ||
+    value.url.length === 0
+  ) {
+    return false;
+  }
+
+  try {
+    const parsed = new URL(value.url);
+    if (!['http:', 'https:'].includes(parsed.protocol)) {
+      return false;
+    }
+  } catch {
+    return false;
+  }
+
+  return true;
 }
