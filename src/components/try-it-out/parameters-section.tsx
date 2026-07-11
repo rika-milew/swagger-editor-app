@@ -38,7 +38,7 @@ export function ParametersSection({
               )}
             </Text>
 
-            <Input placeholder={`Enter ${parameter.name}`} />
+            <Input p={4} placeholder={`Enter ${parameter.name}`} />
           </Box>
         ))}
       </Stack>
