@@ -1,16 +1,14 @@
 import { describe, it, expect } from 'vitest';
 import { isRequestMethod, isInternalUrl, isProxyRequest } from './guards';
+import { VALID_HTTP_METHODS } from '@/constants/http-status';
 
 describe('isRequestMethod', () => {
-  it('returns true for valid HTTP methods', () => {
-    expect(isRequestMethod('GET')).toBe(true);
-    expect(isRequestMethod('POST')).toBe(true);
-    expect(isRequestMethod('PUT')).toBe(true);
-    expect(isRequestMethod('DELETE')).toBe(true);
-    expect(isRequestMethod('PATCH')).toBe(true);
-    expect(isRequestMethod('HEAD')).toBe(true);
-    expect(isRequestMethod('OPTIONS')).toBe(true);
-  });
+  it.each([...VALID_HTTP_METHODS])(
+    'returns true for valid HTTP method %s',
+    (method) => {
+      expect(isRequestMethod(method)).toBe(true);
+    },
+  );
 
   it('returns false for invalid methods', () => {
     expect(isRequestMethod('INVALID')).toBe(false);

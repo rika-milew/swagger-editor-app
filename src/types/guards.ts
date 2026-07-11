@@ -1,4 +1,5 @@
 import type { RequestInput } from '@/lib/validation/request-schema';
+import { VALID_HTTP_METHODS } from '@/constants/http-status';
 
 type ProxyRequestInput = {
   url: string;
@@ -9,20 +10,10 @@ type ProxyRequestInput = {
 
 const BLOCKED_HOSTS = new Set(['localhost', '127.0.0.1', '0.0.0.0', '::1']);
 
-const VALID_METHODS = new Set([
-  'GET',
-  'POST',
-  'PUT',
-  'DELETE',
-  'PATCH',
-  'HEAD',
-  'OPTIONS',
-]);
-
 export function isRequestMethod(
   value: unknown,
 ): value is RequestInput['request_method'] {
-  return typeof value === 'string' && VALID_METHODS.has(value);
+  return typeof value === 'string' && VALID_HTTP_METHODS.has(value);
 }
 
 export function isInternalUrl(url: string): boolean {

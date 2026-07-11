@@ -6,3 +6,13 @@ export const HTTP_STATUS = {
   FORBIDDEN: 403,
   BAD_GATEWAY: 502,
 } as const;
+
+export const VALID_HTTP_METHODS = new Set<string>([
+  'GET',
+  'POST',
+  'PUT',
+  'DELETE',
+  'PATCH',
+  'HEAD',
+  'OPTIONS',
+] as const);
