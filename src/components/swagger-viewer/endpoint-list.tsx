@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Box, Badge, Flex, Text, VStack } from '@chakra-ui/react';
 
 import type { Endpoint } from '@/utils/parse-swagger';
-import type { EndpointDetailsTranslations } from './types';
+import type { EndpointDetailsTranslations } from '../../types/viewer.types';
 
 import getColor from './get-swagger-color';
 import { EndpointDetails } from './endpoint-details';

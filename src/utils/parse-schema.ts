@@ -1,6 +1,6 @@
 import { parse } from 'yaml';
 import type { EditorFormat } from '@/types/editor.types';
-import type { SwaggerSchema } from '@/components/swagger-viewer/types';
+import type { SwaggerSchema } from '@/types/viewer.types';
 
 function isSwaggerSchema(value: unknown): value is SwaggerSchema {
   if (typeof value !== 'object' || value === null) {

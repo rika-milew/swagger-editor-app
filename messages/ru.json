@@ -55,7 +55,14 @@
     "required": "Обязательный",
     "noParameters": "Параметры отсутствуют",
     "noRequestBody": "Тело запроса отсутствует",
-    "noResponses": "Ответы отсутствуют"
+    "noResponses": "Ответы отсутствуют",
+
+    "tryItOut": "Попробовать",
+    "execute": "Выполнить",
+    "generateCurl": "Сгенерировать cURL",
+
+    "addRequestBody": "Добавьте тело запроса",
+    "enterRequestBody": "Введите данные запроса в формате JSON"
   },
   "Unauthorized": {
     "title": "Нет доступа",
