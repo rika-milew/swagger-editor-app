@@ -9,6 +9,7 @@ import { parseSwagger } from '@/utils/parse-swagger';
 import { colors } from '@/theme/colors';
 import { swagger } from '@/theme/swagger';
 import { EndpointList } from './endpoint-list';
+import { BaseUrlSelector } from './baseurl-selector/baseurl-selector';
 
 export function SwaggerViewer() {
   const t = useTranslations('SwaggerViewer');
@@ -45,6 +46,8 @@ export function SwaggerViewer() {
     return parseSwagger(schema);
   }, [schema]);
 
+  const servers = schema?.servers ?? [];
+
   if (!code) {
     return null;
   }
@@ -73,6 +76,8 @@ export function SwaggerViewer() {
         <Text color={colors.colorZinc400} mb={8}>
           {t('description')}
         </Text>
+
+        <BaseUrlSelector servers={servers} />
 
         <Text {...swagger.topText}>{t('endpoints')}</Text>
       </Box>
