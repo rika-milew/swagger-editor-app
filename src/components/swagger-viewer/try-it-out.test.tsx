@@ -1,24 +1,27 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
+
 import { renderWithProviders } from '@/test-utils/render-with-providers';
+
 import { TryItOut } from './try-it-out';
 
-const translations: Record<string, string> = {
+const translations = {
+  parameters: 'Parameters',
+  requestBody: 'Request body',
+  responses: 'Responses',
+  required: 'Required',
+  noParameters: 'No parameters available',
+  noRequestBody: 'No request body',
+  noResponses: 'No responses available',
   tryItOut: 'Try it out',
   execute: 'Execute',
   generateCurl: 'Generate cURL',
 };
 
-const mockTranslations = (key: keyof typeof translations) => translations[key];
-
-vi.mock('next-intl', () => ({
-  useTranslations: () => mockTranslations,
-}));
-
 describe('TryItOut', () => {
   it('renders try it out button initially', () => {
-    renderWithProviders(<TryItOut />);
+    renderWithProviders(<TryItOut translations={translations} />);
 
     expect(
       screen.getByRole('button', { name: /try it out/i }),
@@ -32,7 +35,7 @@ describe('TryItOut', () => {
   it('shows action buttons after clicking try it out', async () => {
     const user = userEvent.setup();
 
-    renderWithProviders(<TryItOut />);
+    renderWithProviders(<TryItOut translations={translations} />);
 
     await user.click(screen.getByRole('button', { name: /try it out/i }));
 
@@ -48,7 +51,7 @@ describe('TryItOut', () => {
   it('hides try it out button after activation', async () => {
     const user = userEvent.setup();
 
-    renderWithProviders(<TryItOut />);
+    renderWithProviders(<TryItOut translations={translations} />);
 
     await user.click(screen.getByRole('button', { name: /try it out/i }));
 

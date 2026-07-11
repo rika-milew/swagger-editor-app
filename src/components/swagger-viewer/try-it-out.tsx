@@ -2,18 +2,21 @@
 
 import { Button, HStack, VStack } from '@chakra-ui/react';
 import { useState } from 'react';
-import { useTranslations } from 'next-intl';
+import type { EndpointDetailsTranslations } from './types';
 import { buttons } from '@/theme';
 
-export function TryItOut() {
-  const t = useTranslations('SwaggerViewer');
+type TryItOutProps = {
+  translations: EndpointDetailsTranslations;
+};
+
+export function TryItOut({ translations }: TryItOutProps) {
   const [isTryMode, setIsTryMode] = useState(false);
 
   if (!isTryMode) {
     return (
       <VStack align="start">
         <Button {...buttons.truItOut} onClick={() => setIsTryMode(true)}>
-          {t('tryItOut')}
+          {translations.tryItOut}
         </Button>
       </VStack>
     );
@@ -22,9 +25,9 @@ export function TryItOut() {
   return (
     <VStack align="start">
       <HStack gap={2}>
-        <Button {...buttons.execute}>{t('execute')}</Button>
+        <Button {...buttons.execute}>{translations.execute}</Button>
 
-        <Button {...buttons.generateCurl}>{t('generateCurl')}</Button>
+        <Button {...buttons.generateCurl}>{translations.generateCurl}</Button>
       </HStack>
     </VStack>
   );

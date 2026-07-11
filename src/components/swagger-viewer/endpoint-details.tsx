@@ -66,7 +66,7 @@ export function EndpointDetails({
           )}
         </Box>
 
-        <TryItOut />
+        <TryItOut translations={translations} />
 
         <Box>
           <Text {...swagger.endpointSectionTitle}>
