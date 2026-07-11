@@ -20,6 +20,9 @@ export function SwaggerViewer() {
     noParameters: t('noParameters'),
     noRequestBody: t('noRequestBody'),
     noResponses: t('noResponses'),
+    tryItOut: t('tryItOut'),
+    execute: t('execute'),
+    generateCurl: t('generateCurl'),
   };
   const code = useSchemaStore((state) => state.code);
   const format = useSchemaStore((state) => state.format);
