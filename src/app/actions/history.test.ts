@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { getHistory, saveToHistory } from './history';
+import { getHistory, saveToHistory, recordHistory } from './history';
 
 const { mockGetSession, mockCreateServerClient } = vi.hoisted(() => ({
   mockGetSession: vi.fn(),
@@ -179,5 +179,54 @@ describe('saveToHistory', () => {
     });
 
     expect(result).toEqual({ data: null, error: 'Invalid request data' });
+  });
+});
+
+describe('recordHistory', () => {
+  const mockInsert = vi.fn();
+  const mockSelect = vi.fn();
+  const mockSingle = vi.fn();
+  const mockSupabase = {
+    from: vi.fn(() => ({
+      insert: mockInsert,
+    })),
+  };
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mockCreateServerClient.mockResolvedValue(mockSupabase);
+    mockInsert.mockReturnValue({ select: mockSelect });
+    mockSelect.mockReturnValue({ single: mockSingle });
+    vi.spyOn(console, 'error').mockImplementation(vi.fn());
+  });
+
+  const validParams = {
+    targetUrl: '/api/test',
+    method: 'POST' as const,
+    body: JSON.stringify({ key: 'value' }),
+    responseStatus: 201,
+    responseBody: JSON.stringify({ success: true }),
+    duration: 250,
+    errorDetails: null,
+  };
+
+  it('silently returns when user is not authenticated', async () => {
+    mockGetSession.mockResolvedValue(null);
+
+    await expect(recordHistory(validParams)).resolves.toBeUndefined();
+    expect(mockCreateServerClient).not.toHaveBeenCalled();
+  });
+
+  it('suppresses save errors and logs them', async () => {
+    mockGetSession.mockResolvedValue({ id: 'user-1' });
+    const saveError = new Error('Database connection failed');
+    mockSingle.mockRejectedValue(saveError);
+
+    await expect(recordHistory(validParams)).resolves.toBeUndefined();
+
+    expect(console.error).toHaveBeenCalledWith(
+      'Failed to save history:',
+      saveError,
+    );
   });
 });

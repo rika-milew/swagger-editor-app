@@ -86,3 +86,37 @@ export async function saveToHistory(
     return { data: null, error: 'Failed to save history' };
   }
 }
+
+export async function recordHistory(params: {
+  targetUrl: string;
+  method: RequestInput['request_method'];
+  body?: string;
+  responseStatus: number | null;
+  responseBody: string | null;
+  duration: number;
+  errorDetails: string | null;
+}): Promise<void> {
+  const user = await getSession();
+  if (!user) {
+    return;
+  }
+
+  const entry: RequestInput = {
+    endpoint_url: params.targetUrl,
+    request_method: params.method,
+    request_size: new Blob([params.body ?? '']).size,
+    response_status_code: params.responseStatus,
+    response_size:
+      params.responseBody === null
+        ? null
+        : new Blob([params.responseBody]).size,
+    request_duration: params.duration,
+    error_details: params.errorDetails,
+  };
+
+  try {
+    await saveToHistory(entry);
+  } catch (error) {
+    console.error('Failed to save history:', error);
+  }
+}
