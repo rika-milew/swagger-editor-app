@@ -19,13 +19,16 @@ export function BaseUrlSelector({ servers }: BaseUrlSelectorProps) {
   const baseUrl = useSchemaStore((state) => state.baseUrl);
   const setBaseUrl = useSchemaStore((state) => state.setBaseUrl);
 
-  useEffect(() => {
-    if (!baseUrl && servers.length > 0) {
-      setBaseUrl(servers[0].url);
-    }
-  }, [baseUrl, servers, setBaseUrl]);
+  const validServers = servers.filter((server) => server.url.trim());
 
-  if (servers.length === 0) {
+  useEffect(() => {
+    const isValid = validServers.some((server) => server.url === baseUrl);
+    if ((!baseUrl || !isValid) && validServers.length > 0) {
+      setBaseUrl(validServers[0].url);
+    }
+  }, [baseUrl, validServers, setBaseUrl]);
+
+  if (validServers.length === 0) {
     return null;
   }
 
@@ -34,9 +37,9 @@ export function BaseUrlSelector({ servers }: BaseUrlSelectorProps) {
       <Text {...swagger.topText}>baseUrl</Text>
       <Select.Root
         collection={createListCollection({
-          items: servers.map((s) => ({ value: s.url, label: s.url })),
+          items: validServers.map((s) => ({ value: s.url, label: s.url })),
         })}
-        value={[baseUrl || servers[0]?.url]}
+        value={[baseUrl || validServers[0]?.url]}
         onValueChange={(details) => setBaseUrl(details.value[0])}
       >
         <Select.Control color={colors.colorZinc400}>
@@ -60,7 +63,7 @@ export function BaseUrlSelector({ servers }: BaseUrlSelectorProps) {
           top="100%"
           zIndex="dropdown"
         >
-          {servers.map((s) => (
+          {validServers.map((s) => (
             <Select.Item
               key={s.url}
               item={s.url}
