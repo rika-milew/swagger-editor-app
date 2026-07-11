@@ -1,6 +1,6 @@
 import { Box, Text, Stack, Flex } from '@chakra-ui/react';
 import type { Endpoint } from '@/utils/parse-swagger';
-import type { EndpointDetailsTranslations } from './types';
+import type { EndpointDetailsTranslations } from '../../types/viewer.types';
 import { swagger } from '@/theme/swagger';
 import { colors } from '@/theme';
 import { TryItOut } from '../try-it-out/try-it-out';

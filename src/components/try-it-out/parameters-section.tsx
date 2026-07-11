@@ -1,13 +1,9 @@
 import { Box, Input, Stack, Text } from '@chakra-ui/react';
-
-type Parameter = {
-  name: string;
-  required?: boolean;
-};
+import { type SwaggerParameter } from '@/types/viewer.types';
 
 type ParametersSectionProps = {
   title: string;
-  parameters: Parameter[];
+  parameters: SwaggerParameter[];
 };
 
 export function ParametersSection({

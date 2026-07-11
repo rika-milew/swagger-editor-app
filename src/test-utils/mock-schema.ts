@@ -1,4 +1,4 @@
-import type { SwaggerSchema } from '@/components/swagger-viewer/types';
+import type { SwaggerSchema } from '@/types/viewer.types';
 
 export const createMockSchema = (
   overrides: Partial<SwaggerSchema> = {},

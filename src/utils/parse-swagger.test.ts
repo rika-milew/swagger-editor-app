@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import type { SwaggerSchema } from '@/components/swagger-viewer/types';
+import type { SwaggerSchema } from '@/types/viewer.types';
 
 import { isHttpMethod, parseSwagger } from './parse-swagger';
 

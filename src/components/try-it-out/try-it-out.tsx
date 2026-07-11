@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import type { Endpoint } from '@/utils/parse-swagger';
-import type { EndpointDetailsTranslations } from '../swagger-viewer/types';
+import type { EndpointDetailsTranslations } from '../../types/viewer.types';
 import { buttons } from '@/theme';
 import { colors } from '@/theme';
 import { ParametersSection } from './parameters-section';
