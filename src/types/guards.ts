@@ -1,5 +1,6 @@
 import type { RequestInput } from '@/lib/validation/request-schema';
 import { VALID_HTTP_METHODS } from '@/constants/http-status';
+import type { ResponseData } from '@/types/viewer.types';
 
 type ProxyRequestInput = {
   url: string;
@@ -48,4 +49,16 @@ export function isProxyRequest(value: unknown): value is ProxyRequestInput {
   }
 
   return true;
+}
+
+export function isResponseData(value: unknown): value is ResponseData {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    'status' in value &&
+    'statusText' in value &&
+    'headers' in value &&
+    'body' in value &&
+    'duration' in value
+  );
 }
