@@ -15,7 +15,8 @@ export const swagger = {
     display: 'flex',
     flexDirection: 'column',
 
-    height: '70vh',
+    flex: 1,
+    minH: 0,
   },
   cardsWrapper: {
     display: 'flex',
