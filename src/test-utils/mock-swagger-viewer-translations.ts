@@ -15,6 +15,8 @@ export const mockTranslations = {
 
   tryItOut: 'Try it out',
   execute: 'Execute',
+  executing: 'Execute',
+  cancel: 'Cancel',
   generateCurl: 'Generate cURL',
 
   addRequestBody: 'Add request body',
