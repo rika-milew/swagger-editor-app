@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
-import { useExecuteRequest, createResponseData } from './use-execute-request';
+import { useExecuteRequest } from './use-execute-request';
+import { createResponseData } from '@/utils/create-response-data';
 import { useSchemaStore } from '@/store/schema-store';
 import { useApiCall } from './use-api-call';
 import type { Endpoint } from '@/utils/parse-swagger';
