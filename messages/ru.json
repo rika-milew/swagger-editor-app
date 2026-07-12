@@ -60,10 +60,21 @@
 
     "tryItOut": "Попробовать",
     "execute": "Выполнить",
+    "executing": "Выполняется...",
+    "cancel": "Отмена",
     "generateCurl": "Сгенерировать cURL",
 
+    "response": "Ответ",
+    "headers": "Заголовки",
+    "body": "Тело ответа",
+    "baseUrl": "Базовый URL",
+
     "addRequestBody": "Добавьте тело запроса",
-    "enterRequestBody": "Введите данные запроса в формате JSON"
+    "enterRequestBody": "Введите данные запроса в формате JSON",
+
+    "curlTitle": "cURL команда",
+    "copyCurl": "Копировать",
+    "copied": "Скопировано!"
   },
   "Unauthorized": {
     "title": "Нет доступа",

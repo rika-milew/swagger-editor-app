@@ -7,6 +7,18 @@ import { recordHistory } from '@/app/actions/history';
 
 const PROXY_TIMEOUT_MS = 10_000;
 
+const EXCLUDED_RESPONSE_HEADERS = new Set([
+  'content-encoding',
+  'transfer-encoding',
+  'cf-ray',
+  'cf-cache-status',
+  'report-to',
+  'reporting-endpoints',
+  'nel',
+  'server',
+  'alt-svc',
+]);
+
 type ProxyRequestParsed = {
   url: string;
   method: RequestInput['request_method'];
@@ -59,9 +71,7 @@ async function fetchExternal(
 
     const responseHeaders: Record<string, string> = {};
     response.headers.forEach((value, key) => {
-      if (
-        !['content-encoding', 'transfer-encoding'].includes(key.toLowerCase())
-      ) {
+      if (!EXCLUDED_RESPONSE_HEADERS.has(key.toLowerCase())) {
         responseHeaders[key] = value;
       }
     });
@@ -124,7 +134,10 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
             : `HTTP ${String(result.status)}: ${result.statusText}`,
       });
 
-      return NextResponse.json({ ...result, duration });
+      return NextResponse.json(
+        { ...result, duration },
+        { status: result.status },
+      );
     } catch (error) {
       const duration = Date.now() - startTime;
 

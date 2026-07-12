@@ -11,6 +11,7 @@ import { colors } from '@/theme/colors';
 import { swagger } from '@/theme/swagger';
 
 import { EndpointList } from './endpoint-list';
+import { BaseUrlSelector } from './baseurl-selector/baseurl-selector';
 
 export function SwaggerViewer() {
   const t = useTranslations('SwaggerViewer');
@@ -25,6 +26,8 @@ export function SwaggerViewer() {
     noResponses: t('noResponses'),
     tryItOut: t('tryItOut'),
     execute: t('execute'),
+    executing: t('executing'),
+    cancel: t('cancel'),
     generateCurl: t('generateCurl'),
     addRequestBody: t('addRequestBody'),
     enterRequestBody: t('enterRequestBody'),
@@ -48,6 +51,8 @@ export function SwaggerViewer() {
 
     return parseSwagger(schema);
   }, [schema]);
+
+  const servers = schema?.servers ?? [];
 
   if (!code) {
     return (
@@ -95,6 +100,8 @@ export function SwaggerViewer() {
         <Text color={colors.colorZinc400} mb={8}>
           {t('description')}
         </Text>
+
+        <BaseUrlSelector servers={servers} />
 
         <Text {...swagger.topText}>{t('endpoints')}</Text>
       </Box>

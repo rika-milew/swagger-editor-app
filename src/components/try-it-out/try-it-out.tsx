@@ -9,12 +9,13 @@ import {
   Text,
   Textarea,
 } from '@chakra-ui/react';
-import { useState } from 'react';
 import type { Endpoint } from '@/utils/parse-swagger';
-import type { EndpointDetailsTranslations } from '../../types/viewer.types';
+import type { EndpointDetailsTranslations } from '@/types/viewer.types';
 import { buttons } from '@/theme';
-import { colors } from '@/theme';
-import { ParametersSection } from './parameters-section';
+import { TryItOutParams } from './try-it-out-params';
+import { useTryItOut } from '@/hooks/use-try-it-out';
+import { TryItOutResponse } from './try-it-out-response/try-it-out-response';
+import { CurlDisplay } from './curl-display/curl-display';
 
 type TryItOutProps = {
   endpoint: Endpoint;
@@ -22,72 +23,85 @@ type TryItOutProps = {
 };
 
 export function TryItOut({ endpoint, translations }: TryItOutProps) {
-  const [isTryMode, setIsTryMode] = useState(false);
+  const {
+    isTryMode,
+    isLoading,
+    response,
+    paramValues,
+    bodyValue,
+    hasBody,
+    parameters,
+    curl,
+    handleTryItOut,
+    handleExecute,
+    handleCancel,
+    handleCurl,
+    setParamValues,
+    setBodyValue,
+  } = useTryItOut(endpoint);
 
   if (!isTryMode) {
     return (
       <VStack align="start">
-        <Button {...buttons.tryItOut} onClick={() => setIsTryMode(true)}>
+        <Button {...buttons.tryItOut} onClick={handleTryItOut}>
           {translations.tryItOut}
         </Button>
       </VStack>
     );
   }
 
-  const pathParams = endpoint.parameters?.filter((p) => p.in === 'path') ?? [];
-
-  const queryParams =
-    endpoint.parameters?.filter((p) => p.in === 'query') ?? [];
-
-  const headerParams =
-    endpoint.parameters?.filter((p) => p.in === 'header') ?? [];
-
-  const cookieParams =
-    endpoint.parameters?.filter((p) => p.in === 'cookie') ?? [];
-
   return (
     <Stack gap={6}>
-      <ParametersSection title="Path Parameters" parameters={pathParams} />
+      <TryItOutParams
+        parameters={parameters ?? []}
+        paramValues={paramValues}
+        onParamChange={setParamValues}
+      />
 
-      <ParametersSection title="Query Parameters" parameters={queryParams} />
-
-      <ParametersSection title="Header Parameters" parameters={headerParams} />
-
-      <ParametersSection title="Cookie Parameters" parameters={cookieParams} />
-
-      <Box>
-        <Text mb={2} fontWeight="semibold">
-          {translations.addRequestBody}
-        </Text>
-        <Textarea
-          minH="180px"
-          p={4}
-          placeholder={translations.enterRequestBody}
-        />
-      </Box>
+      {hasBody && (
+        <Box>
+          <Text mb={2} fontWeight="semibold">
+            {translations.addRequestBody}
+          </Text>
+          <Textarea
+            minH="180px"
+            p={4}
+            placeholder={translations.enterRequestBody}
+            value={bodyValue}
+            onChange={(e) => setBodyValue(e.target.value)}
+          />
+        </Box>
+      )}
 
       <VStack align="start">
         <HStack gap={2}>
-          <Button {...buttons.tryItOut}>{translations.execute}</Button>
+          <Button
+            {...buttons.tryItOut}
+            onClick={() => void handleExecute()}
+            disabled={isLoading}
+          >
+            {isLoading ? translations.executing : translations.execute}
+          </Button>
 
-          <Button {...buttons.generateCurl}>{translations.generateCurl}</Button>
+          <Button
+            {...buttons.generateCurl}
+            disabled={isLoading}
+            onClick={() => handleCurl(paramValues, bodyValue)}
+          >
+            {translations.generateCurl}
+          </Button>
+
+          <Button
+            {...buttons.cancel}
+            onClick={handleCancel}
+            disabled={isLoading}
+          >
+            {translations.cancel}
+          </Button>
         </HStack>
       </VStack>
-
-      <Box
-        border="1px solid"
-        borderColor={colors.border}
-        borderRadius="md"
-        p={4}
-      >
-        <Text fontWeight="bold" mb={4}>
-          Response
-        </Text>
-
-        <Text color={colors.mutedForeground}>
-          The server response will appear here after execution.
-        </Text>
-      </Box>
+      {response && <TryItOutResponse response={response} />}
+      {curl && <CurlDisplay curlCommand={curl} />}
     </Stack>
   );
 }

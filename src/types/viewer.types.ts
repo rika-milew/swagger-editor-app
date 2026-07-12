@@ -9,6 +9,7 @@ export type SwaggerInfo = {
 
 export type SwaggerSchema = {
   info: SwaggerInfo;
+  servers?: { url: string }[];
   paths: Record<string, PathItem>;
 };
 
@@ -72,7 +73,17 @@ export type EndpointDetailsTranslations = {
   noResponses: string;
   tryItOut: string;
   execute: string;
+  executing: string;
+  cancel: string;
   generateCurl: string;
   addRequestBody: string;
   enterRequestBody: string;
+};
+
+export type ResponseData = {
+  status: number;
+  statusText: string;
+  headers: Record<string, string>;
+  body: string;
+  duration: number;
 };
