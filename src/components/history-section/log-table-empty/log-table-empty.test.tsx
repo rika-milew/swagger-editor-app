@@ -2,15 +2,16 @@ import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { LogTableEmpty } from './log-table-empty';
 
-vi.mock('next-intl/server', () => ({
-  getTranslations: () =>
-    Promise.resolve((key: string) => {
-      const translations: Record<string, string> = {
-        noLogsTitle: 'No requests found',
-        noLogsDesc: 'Your request history is currently empty.',
-      };
-      return translations[key] || key;
-    }),
+const mockT = (key: string) => {
+  const translations: Record<string, string> = {
+    noLogsTitle: 'No requests found',
+    noLogsDesc: 'Your request history is currently empty.',
+  };
+  return translations[key] || key;
+};
+
+vi.mock('next-intl', () => ({
+  useTranslations: () => mockT,
 }));
 
 vi.mock('@chakra-ui/react', () => {
@@ -23,9 +24,8 @@ vi.mock('@chakra-ui/react', () => {
 });
 
 describe('LogTableEmpty Component', () => {
-  it('should render empty state titles and descriptions correctly', async () => {
-    const ResolvedComponent = await LogTableEmpty();
-    render(ResolvedComponent);
+  it('should render empty state titles and descriptions correctly', () => {
+    render(<LogTableEmpty />);
 
     expect(screen.getByText('No requests found')).toBeInTheDocument();
     expect(

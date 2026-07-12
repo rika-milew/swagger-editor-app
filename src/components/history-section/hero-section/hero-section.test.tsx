@@ -2,14 +2,16 @@ import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { HeroSection } from './hero-section';
 
-vi.mock('next-intl/server', () => ({
-  getTranslations: vi.fn().mockResolvedValue((key: string) => {
-    const messages: Record<string, string> = {
-      historyTitle: 'Request History',
-      historyDesc: 'View all your recent API requests and their statuses here.',
-    };
-    return messages[key] || key;
-  }),
+const mockT = (key: string) => {
+  const messages: Record<string, string> = {
+    historyTitle: 'Request History',
+    historyDesc: 'View all your recent API requests and their statuses here.',
+  };
+  return messages[key] || key;
+};
+
+vi.mock('next-intl', () => ({
+  useTranslations: () => mockT,
 }));
 
 vi.mock('@chakra-ui/react', () => {
@@ -23,9 +25,8 @@ vi.mock('@chakra-ui/react', () => {
 });
 
 describe('HeroSection Component', () => {
-  it('should render title and description with translations correctly', async () => {
-    const ResolvedComponent = await HeroSection();
-    render(ResolvedComponent);
+  it('should render title and description with translations correctly', () => {
+    render(<HeroSection />);
 
     expect(screen.getByText('Request History')).toBeInTheDocument();
     expect(
