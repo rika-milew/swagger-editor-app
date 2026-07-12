@@ -66,6 +66,7 @@
     "response": "Response",
     "headers": "Headers",
     "body": "Body",
+    "baseUrl": "Base URL",
 
     "addRequestBody": "Add request body",
     "enterRequestBody": "Enter request data in JSON format",

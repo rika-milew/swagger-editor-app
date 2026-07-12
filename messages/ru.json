@@ -66,6 +66,7 @@
     "response": "Ответ",
     "headers": "Заголовки",
     "body": "Тело ответа",
+    "baseUrl": "Базовый URL",
 
     "addRequestBody": "Добавьте тело запроса",
     "enterRequestBody": "Введите данные запроса в формате JSON",

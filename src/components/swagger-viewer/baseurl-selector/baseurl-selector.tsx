@@ -5,6 +5,7 @@ import { Box, Text, Select, createListCollection } from '@chakra-ui/react';
 import { colors } from '@/theme/colors';
 import { swagger } from '@/theme/swagger';
 import { useSchemaStore } from '@/store/schema-store';
+import { useTranslations } from 'next-intl';
 
 type BaseUrl = {
   url: string;
@@ -16,6 +17,8 @@ type BaseUrlSelectorProps = {
 };
 
 export function BaseUrlSelector({ servers }: BaseUrlSelectorProps) {
+  const t = useTranslations('SwaggerViewer');
+
   const baseUrl = useSchemaStore((state) => state.baseUrl);
   const setBaseUrl = useSchemaStore((state) => state.setBaseUrl);
 
@@ -34,7 +37,7 @@ export function BaseUrlSelector({ servers }: BaseUrlSelectorProps) {
 
   return (
     <Box mb={8} position="relative">
-      <Text {...swagger.topText}>baseUrl</Text>
+      <Text {...swagger.topText}>{t('baseUrl')}</Text>
       <Select.Root
         collection={createListCollection({
           items: validServers.map((s) => ({ value: s.url, label: s.url })),

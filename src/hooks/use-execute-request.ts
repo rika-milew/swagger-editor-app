@@ -8,6 +8,7 @@ import { buildUrl, buildHeaders } from '@/utils/try-it-out-utils';
 import { isResponseData } from '@/types/guards';
 import { METHODS_WITH_BODY } from '@/constants/http-status';
 import { createCurlCommand } from '@/utils/generate-curl';
+import { HTTP_STATUS } from '@/constants/http-status';
 
 type UseExecuteRequestReturn = {
   isLoading: boolean;
@@ -42,7 +43,7 @@ type ExecuteFunction = (
 ) => Promise<void>;
 
 const DEFAULT_RESPONSE: ResponseData = {
-  status: 0,
+  status: HTTP_STATUS.NETWORK_ERROR,
   statusText: 'Error',
   headers: {},
   body: '',
@@ -92,6 +93,8 @@ export function useExecuteRequest(endpoint: Endpoint): UseExecuteRequestReturn {
       if (!baseUrl) {
         setResponse(
           createResponseData({
+            status: HTTP_STATUS.BAD_REQUEST,
+            statusText: 'Configuration Error',
             body: 'Base URL is not set. Please select a server.',
           }),
         );
@@ -104,7 +107,7 @@ export function useExecuteRequest(endpoint: Endpoint): UseExecuteRequestReturn {
       if (validationError) {
         setResponse(
           createResponseData({
-            status: 400,
+            status: HTTP_STATUS.NOT_FOUND,
             statusText: 'Validation Error',
             body: validationError,
           }),
