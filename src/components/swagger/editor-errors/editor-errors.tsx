@@ -1,11 +1,11 @@
 'use client';
 
-import type { Key } from 'react';
 import { Box, Text } from '@chakra-ui/react';
 
-type ValidationError = {
+export type ValidationError = {
   path: string;
   message: string;
+  line?: number;
 };
 
 type EditorErrorsProps = {
@@ -28,16 +28,26 @@ export const EditorErrors = ({ errors }: EditorErrorsProps) => {
       fontFamily="monospace"
       fontSize="13px"
     >
-      <Text color="red.400" mb={2} fontWeight="bold">
+      <Text color="red.400" mb={3} fontWeight="bold">
         Validation Errors ({errors.length})
       </Text>
-      <Box as="ul" p={0} m={0} style={{ listStyleType: 'none' }}>
-        {errors.map((error: ValidationError, index: Key) => (
-          <Box as="li" key={index} mb={1.5} color="gray.300">
+
+      <Box as="ul" p={0} m={0} listStyle="none">
+        {errors.map((error, index) => (
+          <Box as="li" key={`${error.path}-${String(index)}`} mb={2}>
+            {typeof error.line === 'number' && (
+              <Text as="span" color="orange.400" mr={2}>
+                Line {error.line}:
+              </Text>
+            )}
+
             <Text as="span" color="orange.400" mr={2}>
-              [{error.path}]
+              {error.path}:
             </Text>
-            {error.message}
+
+            <Text as="span" color="gray.200">
+              {error.message}
+            </Text>
           </Box>
         ))}
       </Box>

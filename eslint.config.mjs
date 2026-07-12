@@ -80,7 +80,7 @@ export default defineConfig([
       'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
       'max-lines-per-function': [
         'warn',
-        { max: 60, skipBlankLines: true, skipComments: true },
+        { max: 80, skipBlankLines: true, skipComments: true },
       ],
 
       '@typescript-eslint/consistent-type-assertions': [

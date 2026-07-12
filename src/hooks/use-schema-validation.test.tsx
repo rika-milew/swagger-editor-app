@@ -1,23 +1,21 @@
 import { renderHook, act } from '@testing-library/react';
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { useSchemaValidation } from './use-schema-validation';
 
-const VALIDATION_DELAY = 400;
+import { useSchemaValidation } from './use-schema-validation';
+import { VALIDATION_DELAY } from './use-schema-validation';
 
 const mockValidate = vi.fn();
 
-vi.mock('@apidevtools/swagger-parser', () => {
-  return {
-    default: class {
-      public validate = mockValidate;
-    },
-  };
-});
+vi.mock('@apidevtools/swagger-parser', () => ({
+  default: class {
+    public validate = mockValidate;
+  },
+}));
 
-const mockTranslate = (key: string): string => key;
+const mockTranslations = (key: string): string => key;
 
 vi.mock('next-intl', () => ({
-  useTranslations: () => mockTranslate,
+  useTranslations: () => mockTranslations,
 }));
 
 describe('useSchemaValidation', () => {
@@ -32,40 +30,104 @@ describe('useSchemaValidation', () => {
 
   it('should return initial state when value is empty', () => {
     const { result } = renderHook(() => useSchemaValidation('', 'json'));
+
     expect(result.current.errors).toEqual([]);
     expect(result.current.validSchema).toBeNull();
   });
 
-  it('should validate valid json schema successfully', async () => {
-    const expectedSchema = { swagger: '2.0' };
-    mockValidate.mockResolvedValue(expectedSchema);
+  it('should validate valid OpenAPI schema successfully', async () => {
+    mockValidate.mockResolvedValue(undefined);
 
-    const { result } = renderHook(() =>
-      useSchemaValidation('{"swagger": "2.0"}', 'json'),
-    );
+    const schema = JSON.stringify({
+      openapi: '3.0.0',
+      info: {
+        title: 'Test API',
+        version: '1.0.0',
+      },
+      paths: {
+        '/users': {
+          get: {
+            responses: {
+              '200': {
+                description: 'Success',
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const { result } = renderHook(() => useSchemaValidation(schema, 'json'));
 
     await act(async () => {
       await vi.advanceTimersByTimeAsync(VALIDATION_DELAY);
     });
 
-    expect(result.current.validSchema).toEqual(expectedSchema);
+    expect(result.current.validSchema).toEqual(JSON.parse(schema));
+
     expect(result.current.errors).toEqual([]);
   });
 
-  it('should handle validation errors', async () => {
+  it('should handle swagger validation errors', async () => {
     mockValidate.mockRejectedValue(new Error('Invalid schema'));
 
-    const { result } = renderHook(() =>
-      useSchemaValidation('{"swagger": "2.0"}', 'json'),
-    );
+    const schema = JSON.stringify({
+      openapi: '3.0.0',
+      info: {
+        title: 'Test API',
+        version: '1.0.0',
+      },
+      paths: {
+        '/users': {
+          get: {
+            responses: {
+              '200': {
+                description: 'Success',
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const { result } = renderHook(() => useSchemaValidation(schema, 'json'));
 
     await act(async () => {
       await vi.advanceTimersByTimeAsync(VALIDATION_DELAY);
     });
 
     expect(result.current.validSchema).toBeNull();
+
     expect(result.current.errors).toEqual([
-      { path: 'root', message: 'Invalid schema' },
+      {
+        path: 'root',
+        message: 'Invalid schema',
+      },
+    ]);
+  });
+
+  it('should reject invalid OpenAPI structure', async () => {
+    const schema = JSON.stringify({
+      swagger: '2.0',
+      info: {
+        title: 'Swagger 2 API',
+        version: '1.0.0',
+      },
+    });
+
+    const { result } = renderHook(() => useSchemaValidation(schema, 'json'));
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(VALIDATION_DELAY);
+    });
+
+    expect(result.current.validSchema).toBeNull();
+
+    expect(result.current.errors).toEqual([
+      {
+        path: 'paths',
+        message: 'Missing required field: paths.',
+      },
     ]);
   });
 });
