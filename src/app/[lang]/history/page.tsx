@@ -1,6 +1,6 @@
-import { Heading } from '@chakra-ui/react';
 import { unauthorized } from 'next/navigation';
 import { getSession } from '@/lib/auth/get-session';
+import { HistoryViewLazy } from './history-lazy';
 
 export const metadata = { title: 'History' };
 
@@ -11,5 +11,5 @@ export default async function HistoryPage() {
     unauthorized();
   }
 
-  return <Heading as="h1">History</Heading>;
+  return <HistoryViewLazy />;
 }
