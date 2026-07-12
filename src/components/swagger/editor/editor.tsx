@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { useRef } from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { useTranslations } from 'next-intl';
 import { oneDark } from '@codemirror/theme-one-dark';
@@ -36,10 +37,15 @@ export const Editor = () => {
 
   const { validSchema, errors } = useSchemaValidation(value, format);
 
+  const isSchemaLoaded = useRef(false);
+
   useEffect(() => {
-    if (!user) {
+    /*if (!user) {
       setValue(initialCodeValue);
       changeFormat('yaml', false);
+      return;
+    }*/
+    if (!user || isSchemaLoaded.current) {
       return;
     }
 
