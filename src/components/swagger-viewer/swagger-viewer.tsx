@@ -3,16 +3,19 @@
 import { Box, Text, Heading, Flex } from '@chakra-ui/react';
 import { useTranslations } from 'next-intl';
 import { useMemo } from 'react';
+
 import { useSchemaStore } from '@/store/schema-store';
 import { parseSchema } from '@/utils/parse-schema';
 import { parseSwagger } from '@/utils/parse-swagger';
 import { colors } from '@/theme/colors';
 import { swagger } from '@/theme/swagger';
+
 import { EndpointList } from './endpoint-list';
 import { BaseUrlSelector } from './baseurl-selector/baseurl-selector';
 
 export function SwaggerViewer() {
   const t = useTranslations('SwaggerViewer');
+
   const detailsTranslations = {
     parameters: t('parameters'),
     requestBody: t('requestBody'),
@@ -29,6 +32,7 @@ export function SwaggerViewer() {
     addRequestBody: t('addRequestBody'),
     enterRequestBody: t('enterRequestBody'),
   };
+
   const code = useSchemaStore((state) => state.code);
   const format = useSchemaStore((state) => state.format);
 
@@ -51,15 +55,33 @@ export function SwaggerViewer() {
   const servers = schema?.servers ?? [];
 
   if (!code) {
-    return null;
+    return (
+      <Box {...swagger.swaggerContainer}>
+        <Flex flex={1} align="center" justify="center">
+          <Text color={colors.mutedForeground}>{t('loadSchema')}</Text>
+        </Flex>
+      </Box>
+    );
   }
 
   if (!schema) {
-    return <Text color={colors.destructive}>{t('invalidSchema')}</Text>;
+    return (
+      <Box {...swagger.swaggerContainer}>
+        <Flex flex={1} align="center" justify="center">
+          <Text color={colors.destructive}>{t('invalidSchema')}</Text>
+        </Flex>
+      </Box>
+    );
   }
 
-  if (!endpoints.length) {
-    return <Text>{t('noEndpoints')}</Text>;
+  if (endpoints.length === 0) {
+    return (
+      <Box {...swagger.swaggerContainer}>
+        <Flex flex={1} align="center" justify="center">
+          <Text color={colors.mutedForeground}>{t('noEndpoints')}</Text>
+        </Flex>
+      </Box>
+    );
   }
 
   return (
@@ -83,6 +105,7 @@ export function SwaggerViewer() {
 
         <Text {...swagger.topText}>{t('endpoints')}</Text>
       </Box>
+
       <EndpointList endpoints={endpoints} translations={detailsTranslations} />
     </Box>
   );

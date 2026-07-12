@@ -48,6 +48,7 @@
     "endpoints": "Endpoints",
     "noEndpoints": "No endpoints found.",
     "invalidSchema": "Invalid OpenAPI schema",
+    "loadSchema": "Enter an OpenAPI schema to view its endpoints.",
 
     "parameters": "Parameters",
     "requestBody": "Request body",

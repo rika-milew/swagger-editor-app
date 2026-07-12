@@ -3,35 +3,32 @@ import { fontWeights } from '@/theme/font';
 
 export const swagger = {
   swaggerContainer: {
-    maxW: '900px',
-    mx: 'auto',
-    mt: 0,
+    w: '100%',
+    minW: 0,
+    minH: 0,
+
     bg: colors.background,
     border: '1px solid',
     borderColor: colors.border,
     borderRadius: 'xl',
+
     p: 8,
+    mt: 0,
 
     display: 'flex',
     flexDirection: 'column',
 
-    flex: 1,
-    minH: 0,
-  },
-  cardsWrapper: {
-    display: 'flex',
-    flexDirection: 'column',
-    flex: 1,
-    minH: 0,
-    gap: 3,
+    flex: '1 1 550px',
+
+    overflowX: 'auto',
     overflowY: 'auto',
-    pr: 2,
 
     scrollbarWidth: 'thin',
     scrollbarColor: `${colors.colorZinc600} transparent`,
 
     '&::-webkit-scrollbar': {
-      width: '6px',
+      width: '3px',
+      height: '3px',
     },
 
     '&::-webkit-scrollbar-track': {
@@ -40,17 +37,30 @@ export const swagger = {
 
     '&::-webkit-scrollbar-thumb': {
       backgroundColor: colors.colorZinc600,
-      borderRadius: '10px',
-      border: '2px solid transparent',
-      backgroundClip: 'content-box',
+      borderRadius: '999px',
     },
 
     '&::-webkit-scrollbar-thumb:hover': {
       backgroundColor: colors.colorZinc500,
     },
+
+    '&::-webkit-scrollbar-corner': {
+      background: 'transparent',
+    },
   },
+
+  cardsWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+
+    gap: 3,
+
+    minW: 0,
+  },
+
   cardContainer: {
     width: '100%',
+    minW: 0,
 
     display: 'flex',
     justify: 'space-between',
@@ -65,7 +75,9 @@ export const swagger = {
 
     px: 4,
     py: 4,
+
     transition: '0.2s',
+
     _hover: {
       borderColor: colors.colorZinc500,
       bg: colors.surfaceHover,
