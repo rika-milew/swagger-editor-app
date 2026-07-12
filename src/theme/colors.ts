@@ -9,6 +9,7 @@ export const colors = {
 
   brandPrimary: 'hsl(183deg 100% 50%)',
   brandSecondary: 'hsl(273deg 100% 72%)',
+  brandPrimeryLight: 'hsl(183deg 100% 45%)',
 
   methodGet: 'hsl(145deg 60% 60%)',
   methodPost: 'hsl(80deg 70% 65%)',

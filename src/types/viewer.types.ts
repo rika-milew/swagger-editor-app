@@ -70,4 +70,9 @@ export type EndpointDetailsTranslations = {
   noParameters: string;
   noRequestBody: string;
   noResponses: string;
+  tryItOut: string;
+  execute: string;
+  generateCurl: string;
+  addRequestBody: string;
+  enterRequestBody: string;
 };

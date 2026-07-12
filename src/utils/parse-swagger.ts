@@ -5,7 +5,7 @@ import {
   type SwaggerParameter,
   type RequestBody,
   type ResponseObject,
-} from '@/components/swagger-viewer/types';
+} from '@/types/viewer.types';
 
 export function isHttpMethod(method: string): method is HttpMethod {
   for (const m of HTTP_METHODS) {
