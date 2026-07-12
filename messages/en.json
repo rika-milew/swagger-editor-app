@@ -60,6 +60,7 @@
 
     "tryItOut": "Try it out",
     "execute": "Execute",
+    "generateCurl": "Generate cURL",
 
     "addRequestBody": "Add request body",
     "enterRequestBody": "Enter request data in JSON format"
