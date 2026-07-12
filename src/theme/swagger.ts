@@ -12,50 +12,6 @@ export const swagger = {
     borderColor: colors.border,
     borderRadius: 'xl',
     p: 8,
-    /*w: '100%',
-    minW: 0,
-    minH: 0,
-
-    bg: colors.background,
-    border: '1px solid',
-    borderColor: colors.border,
-    borderRadius: 'xl',
-
-    p: 8,
-    mt: 0,
-
-    display: 'flex',
-    flexDirection: 'column',
-
-    flex: '1 1 550px',
-
-    overflowX: 'auto',
-    overflowY: 'auto',
-
-    scrollbarWidth: 'thin',
-    scrollbarColor: `${colors.colorZinc600} transparent`,
-
-    '&::-webkit-scrollbar': {
-      width: '3px',
-      height: '3px',
-    },
-
-    '&::-webkit-scrollbar-track': {
-      background: 'transparent',
-    },
-
-    '&::-webkit-scrollbar-thumb': {
-      backgroundColor: colors.colorZinc600,
-      borderRadius: '999px',
-    },
-
-    '&::-webkit-scrollbar-thumb:hover': {
-      backgroundColor: colors.colorZinc500,
-    },
-
-    '&::-webkit-scrollbar-corner': {
-      background: 'transparent',
-    },*/
   },
 
   cardsWrapper: {
