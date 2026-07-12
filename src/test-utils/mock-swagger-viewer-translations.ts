@@ -15,8 +15,19 @@ export const mockTranslations = {
 
   tryItOut: 'Try it out',
   execute: 'Execute',
+  executing: 'Execute',
+  cancel: 'Cancel',
   generateCurl: 'Generate cURL',
+
+  response: 'Response',
+  headers: 'Headers',
+  body: 'Body',
+  baseUrl: 'Base URL',
 
   addRequestBody: 'Add request body',
   enterRequestBody: 'Enter request data in JSON format',
+
+  curlTitle: 'cURL Command',
+  copyCurl: 'Copy to clipboard',
+  copied: 'Copied!',
 };
