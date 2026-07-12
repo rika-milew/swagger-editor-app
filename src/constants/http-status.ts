@@ -1,9 +1,12 @@
 export const HTTP_STATUS = {
   OK: 200,
+  NO_CONTENT: 204,
   REDIRECT: 307,
   BAD_REQUEST: 400,
   UNAUTHORIZED: 401,
   FORBIDDEN: 403,
+  NOT_FOUND: 404,
+  NETWORK_ERROR: 500,
   BAD_GATEWAY: 502,
 } as const;
 
@@ -16,3 +19,5 @@ export const VALID_HTTP_METHODS = new Set<string>([
   'HEAD',
   'OPTIONS',
 ] as const);
+
+export const METHODS_WITH_BODY = new Set<string>(['POST', 'PUT', 'PATCH']);
