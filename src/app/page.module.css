@@ -64,13 +64,33 @@
 }
 
 .viewer-container {
+  scrollbar-color: #5b6475 transparent;
+  scrollbar-width: thin;
+
+  overflow: auto;
   display: flex;
   flex: 1 1 550px;
   flex-direction: column;
   gap: 20px;
 
+  min-width: 0;
   height: 70vh;
+  min-height: 0;
   min-height: 500px;
+}
+
+.viewer-container::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+}
+
+.viewer-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.viewer-container::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: #5b6475;
 }
 
 @media (width <= 1190px) {

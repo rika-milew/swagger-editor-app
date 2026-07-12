@@ -5,6 +5,15 @@ export const swagger = {
   swaggerContainer: {
     w: '100%',
     minW: 0,
+    display: 'flex',
+    flexDirection: 'column',
+    bg: colors.background,
+    border: '1px solid',
+    borderColor: colors.border,
+    borderRadius: 'xl',
+    p: 8,
+    /*w: '100%',
+    minW: 0,
     minH: 0,
 
     bg: colors.background,
@@ -46,7 +55,7 @@ export const swagger = {
 
     '&::-webkit-scrollbar-corner': {
       background: 'transparent',
-    },
+    },*/
   },
 
   cardsWrapper: {

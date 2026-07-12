@@ -65,23 +65,11 @@ export function SwaggerViewer() {
   }
 
   if (!schema) {
-    return (
-      <Box {...swagger.swaggerContainer}>
-        <Flex flex={1} align="center" justify="center">
-          <Text color={colors.destructive}>{t('invalidSchema')}</Text>
-        </Flex>
-      </Box>
-    );
+    return <Text color={colors.destructive}>{t('invalidSchema')}</Text>;
   }
 
   if (endpoints.length === 0) {
-    return (
-      <Box {...swagger.swaggerContainer}>
-        <Flex flex={1} align="center" justify="center">
-          <Text color={colors.mutedForeground}>{t('noEndpoints')}</Text>
-        </Flex>
-      </Box>
-    );
+    return <Text color={colors.mutedForeground}>{t('noEndpoints')}</Text>;
   }
 
   return (
