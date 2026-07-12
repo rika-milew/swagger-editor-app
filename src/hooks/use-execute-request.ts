@@ -5,10 +5,10 @@ import type { Endpoint } from '@/utils/parse-swagger';
 import type { ResponseData } from '@/types/viewer.types';
 import { useSchemaStore } from '@/store/schema-store';
 import { buildUrl, buildHeaders } from '@/utils/try-it-out-utils';
-import { isResponseData } from '@/types/guards';
 import { METHODS_WITH_BODY } from '@/constants/http-status';
 import { createCurlCommand } from '@/utils/generate-curl';
 import { HTTP_STATUS } from '@/constants/http-status';
+import { useApiCall } from './use-api-call';
 
 type UseExecuteRequestReturn = {
   isLoading: boolean;
@@ -20,21 +20,6 @@ type UseExecuteRequestReturn = {
   curl: string;
   handleCurl: (paramValues: Record<string, string>, bodyValue: string) => void;
   resetResponse: () => void;
-};
-
-type ProxyRequestBody = {
-  url: string;
-  method: string;
-  headers: Record<string, string>;
-  body?: string;
-};
-
-type UseApiCallReturn = {
-  isLoading: boolean;
-  response: ResponseData | null;
-  setResponse: (data: ResponseData) => void;
-  execute: (body: ProxyRequestBody) => Promise<void>;
-  reset: () => void;
 };
 
 type ExecuteFunction = (
@@ -50,7 +35,7 @@ const DEFAULT_RESPONSE: ResponseData = {
   duration: 0,
 };
 
-const createResponseData = (
+export const createResponseData = (
   overrides: Partial<ResponseData> = {},
 ): ResponseData => ({
   ...DEFAULT_RESPONSE,
@@ -139,69 +124,4 @@ export function useExecuteRequest(endpoint: Endpoint): UseExecuteRequestReturn {
     handleCurl,
     resetResponse,
   };
-}
-
-export function useApiCall(): UseApiCallReturn {
-  const [isLoading, setIsLoading] = useState(false);
-  const [response, setResponse] = useState<ResponseData | null>(null);
-
-  const execute = useCallback(async (body: ProxyRequestBody) => {
-    setIsLoading(true);
-
-    try {
-      const res = await fetch('/api/proxy', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      });
-
-      const rawBody = await res.text();
-      let responseBody: string;
-      let parsedData: unknown = null;
-      let duration = 0;
-
-      try {
-        parsedData = JSON.parse(rawBody);
-        responseBody = JSON.stringify(parsedData, null, 2);
-
-        if (
-          parsedData &&
-          typeof parsedData === 'object' &&
-          'duration' in parsedData
-        ) {
-          duration =
-            typeof parsedData.duration === 'number' ? parsedData.duration : 0;
-        }
-      } catch {
-        responseBody = rawBody || '(empty response)';
-      }
-
-      const responseData: ResponseData = {
-        status: res.status,
-        statusText: res.statusText || (res.ok ? 'OK' : 'Error'),
-        headers: Object.fromEntries(res.headers.entries()),
-        body: responseBody,
-        duration,
-      };
-
-      if (isResponseData(parsedData)) {
-        setResponse({ ...parsedData, duration });
-      } else {
-        setResponse(responseData);
-      }
-    } catch (error) {
-      setResponse(
-        createResponseData({
-          statusText: 'Network Error',
-          body: error instanceof Error ? error.message : 'Request failed',
-        }),
-      );
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
-
-  const reset = useCallback(() => setResponse(null), []);
-
-  return { isLoading, response, setResponse, execute, reset };
 }
