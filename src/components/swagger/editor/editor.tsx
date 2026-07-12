@@ -40,11 +40,6 @@ export const Editor = () => {
   const isSchemaLoaded = useRef(false);
 
   useEffect(() => {
-    /*if (!user) {
-      setValue(initialCodeValue);
-      changeFormat('yaml', false);
-      return;
-    }*/
     if (!user || isSchemaLoaded.current) {
       return;
     }
