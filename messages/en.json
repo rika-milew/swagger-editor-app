@@ -130,9 +130,8 @@
   "HistoryPage": {
     "historyTitle": "History & Analytics",
     "historyDesc": "Every request executed from the viewer is recorded server side",
-    "totalRequests": "Total Requests",
-    "avgDuration": "Average Duration",
-    "successRate": "Success Rate",
+    "noLogsTitle": "No requests found",
+    "noLogsDesc": "Your request history is currently empty. Execute some queries in the editor to see them here.",
     "columns": {
       "time": "Time",
       "method": "Method",
@@ -140,7 +139,8 @@
       "status": "Status",
       "duration": "Duration",
       "req": "Req",
-      "res": "Res"
+      "res": "Res",
+      "error": "Error"
     }
   }
 }

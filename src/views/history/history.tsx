@@ -1,8 +1,7 @@
 import { Box, Stack } from '@chakra-ui/react';
 import { history } from '@/theme/history';
-import { HeroSection } from '@/components/history-section/hero-section';
-import { StatsGroup } from '@/components/history-section/stats-group';
-import { LogsTable } from '@/components/history-section/logs-table';
+import { HeroSection } from '@/components/history-section/hero-section/hero-section';
+import { LogsTable } from '@/components/history-section/log-table/logs-table';
 
 export const HistoryView = () => {
   return (
@@ -10,7 +9,6 @@ export const HistoryView = () => {
       <Box {...history.historyContainer}>
         <Stack gap={{ base: 10, md: 14 }}>
           <HeroSection />
-          <StatsGroup />
           <LogsTable />
         </Stack>
       </Box>

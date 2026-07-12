@@ -29,6 +29,9 @@ export const LogTableHeader = async () => {
         <Table.ColumnHeader {...history.tableHeaderCell}>
           {t('columns.res')}
         </Table.ColumnHeader>
+        <Table.ColumnHeader {...history.tableHeaderCell}>
+          {t('columns.error')}
+        </Table.ColumnHeader>
       </Table.Row>
     </Table.Header>
   );

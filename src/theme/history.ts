@@ -119,6 +119,49 @@ export const history = {
     textAlign: 'center',
     display: 'inline-block',
   },
+  tableErrorButton: {
+    variant: 'plain',
+    size: 'sm',
+    height: 'auto',
+    p: 0,
+    fontWeight: fontWeights.medium,
+    cursor: 'pointer',
+    _hover: { textDecoration: 'underline' },
+    style: { background: 'transparent', border: 'none' },
+  },
+  tableEmptyError: {
+    color: colors.colorZinc600,
+    paddingLeft: '10px',
+  },
+  tableErrorDetailCell: {
+    color: colors.destructive,
+    fontWeight: fontWeights.bold,
+    fontSize: 'sm',
+    py: '3',
+    px: '5',
+  },
+
+  tableEmptyState: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    py: '12',
+    px: '4',
+    textAlign: 'center',
+    gap: '3',
+  },
+  tableEmptyStateTitle: {
+    color: colors.colorWhite,
+    fontSize: 'md',
+    fontWeight: fontWeights.bold,
+  },
+  tableEmptyStateDesc: {
+    color: colors.mutedForeground,
+    fontSize: 'sm',
+    maxW: '350px',
+  },
+
   getStatusColor: (status: number) => {
     if (status >= HTTP_STATUS.OK && status < HTTP_STATUS.REDIRECT) {
       return colors.methodGet;
