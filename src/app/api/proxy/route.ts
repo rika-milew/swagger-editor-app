@@ -134,7 +134,10 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
             : `HTTP ${String(result.status)}: ${result.statusText}`,
       });
 
-      return NextResponse.json({ ...result, duration });
+      return NextResponse.json(
+        { ...result, duration },
+        { status: result.status },
+      );
     } catch (error) {
       const duration = Date.now() - startTime;
 

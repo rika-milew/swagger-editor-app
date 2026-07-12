@@ -19,9 +19,57 @@ type UseExecuteRequestReturn = {
   resetResponse: () => void;
 };
 
+type ProxyRequestBody = {
+  url: string;
+  method: string;
+  headers: Record<string, string>;
+  body?: string;
+};
+
+type UseApiCallReturn = {
+  isLoading: boolean;
+  response: ResponseData | null;
+  setResponse: (data: ResponseData) => void;
+  execute: (body: ProxyRequestBody) => Promise<void>;
+  reset: () => void;
+};
+
+const DEFAULT_RESPONSE: ResponseData = {
+  status: 0,
+  statusText: 'Error',
+  headers: {},
+  body: '',
+  duration: 0,
+};
+
+const createResponseData = (
+  overrides: Partial<ResponseData> = {},
+): ResponseData => ({
+  ...DEFAULT_RESPONSE,
+  ...overrides,
+});
+
+const validateRequiredParams = (
+  parameters: Endpoint['parameters'],
+  paramValues: Record<string, string>,
+): string | null => {
+  if (!parameters) {
+    return null;
+  }
+  const missingParams = parameters
+    .filter(
+      ({ required, name }) =>
+        required && (!paramValues[name] || paramValues[name].trim() === ''),
+    )
+    .map(({ name }) => name);
+
+  return missingParams.length > 0
+    ? `Missing required parameters: ${missingParams.join(', ')}`
+    : null;
+};
+
 export function useExecuteRequest(endpoint: Endpoint): UseExecuteRequestReturn {
-  const [isLoading, setIsLoading] = useState(false);
-  const [response, setResponse] = useState<ResponseData | null>(null);
+  const { isLoading, response, setResponse, execute, reset } = useApiCall();
 
   const baseUrl = useSchemaStore((state) => state.baseUrl);
 
@@ -31,113 +79,52 @@ export function useExecuteRequest(endpoint: Endpoint): UseExecuteRequestReturn {
       bodyValue: string,
     ): Promise<void> => {
       if (!baseUrl) {
-        setResponse({
-          status: 0,
-          statusText: 'Error',
-          headers: {},
-          body: 'Base URL is not set. Please select a server.',
-          duration: 0,
-        });
+        setResponse(
+          createResponseData({
+            body: 'Base URL is not set. Please select a server.',
+          }),
+        );
         return;
       }
 
       const parameters = endpoint.parameters ?? [];
-      const hasBody = METHODS_WITH_BODY.has(endpoint.method.toUpperCase());
+      const validationError = validateRequiredParams(parameters, paramValues);
 
-      const requiredParams = parameters.filter((p) => p.required);
-      const missingParams = requiredParams.filter(
-        (p) => !paramValues[p.name] || paramValues[p.name].trim() === '',
-      );
-
-      if (missingParams.length > 0) {
-        const missingNames = missingParams.map((p) => p.name).join(', ');
-        setResponse({
-          status: 400,
-          statusText: 'Validation Error',
-          headers: {},
-          body: `Missing required parameters: ${missingNames}`,
-          duration: 0,
-        });
+      if (validationError) {
+        setResponse(
+          createResponseData({
+            status: 400,
+            statusText: 'Validation Error',
+            body: validationError,
+          }),
+        );
         return;
       }
 
-      setIsLoading(true);
+      const hasBody = METHODS_WITH_BODY.has(endpoint.method.toUpperCase());
 
-      try {
-        const res = await fetch('/api/proxy', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            url: buildUrl(baseUrl, endpoint.path, parameters, paramValues),
-            method: endpoint.method.toUpperCase(),
-            headers: buildHeaders(parameters, paramValues),
-            body: hasBody ? bodyValue : undefined,
-          }),
-        });
-
-        const rawBody = await res.text();
-        let body: string;
-        let parsedData: unknown = null;
-        let duration = 0;
-
-        try {
-          parsedData = JSON.parse(rawBody);
-          body = JSON.stringify(parsedData, null, 2);
-
-          if (
-            parsedData &&
-            typeof parsedData === 'object' &&
-            'duration' in parsedData
-          ) {
-            duration =
-              typeof parsedData.duration === 'number' ? parsedData.duration : 0;
-          }
-        } catch {
-          body = rawBody || '(empty response)';
-        }
-
-        const responseData: ResponseData = {
-          status: res.status,
-          statusText: res.statusText || (res.ok ? 'OK' : 'Error'),
-          headers: Object.fromEntries(res.headers.entries()),
-          body,
-          duration,
-        };
-
-        if (isResponseData(parsedData)) {
-          setResponse({
-            ...responseData,
-            ...parsedData,
-            status: res.status,
-            statusText: res.statusText || (res.ok ? 'OK' : 'Error'),
-            headers: parsedData.headers,
-            duration,
-          });
-        } else {
-          setResponse(responseData);
-        }
-      } catch (error) {
-        setResponse({
-          status: 0,
-          statusText: 'Network Error',
-          headers: {},
-          body: error instanceof Error ? error.message : 'Request failed',
-          duration: 0,
-        });
-      } finally {
-        setIsLoading(false);
-      }
+      await execute({
+        url: buildUrl(baseUrl, endpoint.path, parameters, paramValues),
+        method: endpoint.method.toUpperCase(),
+        headers: buildHeaders(parameters, paramValues),
+        body: hasBody ? bodyValue : undefined,
+      });
     },
-    [baseUrl, endpoint.path, endpoint.method, endpoint.parameters],
+    [
+      baseUrl,
+      endpoint.path,
+      endpoint.method,
+      endpoint.parameters,
+      execute,
+      setResponse,
+    ],
   );
 
   const handleGenerateCurl = useCallback((): void => {
     console.log('Generate cURL');
   }, []);
 
-  const resetResponse = useCallback((): void => {
-    setResponse(null);
-  }, []);
+  const resetResponse = useCallback(() => reset(), [reset]);
 
   return {
     isLoading,
@@ -146,4 +133,69 @@ export function useExecuteRequest(endpoint: Endpoint): UseExecuteRequestReturn {
     handleGenerateCurl,
     resetResponse,
   };
+}
+
+export function useApiCall(): UseApiCallReturn {
+  const [isLoading, setIsLoading] = useState(false);
+  const [response, setResponse] = useState<ResponseData | null>(null);
+
+  const execute = useCallback(async (body: ProxyRequestBody) => {
+    setIsLoading(true);
+
+    try {
+      const res = await fetch('/api/proxy', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+
+      const rawBody = await res.text();
+      let responseBody: string;
+      let parsedData: unknown = null;
+      let duration = 0;
+
+      try {
+        parsedData = JSON.parse(rawBody);
+        responseBody = JSON.stringify(parsedData, null, 2);
+
+        if (
+          parsedData &&
+          typeof parsedData === 'object' &&
+          'duration' in parsedData
+        ) {
+          duration =
+            typeof parsedData.duration === 'number' ? parsedData.duration : 0;
+        }
+      } catch {
+        responseBody = rawBody || '(empty response)';
+      }
+
+      const responseData: ResponseData = {
+        status: res.status,
+        statusText: res.statusText || (res.ok ? 'OK' : 'Error'),
+        headers: Object.fromEntries(res.headers.entries()),
+        body: responseBody,
+        duration,
+      };
+
+      if (isResponseData(parsedData)) {
+        setResponse({ ...parsedData, duration });
+      } else {
+        setResponse(responseData);
+      }
+    } catch (error) {
+      setResponse(
+        createResponseData({
+          statusText: 'Network Error',
+          body: error instanceof Error ? error.message : 'Request failed',
+        }),
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  const reset = useCallback(() => setResponse(null), []);
+
+  return { isLoading, response, setResponse, execute, reset };
 }

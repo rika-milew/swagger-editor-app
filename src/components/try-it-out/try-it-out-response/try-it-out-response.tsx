@@ -31,7 +31,7 @@ export function TryItOutResponse({ response }: TryItOutResponseProps) {
 
       {Object.keys(response.headers).length > 0 && (
         <Box mb={3}>
-          <Text fontWeight="semibold" mb={1} fontSize="sm">
+          <Text fontWeight="semibold" mb={2} fontSize="sm">
             Headers
           </Text>
           <Box
@@ -48,7 +48,7 @@ export function TryItOutResponse({ response }: TryItOutResponseProps) {
       )}
 
       <Box>
-        <Text fontWeight="semibold" mb={1} fontSize="sm">
+        <Text fontWeight="semibold" mb={2} fontSize="sm">
           Body
         </Text>
         <Box
