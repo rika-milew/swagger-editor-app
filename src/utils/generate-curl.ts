@@ -12,6 +12,10 @@ type CurlInput = {
   bodyValue: string;
 };
 
+function escapeSingleQuote(value: string): string {
+  return value.replaceAll("'", String.raw`'\''`);
+}
+
 export function generateCurl({
   baseUrl,
   path,
@@ -26,14 +30,14 @@ export function generateCurl({
   const command: string[] = [`curl -X ${method.toUpperCase()}`];
 
   Object.entries(headers).forEach(([key, value]) => {
-    command.push(`  -H '${key}: ${value}'`);
+    command.push(`  -H '${escapeSingleQuote(`${key}: ${value}`)}'`);
   });
 
   if (METHODS_WITH_BODY.has(method.toUpperCase()) && bodyValue) {
-    command.push(`  -d '${bodyValue.replaceAll("'", String.raw`\'`)}'`);
+    command.push(`  -d '${escapeSingleQuote(bodyValue)}'`);
   }
 
-  command.push(`  '${url}'`);
+  command.push(`  '${escapeSingleQuote(url)}'`);
 
   return command.join(' \\\n');
 }

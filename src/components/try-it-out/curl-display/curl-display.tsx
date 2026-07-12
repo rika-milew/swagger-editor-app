@@ -1,7 +1,7 @@
 'use client';
 
 import { Box, Button, Text } from '@chakra-ui/react';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { colors, buttons } from '@/theme';
 import { useTranslations } from 'next-intl';
 import { swagger } from '@/theme/swagger';
@@ -15,16 +15,25 @@ type CurlDisplayProps = {
 export function CurlDisplay({ curlCommand }: CurlDisplayProps) {
   const t = useTranslations('SwaggerViewer');
   const [copied, setCopied] = useState(false);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const handleCopy = useCallback(async () => {
     try {
       await navigator.clipboard.writeText(curlCommand);
       setCopied(true);
-      setTimeout(() => setCopied(false), COPY_FEEDBACK_MS);
+      timeoutRef.current = setTimeout(setCopied, COPY_FEEDBACK_MS, false);
     } catch {
       void 0;
     }
   }, [curlCommand]);
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
     <Box
