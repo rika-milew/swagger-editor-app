@@ -17,7 +17,7 @@
     "stylelint:fix": "npx stylelint \"**/*.css\" --fix",
     "prepare": "husky",
     "precommit": "npx lint-staged",
-    "supabase:types": "dotenv -e .env.example cross-env supabase gen types typescript --project-id %SUPABASE_PROJECT_ID% --schema public > src/types/database.types.ts"
+    "supabase:types": "dotenv -e .env cross-env supabase gen types typescript --project-id %SUPABASE_PROJECT_ID% --schema public > src/types/database.types.ts"
   },
   "lint-staged": {
     "src/**/*.{ts,tsx}": [
