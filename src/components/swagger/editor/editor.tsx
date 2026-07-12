@@ -51,6 +51,7 @@ export const Editor = () => {
         if (schema) {
           setValue(schema.schema);
           changeFormat(schema.format, false);
+          isSchemaLoaded.current = true;
         }
       } catch {
         console.error(t('schemaErrors.loadError'));

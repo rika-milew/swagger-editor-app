@@ -9,10 +9,7 @@ import type { EditorFormat } from '@/types/editor.types';
 
 import { toaster } from '@/components/toaster/toaster';
 
-import { endpointsSchema } from '@/lib/validation/endpoints-schema';
-
 const SAVE_DEBOUNCE_MS = 1000;
-const INITIAL_CODE = '# Write code here!';
 
 export const useSchemaAutosave = (
   value: string,
@@ -20,6 +17,7 @@ export const useSchemaAutosave = (
   isValid: boolean,
 ): void => {
   const t = useTranslations('Editor');
+
   const user = useUserStore((state) => state.user);
 
   const save = useCallback(
@@ -48,21 +46,11 @@ export const useSchemaAutosave = (
         });
       }
     },
-    [t, user],
+    [user, t],
   );
 
   useEffect(() => {
-    if (!user || value === INITIAL_CODE || !isValid) {
-      return;
-    }
-
-    const result = endpointsSchema.safeParse({
-      schema: value,
-      format,
-    });
-
-    if (!result.success) {
-      console.error(t('schemaErrors.saveError'));
+    if (!user || !isValid) {
       return;
     }
 
@@ -73,5 +61,5 @@ export const useSchemaAutosave = (
     return (): void => {
       clearTimeout(timer);
     };
-  }, [user, t, value, format, save, isValid]);
+  }, [user, value, format, isValid, save]);
 };
