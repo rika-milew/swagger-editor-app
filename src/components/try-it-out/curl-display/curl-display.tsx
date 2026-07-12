@@ -6,7 +6,7 @@ import { colors, buttons } from '@/theme';
 import { useTranslations } from 'next-intl';
 import { swagger } from '@/theme/swagger';
 
-const COPY_FEEDBACK_MS = 2000;
+export const COPY_FEEDBACK_MS = 2000;
 
 type CurlDisplayProps = {
   curlCommand: string;
