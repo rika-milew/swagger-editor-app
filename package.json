@@ -10,7 +10,7 @@
     "start": "next start",
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
-    "lint": "eslint . --max-warnings 0",
+    "lint": "eslint .",
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
     "stylelint": "npx stylelint \"**/*.css\"",

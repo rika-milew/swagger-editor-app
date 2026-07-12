@@ -1,6 +1,5 @@
 import { screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
-
+import { describe, it, expect, vi } from 'vitest';
 import HomeRoute from './[lang]/page';
 import { renderWithProviders } from '@/test-utils/render-with-providers';
 
@@ -16,6 +15,13 @@ vi.mock('next-intl/server', () => ({
 
 vi.mock('@/components/swagger-viewer/swagger-viewer', () => ({
   SwaggerViewer: () => <div data-testid="swagger-viewer-mock" />,
+}));
+
+const mockT = (key: string) => key;
+
+vi.mock('next-intl', () => ({
+  useTranslations: () => mockT,
+  useLocale: () => 'en',
 }));
 
 async function renderComponent() {

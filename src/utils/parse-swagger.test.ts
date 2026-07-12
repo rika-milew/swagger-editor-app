@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
 
+import type { SwaggerSchema } from '@/types/viewer.types';
+
 import { isHttpMethod, parseSwagger } from './parse-swagger';
-import type { SwaggerSchema } from '@/components/swagger-viewer/types';
 
 const info = {
   title: 'Test API',
@@ -50,11 +51,17 @@ describe('parseSwagger', () => {
         path: '/users',
         method: 'get',
         summary: 'Get users',
+        parameters: [],
+        requestBody: undefined,
+        responses: {},
       },
       {
         path: '/users',
         method: 'post',
         summary: 'Create user',
+        parameters: [],
+        requestBody: undefined,
+        responses: {},
       },
     ]);
   });
@@ -79,6 +86,9 @@ describe('parseSwagger', () => {
         path: '/users',
         method: 'get',
         summary: 'Get users',
+        parameters: [],
+        requestBody: undefined,
+        responses: {},
       },
     ]);
   });
@@ -101,6 +111,9 @@ describe('parseSwagger', () => {
         path: '/users',
         method: 'post',
         summary: 'Create user',
+        parameters: [],
+        requestBody: undefined,
+        responses: {},
       },
     ]);
   });
@@ -115,20 +128,23 @@ describe('parseSwagger', () => {
   });
 
   it('supports operations without summary', () => {
-    const schema = {
+    const schema: SwaggerSchema = {
       info,
       paths: {
         '/users': {
           get: {},
         },
       },
-    } as SwaggerSchema;
+    };
 
     expect(parseSwagger(schema)).toEqual([
       {
         path: '/users',
         method: 'get',
         summary: undefined,
+        parameters: [],
+        requestBody: undefined,
+        responses: {},
       },
     ]);
   });
@@ -155,11 +171,95 @@ describe('parseSwagger', () => {
         path: '/users',
         method: 'get',
         summary: 'Get users',
+        parameters: [],
+        requestBody: undefined,
+        responses: {},
       },
       {
         path: '/login',
         method: 'post',
         summary: 'Login',
+        parameters: [],
+        requestBody: undefined,
+        responses: {},
+      },
+    ]);
+  });
+
+  it('parses parameters, requestBody and responses', () => {
+    const schema: SwaggerSchema = {
+      info,
+
+      paths: {
+        '/users/{id}': {
+          get: {
+            summary: 'Get user',
+
+            parameters: [
+              {
+                name: 'id',
+                in: 'path',
+                required: true,
+                schema: {
+                  type: 'string',
+                },
+              },
+            ],
+
+            requestBody: {
+              required: true,
+              content: {
+                'application/json': {
+                  example: {
+                    name: 'John',
+                  },
+                },
+              },
+            },
+
+            responses: {
+              '200': {
+                description: 'Success',
+              },
+            },
+          },
+        },
+      },
+    };
+
+    expect(parseSwagger(schema)).toEqual([
+      {
+        path: '/users/{id}',
+        method: 'get',
+        summary: 'Get user',
+
+        parameters: [
+          {
+            name: 'id',
+            in: 'path',
+            required: true,
+            schema: {
+              type: 'string',
+            },
+          },
+        ],
+
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              example: {
+                name: 'John',
+              },
+            },
+          },
+        },
+
+        responses: {
+          '200': {
+            description: 'Success',
+          },
+        },
       },
     ]);
   });

@@ -27,7 +27,6 @@ describe('EditorHeader Component', () => {
     );
 
     expect(screen.getByText(/Valid OpenAPI 3.0/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /save/i })).toBeInTheDocument();
     expect(screen.getByLabelText('YAML')).toBeInTheDocument();
     expect(screen.getByLabelText('JSON')).toBeInTheDocument();
   });

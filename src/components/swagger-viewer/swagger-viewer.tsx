@@ -1,14 +1,62 @@
-import { Box, Text, Badge, VStack, Heading, Flex } from '@chakra-ui/react';
-import { getTranslations } from 'next-intl/server';
-import { mockSwagger } from './mock-swagger';
+'use client';
+
+import { Box, Text, Heading, Flex } from '@chakra-ui/react';
+import { useTranslations } from 'next-intl';
+import { useMemo } from 'react';
+import { useSchemaStore } from '@/store/schema-store';
+import { parseSchema } from '@/utils/parse-schema';
 import { parseSwagger } from '@/utils/parse-swagger';
-import getColor from './get-swagger-color';
 import { colors } from '@/theme/colors';
 import { swagger } from '@/theme/swagger';
+import { EndpointList } from './endpoint-list';
+import { BaseUrlSelector } from './baseurl-selector/baseurl-selector';
 
-export async function SwaggerViewer() {
-  const t = await getTranslations('SwaggerViewer');
-  const endpoints = parseSwagger(mockSwagger);
+export function SwaggerViewer() {
+  const t = useTranslations('SwaggerViewer');
+  const detailsTranslations = {
+    parameters: t('parameters'),
+    requestBody: t('requestBody'),
+    responses: t('responses'),
+    required: t('required'),
+    noParameters: t('noParameters'),
+    noRequestBody: t('noRequestBody'),
+    noResponses: t('noResponses'),
+    tryItOut: t('tryItOut'),
+    execute: t('execute'),
+    executing: t('executing'),
+    cancel: t('cancel'),
+    generateCurl: t('generateCurl'),
+    addRequestBody: t('addRequestBody'),
+    enterRequestBody: t('enterRequestBody'),
+  };
+  const code = useSchemaStore((state) => state.code);
+  const format = useSchemaStore((state) => state.format);
+
+  const schema = useMemo(() => {
+    if (!code) {
+      return null;
+    }
+
+    return parseSchema(code, format);
+  }, [code, format]);
+
+  const endpoints = useMemo(() => {
+    if (!schema) {
+      return [];
+    }
+
+    return parseSwagger(schema);
+  }, [schema]);
+
+  const servers = schema?.servers ?? [];
+
+  if (!code) {
+    return null;
+  }
+
+  if (!schema) {
+    return <Text color={colors.destructive}>{t('invalidSchema')}</Text>;
+  }
 
   if (!endpoints.length) {
     return <Text>{t('noEndpoints')}</Text>;
@@ -19,11 +67,11 @@ export async function SwaggerViewer() {
       <Box>
         <Flex justify="space-between" align="center" mb={2}>
           <Heading size="lg" color="white">
-            {mockSwagger.info.title}
+            {schema.info.title}
           </Heading>
 
           <Text color={colors.colorZinc500} fontSize="sm">
-            v{mockSwagger.info.version}
+            v{schema.info.version}
           </Text>
         </Flex>
 
@@ -31,25 +79,11 @@ export async function SwaggerViewer() {
           {t('description')}
         </Text>
 
+        <BaseUrlSelector servers={servers} />
+
         <Text {...swagger.topText}>{t('endpoints')}</Text>
       </Box>
-      <VStack {...swagger.cardsWrapper}>
-        {endpoints.map((ep) => (
-          <Flex key={`${ep.method}-${ep.path}`} {...swagger.cardContainer}>
-            <Flex align="center" gap={4}>
-              <Badge bg={getColor(ep.method)} {...swagger.cardBadge}>
-                {ep.method.toUpperCase()}
-              </Badge>
-
-              <Text {...swagger.cardPathText}>{ep.path}</Text>
-            </Flex>
-
-            <Text color={colors.colorZinc400} fontSize="sm" textAlign="right">
-              {ep.summary}
-            </Text>
-          </Flex>
-        ))}
-      </VStack>
+      <EndpointList endpoints={endpoints} translations={detailsTranslations} />
     </Box>
   );
 }

@@ -69,10 +69,6 @@ export const EditorHeader: React.FC<EditorHeaderProps> = ({
             JSON
           </label>
         </div>
-
-        <button type="button" className={cx('save-code')}>
-          {t('save')}
-        </button>
       </div>
     </div>
   );

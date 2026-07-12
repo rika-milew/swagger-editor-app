@@ -46,7 +46,34 @@
   "SwaggerViewer": {
     "description": "Пример API, автоматически сгенерированный из загруженной спецификации. Разверните любой конечный пункт, чтобы просмотреть параметры и попробовать его.",
     "endpoints": "Конечные точки",
-    "noEndpoints": "Конечные точки не найдены."
+    "noEndpoints": "Конечные точки не найдены.",
+    "invalidSchema": "Недопустимая схема OpenAPI",
+
+    "parameters": "Параметры",
+    "requestBody": "Тело запроса",
+    "responses": "Ответы",
+    "required": "Обязательный",
+    "noParameters": "Параметры отсутствуют",
+    "noRequestBody": "Тело запроса отсутствует",
+    "noResponses": "Ответы отсутствуют",
+
+    "tryItOut": "Попробовать",
+    "execute": "Выполнить",
+    "executing": "Выполняется...",
+    "cancel": "Отмена",
+    "generateCurl": "Сгенерировать cURL",
+
+    "response": "Ответ",
+    "headers": "Заголовки",
+    "body": "Тело ответа",
+    "baseUrl": "Базовый URL",
+
+    "addRequestBody": "Добавьте тело запроса",
+    "enterRequestBody": "Введите данные запроса в формате JSON",
+
+    "curlTitle": "cURL команда",
+    "copyCurl": "Копировать",
+    "copied": "Скопировано!"
   },
   "Unauthorized": {
     "title": "Нет доступа",
@@ -116,5 +143,11 @@
   "FormatConverter": {
     "title": "Ошибка конвертации",
     "invalidSyntax": "Неверный синтаксический формат"
+  },
+  "Editor": {
+    "schemaErrors": {
+      "saveError": "Не удалось сохранить схему",
+      "loadError": "Не удалось загрузить схему"
+    }
   }
 }

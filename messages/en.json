@@ -46,7 +46,34 @@
   "SwaggerViewer": {
     "description": "Sample API auto-rendered from the loaded specification. Expand any endpoint to inspect parameters and try it out.",
     "endpoints": "Endpoints",
-    "noEndpoints": "No endpoints found."
+    "noEndpoints": "No endpoints found.",
+    "invalidSchema": "Invalid OpenAPI schema",
+
+    "parameters": "Parameters",
+    "requestBody": "Request body",
+    "responses": "Responses",
+    "required": "Required",
+    "noParameters": "No parameters available",
+    "noRequestBody": "No request body",
+    "noResponses": "No responses available",
+
+    "tryItOut": "Try it out",
+    "execute": "Execute",
+    "executing": "Executing...",
+    "cancel": "Cancel",
+    "generateCurl": "Generate cURL",
+
+    "response": "Response",
+    "headers": "Headers",
+    "body": "Body",
+    "baseUrl": "Base URL",
+
+    "addRequestBody": "Add request body",
+    "enterRequestBody": "Enter request data in JSON format",
+
+    "curlTitle": "cURL Command",
+    "copyCurl": "Copy to clipboard",
+    "copied": "Copied!"
   },
   "Unauthorized": {
     "title": "Unauthorized",
@@ -116,5 +143,11 @@
   "FormatConverter": {
     "title": "Conversion Error",
     "invalidSyntax": "Invalid syntax format"
+  },
+  "Editor": {
+    "schemaErrors": {
+      "saveError": "Failed to save schema",
+      "loadError": "Failed to load schema"
+    }
   }
 }

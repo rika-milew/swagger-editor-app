@@ -2,7 +2,6 @@ import classNames from 'classnames/bind';
 import styles from '../../app/page.module.css';
 import { Editor } from '@/components/swagger/editor/editor';
 import { Viewer } from '@/components/swagger/viewer/viewer';
-import { ResentPerformance } from '@/components/swagger/resent-performance/resent-performance';
 
 const cx = classNames.bind(styles);
 
@@ -22,7 +21,6 @@ export const HomePage = () => {
             data-testid="viewer-block"
           >
             <Viewer />
-            <ResentPerformance />
           </section>
         </div>
       </main>

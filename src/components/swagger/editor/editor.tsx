@@ -2,24 +2,31 @@
 
 import { useEffect } from 'react';
 import CodeMirror from '@uiw/react-codemirror';
+import { useTranslations } from 'next-intl';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { EditorHeader } from '@/components/swagger/editor-header/editor-header';
 import { useFormatConverter } from '@/hooks/use-format-converter';
 import { useEditorLanguage } from '@/hooks/use-editor';
+import { useUserStore } from '@/store/user-store';
+import { useSchemaStore } from '@/store/schema-store';
+import { getSchema } from '@/app/actions/schema';
+import { useSchemaAutosave } from '@/hooks/use-schema-autosave';
+import { toaster } from '@/components/toaster/toaster';
 import { useSchemaValidation } from '@/hooks/use-schema-validation';
 import { EditorErrors } from '../editor-errors/editor-errors';
 
-type EditorProps = {
-  onSchemaChange?: (schema: object | null) => void;
-};
-
 const initialCodeValue = '';
 
-export const Editor = ({ onSchemaChange }: EditorProps) => {
+export const Editor = () => {
+  const t = useTranslations('Editor');
+
   const { value, format, setValue, changeFormat } = useFormatConverter(
     initialCodeValue,
     'yaml',
   );
+
+  const user = useUserStore((state) => state.user);
+  const { loadSchema } = useSchemaStore();
 
   const { extensions, handleDocChange } = useEditorLanguage(
     format,
@@ -27,17 +34,47 @@ export const Editor = ({ onSchemaChange }: EditorProps) => {
     (newFormat) => changeFormat(newFormat, false),
   );
 
-  const { errors, validSchema } = useSchemaValidation(
-    value,
-    format,
-    (detectedFormat: 'json' | 'yaml') => changeFormat(detectedFormat, false),
-  );
+  const { validSchema, errors } = useSchemaValidation(value, format);
 
   useEffect(() => {
-    if (onSchemaChange) {
-      onSchemaChange(validSchema);
+    if (!user) {
+      setValue(initialCodeValue);
+      changeFormat('yaml', false);
+      return;
     }
-  }, [validSchema, onSchemaChange]);
+
+    const fetchSchema = async (): Promise<void> => {
+      try {
+        const schema = await getSchema();
+
+        if (schema) {
+          setValue(schema.schema);
+          changeFormat(schema.format, false);
+        }
+      } catch {
+        console.error(t('schemaErrors.loadError'));
+
+        toaster.create({
+          type: 'error',
+          title: 'Error',
+          description: t('schemaErrors.loadError'),
+          closable: true,
+        });
+      }
+    };
+
+    void fetchSchema();
+  }, [user, setValue, changeFormat, t]);
+
+  useEffect(() => {
+    if (!validSchema) {
+      return;
+    }
+
+    loadSchema(value, format);
+  }, [validSchema, value, format, loadSchema]);
+
+  useSchemaAutosave(value, format, Boolean(validSchema));
 
   return (
     <>
