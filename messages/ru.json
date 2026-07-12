@@ -48,7 +48,7 @@
     "endpoints": "Конечные точки",
     "noEndpoints": "Конечные точки не найдены.",
     "invalidSchema": "Недопустимая схема OpenAPI",
-    "loadSchema": "Загрузите или введите схему OpenAPI для просмотра.",
+    "loadSchema": "Введите схему OpenAPI для просмотра.",
 
     "parameters": "Параметры",
     "requestBody": "Тело запроса",
