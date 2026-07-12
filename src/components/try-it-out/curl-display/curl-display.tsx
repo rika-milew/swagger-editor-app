@@ -2,8 +2,9 @@
 
 import { Box, Button, Text } from '@chakra-ui/react';
 import { useState, useCallback } from 'react';
-import { colors } from '@/theme';
+import { colors, buttons } from '@/theme';
 import { useTranslations } from 'next-intl';
+import { swagger } from '@/theme/swagger';
 
 const COPY_FEEDBACK_MS = 2000;
 
@@ -39,18 +40,14 @@ export function CurlDisplay({ curlCommand }: CurlDisplayProps) {
 
       <Box
         as="pre"
-        fontSize="sm"
-        p={3}
-        bg="gray.800"
-        borderRadius="md"
-        overflow="auto"
         whiteSpace="pre-wrap"
-        mb={3}
+        {...swagger.endpointSectionContent}
+        mb={4}
       >
         {curlCommand}
       </Box>
 
-      <Button size="sm" onClick={() => void handleCopy()}>
+      <Button {...buttons.copyCurl} onClick={() => void handleCopy()}>
         {copied ? t('copied') : t('copyCurl')}
       </Button>
     </Box>
