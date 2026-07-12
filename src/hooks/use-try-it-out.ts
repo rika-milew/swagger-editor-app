@@ -15,10 +15,11 @@ type UseTryItOutReturn = {
   bodyValue: string;
   hasBody: boolean;
   parameters: Endpoint['parameters'];
+  curl: string;
   handleTryItOut: () => void;
   handleExecute: () => Promise<void>;
   handleCancel: () => void;
-  handleGenerateCurl: () => void;
+  handleCurl: (paramValues: Record<string, string>, bodyValue: string) => void;
   setParamValues: Dispatch<SetStateAction<Record<string, string>>>;
   setBodyValue: Dispatch<SetStateAction<string>>;
 };
@@ -34,8 +35,9 @@ export function useTryItOut(endpoint: Endpoint): UseTryItOutReturn {
   const {
     isLoading,
     response,
+    curl,
     handleExecute: executeRequest,
-    handleGenerateCurl,
+    handleCurl,
     resetResponse,
   } = useExecuteRequest(endpoint);
 
@@ -74,7 +76,8 @@ export function useTryItOut(endpoint: Endpoint): UseTryItOutReturn {
     handleTryItOut,
     handleExecute,
     handleCancel,
-    handleGenerateCurl,
+    curl,
+    handleCurl,
     setParamValues,
     setBodyValue,
   };

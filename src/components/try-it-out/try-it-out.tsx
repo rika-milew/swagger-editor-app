@@ -15,6 +15,7 @@ import { buttons } from '@/theme';
 import { TryItOutParams } from './try-it-out-params';
 import { useTryItOut } from '@/hooks/use-try-it-out';
 import { TryItOutResponse } from './try-it-out-response/try-it-out-response';
+import { CurlDisplay } from './curl-display/curl-display';
 
 type TryItOutProps = {
   endpoint: Endpoint;
@@ -30,10 +31,11 @@ export function TryItOut({ endpoint, translations }: TryItOutProps) {
     bodyValue,
     hasBody,
     parameters,
+    curl,
     handleTryItOut,
     handleExecute,
     handleCancel,
-    handleGenerateCurl,
+    handleCurl,
     setParamValues,
     setBodyValue,
   } = useTryItOut(endpoint);
@@ -84,7 +86,7 @@ export function TryItOut({ endpoint, translations }: TryItOutProps) {
           <Button
             {...buttons.generateCurl}
             disabled={isLoading}
-            onClick={handleGenerateCurl}
+            onClick={() => handleCurl(paramValues, bodyValue)}
           >
             {translations.generateCurl}
           </Button>
@@ -99,6 +101,7 @@ export function TryItOut({ endpoint, translations }: TryItOutProps) {
         </HStack>
       </VStack>
       {response && <TryItOutResponse response={response} />}
+      {curl && <CurlDisplay curlCommand={curl} />}
     </Stack>
   );
 }

@@ -7,6 +7,7 @@ import { useSchemaStore } from '@/store/schema-store';
 import { buildUrl, buildHeaders } from '@/utils/try-it-out-utils';
 import { isResponseData } from '@/types/guards';
 import { METHODS_WITH_BODY } from '@/constants/http-status';
+import { createCurlCommand } from '@/utils/generate-curl';
 
 type UseExecuteRequestReturn = {
   isLoading: boolean;
@@ -15,7 +16,8 @@ type UseExecuteRequestReturn = {
     paramValues: Record<string, string>,
     bodyValue: string,
   ) => Promise<void>;
-  handleGenerateCurl: () => void;
+  curl: string;
+  handleCurl: (paramValues: Record<string, string>, bodyValue: string) => void;
   resetResponse: () => void;
 };
 
@@ -33,6 +35,11 @@ type UseApiCallReturn = {
   execute: (body: ProxyRequestBody) => Promise<void>;
   reset: () => void;
 };
+
+type ExecuteFunction = (
+  paramValues: Record<string, string>,
+  bodyValue: string,
+) => Promise<void>;
 
 const DEFAULT_RESPONSE: ResponseData = {
   status: 0,
@@ -70,14 +77,18 @@ const validateRequiredParams = (
 
 export function useExecuteRequest(endpoint: Endpoint): UseExecuteRequestReturn {
   const { isLoading, response, setResponse, execute, reset } = useApiCall();
-
+  const [curl, setCurl] = useState('');
   const baseUrl = useSchemaStore((state) => state.baseUrl);
 
-  const handleExecute = useCallback(
-    async (
-      paramValues: Record<string, string>,
-      bodyValue: string,
-    ): Promise<void> => {
+  const handleCurl = useCallback(
+    (paramValues: Record<string, string>, bodyValue: string) => {
+      setCurl(createCurlCommand(baseUrl, endpoint, paramValues, bodyValue));
+    },
+    [baseUrl, endpoint],
+  );
+
+  const handleExecute = useCallback<ExecuteFunction>(
+    async (paramValues, bodyValue): Promise<void> => {
       if (!baseUrl) {
         setResponse(
           createResponseData({
@@ -87,7 +98,7 @@ export function useExecuteRequest(endpoint: Endpoint): UseExecuteRequestReturn {
         return;
       }
 
-      const parameters = endpoint.parameters ?? [];
+      const { path, method, parameters = [] } = endpoint;
       const validationError = validateRequiredParams(parameters, paramValues);
 
       if (validationError) {
@@ -101,36 +112,28 @@ export function useExecuteRequest(endpoint: Endpoint): UseExecuteRequestReturn {
         return;
       }
 
-      const hasBody = METHODS_WITH_BODY.has(endpoint.method.toUpperCase());
+      const hasBody = METHODS_WITH_BODY.has(method.toUpperCase());
 
       await execute({
-        url: buildUrl(baseUrl, endpoint.path, parameters, paramValues),
-        method: endpoint.method.toUpperCase(),
+        url: buildUrl(baseUrl, path, parameters, paramValues),
+        method: method.toUpperCase(),
         headers: buildHeaders(parameters, paramValues),
         body: hasBody ? bodyValue : undefined,
       });
     },
-    [
-      baseUrl,
-      endpoint.path,
-      endpoint.method,
-      endpoint.parameters,
-      execute,
-      setResponse,
-    ],
+    [baseUrl, execute, setResponse, endpoint],
   );
-
-  const handleGenerateCurl = useCallback((): void => {
-    void 0;
-  }, []);
-
-  const resetResponse = useCallback(() => reset(), [reset]);
+  const resetResponse = useCallback(() => {
+    reset();
+    setCurl('');
+  }, [reset]);
 
   return {
     isLoading,
     response,
+    curl,
     handleExecute,
-    handleGenerateCurl,
+    handleCurl,
     resetResponse,
   };
 }
