@@ -48,6 +48,7 @@
     "endpoints": "Endpoints",
     "noEndpoints": "No endpoints found.",
     "invalidSchema": "Invalid OpenAPI schema",
+    "loadSchema": "Load or enter an OpenAPI schema to view its endpoints.",
 
     "parameters": "Parameters",
     "requestBody": "Request body",
@@ -59,7 +60,6 @@
 
     "tryItOut": "Try it out",
     "execute": "Execute",
-    "generateCurl": "Generate cURL",
 
     "addRequestBody": "Add request body",
     "enterRequestBody": "Enter request data in JSON format"
