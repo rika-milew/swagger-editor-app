@@ -23,6 +23,8 @@ export function SwaggerViewer() {
     noResponses: t('noResponses'),
     tryItOut: t('tryItOut'),
     execute: t('execute'),
+    executing: t('executing'),
+    cancel: t('cancel'),
     generateCurl: t('generateCurl'),
     addRequestBody: t('addRequestBody'),
     enterRequestBody: t('enterRequestBody'),

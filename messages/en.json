@@ -59,7 +59,13 @@
 
     "tryItOut": "Try it out",
     "execute": "Execute",
+    "executing": "Executing...",
+    "cancel": "Cancel",
     "generateCurl": "Generate cURL",
+
+    "response": "Response",
+    "headers": "Headers",
+    "body": "Body",
 
     "addRequestBody": "Add request body",
     "enterRequestBody": "Enter request data in JSON format"

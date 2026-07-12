@@ -73,6 +73,8 @@ export type EndpointDetailsTranslations = {
   noResponses: string;
   tryItOut: string;
   execute: string;
+  executing: string;
+  cancel: string;
   generateCurl: string;
   addRequestBody: string;
   enterRequestBody: string;

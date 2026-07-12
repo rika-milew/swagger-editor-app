@@ -121,7 +121,7 @@ export function useExecuteRequest(endpoint: Endpoint): UseExecuteRequestReturn {
   );
 
   const handleGenerateCurl = useCallback((): void => {
-    console.log('Generate cURL');
+    void 0;
   }, []);
 
   const resetResponse = useCallback(() => reset(), [reset]);

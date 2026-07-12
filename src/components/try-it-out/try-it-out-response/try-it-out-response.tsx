@@ -4,16 +4,18 @@ import { Box, Text } from '@chakra-ui/react';
 import type { ResponseData } from '@/types/viewer.types';
 import { colors } from '@/theme';
 import { HTTP_STATUS } from '@/constants/http-status';
+import { useTranslations } from 'next-intl';
 
 type TryItOutResponseProps = {
   response: ResponseData;
 };
 
 export function TryItOutResponse({ response }: TryItOutResponseProps) {
+  const t = useTranslations('SwaggerViewer');
   return (
     <Box border="1px solid" borderColor={colors.border} borderRadius="md" p={4}>
       <Text fontWeight="bold" mb={4}>
-        Response{' '}
+        {t('response')}{' '}
         <Text
           as="span"
           color={
@@ -32,7 +34,7 @@ export function TryItOutResponse({ response }: TryItOutResponseProps) {
       {Object.keys(response.headers).length > 0 && (
         <Box mb={3}>
           <Text fontWeight="semibold" mb={2} fontSize="sm">
-            Headers
+            {t('headers')}
           </Text>
           <Box
             as="pre"
@@ -49,7 +51,7 @@ export function TryItOutResponse({ response }: TryItOutResponseProps) {
 
       <Box>
         <Text fontWeight="semibold" mb={2} fontSize="sm">
-          Body
+          {t('body')}
         </Text>
         <Box
           as="pre"

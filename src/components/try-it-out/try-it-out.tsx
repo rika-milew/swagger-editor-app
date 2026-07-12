@@ -78,7 +78,7 @@ export function TryItOut({ endpoint, translations }: TryItOutProps) {
             onClick={() => void handleExecute()}
             disabled={isLoading}
           >
-            {isLoading ? 'Executing...' : translations.execute}
+            {isLoading ? translations.executing : translations.execute}
           </Button>
 
           <Button
@@ -94,7 +94,7 @@ export function TryItOut({ endpoint, translations }: TryItOutProps) {
             onClick={handleCancel}
             disabled={isLoading}
           >
-            Cancel
+            {translations.cancel}
           </Button>
         </HStack>
       </VStack>

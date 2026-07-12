@@ -59,7 +59,13 @@
 
     "tryItOut": "Попробовать",
     "execute": "Выполнить",
+    "executing": "Выполняется...",
+    "cancel": "Отмена",
     "generateCurl": "Сгенерировать cURL",
+
+    "response": "Ответ",
+    "headers": "Заголовки",
+    "body": "Тело ответа",
 
     "addRequestBody": "Добавьте тело запроса",
     "enterRequestBody": "Введите данные запроса в формате JSON"
