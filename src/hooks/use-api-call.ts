@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { isResponseData } from '@/types/guards';
 import type { ResponseData } from '@/types/viewer.types';
-import { createResponseData } from './use-execute-request';
+import { createResponseData } from '@/utils/create-response-data';
 
 type ProxyRequestBody = {
   url: string;

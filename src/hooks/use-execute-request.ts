@@ -9,6 +9,7 @@ import { METHODS_WITH_BODY } from '@/constants/http-status';
 import { createCurlCommand } from '@/utils/generate-curl';
 import { HTTP_STATUS } from '@/constants/http-status';
 import { useApiCall } from './use-api-call';
+import { createResponseData } from '@/utils/create-response-data';
 
 type UseExecuteRequestReturn = {
   isLoading: boolean;
@@ -26,21 +27,6 @@ type ExecuteFunction = (
   paramValues: Record<string, string>,
   bodyValue: string,
 ) => Promise<void>;
-
-const DEFAULT_RESPONSE: ResponseData = {
-  status: HTTP_STATUS.NETWORK_ERROR,
-  statusText: 'Error',
-  headers: {},
-  body: '',
-  duration: 0,
-};
-
-export const createResponseData = (
-  overrides: Partial<ResponseData> = {},
-): ResponseData => ({
-  ...DEFAULT_RESPONSE,
-  ...overrides,
-});
 
 const validateRequiredParams = (
   parameters: Endpoint['parameters'],
