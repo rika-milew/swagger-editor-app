@@ -113,4 +113,21 @@ export const buttons = {
       boxShadow: `0 0 10px ${colors.brandSecondary}`,
     },
   },
+  cancel: {
+    size: 'sm',
+    h: '32px',
+    px: 4,
+    variant: 'outline',
+    borderColor: colors.colorZinc600,
+    color: colors.colorZinc400,
+    fontSize: 'sm',
+    fontWeight: '500',
+    borderRadius: 'md',
+    transition: 'all 0.2s',
+    _hover: {
+      bg: colors.colorZinc500,
+      color: colors.colorWhite,
+      boxShadow: `0 0 10px ${colors.colorZinc400}`,
+    },
+  },
 } as const;

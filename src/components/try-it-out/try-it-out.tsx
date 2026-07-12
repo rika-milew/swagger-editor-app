@@ -9,19 +9,13 @@ import {
   Text,
   Textarea,
 } from '@chakra-ui/react';
-import { useState } from 'react';
 import type { Endpoint } from '@/utils/parse-swagger';
-import type {
-  EndpointDetailsTranslations,
-  ResponseData,
-} from '../../types/viewer.types';
+import type { EndpointDetailsTranslations } from '@/types/viewer.types';
 import { buttons } from '@/theme';
 import { colors } from '@/theme';
 import { TryItOutParams } from './try-it-out-params';
-import { useSchemaStore } from '@/store/schema-store';
-import { buildUrl, buildHeaders } from '@/utils/try-it-out-utils';
-import { isResponseData } from '@/types/guards';
 import { HTTP_STATUS } from '@/constants/http-status';
+import { useTryItOut } from '@/hooks/use-try-it-out';
 
 type TryItOutProps = {
   endpoint: Endpoint;
@@ -29,74 +23,21 @@ type TryItOutProps = {
 };
 
 export function TryItOut({ endpoint, translations }: TryItOutProps) {
-  const [isTryMode, setIsTryMode] = useState(false);
-
-  const [response, setResponse] = useState<ResponseData | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const [paramValues, setParamValues] = useState<Record<string, string>>({});
-  const [bodyValue, setBodyValue] = useState('');
-
-  const baseUrl = useSchemaStore((state) => state.baseUrl);
-  const hasBody = ['POST', 'PUT', 'PATCH'].includes(
-    endpoint.method.toUpperCase(),
-  );
-  const parameters = endpoint.parameters ?? [];
-
-  const handleTryItOut = () => {
-    setIsTryMode(true);
-    const example =
-      endpoint.requestBody?.content?.['application/json']?.example;
-    if (example) {
-      setBodyValue(JSON.stringify(example, null, 2));
-    }
-  };
-
-  const handleExecute = async () => {
-    setIsLoading(true);
-    try {
-      const res = await fetch('/api/proxy', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          url: buildUrl(baseUrl, endpoint.path, parameters, paramValues),
-          method: endpoint.method.toUpperCase(),
-          headers: buildHeaders(parameters, paramValues),
-          body: hasBody ? bodyValue : undefined,
-        }),
-      });
-      const data: unknown = await res.json();
-
-      if (isResponseData(data)) {
-        setResponse(data);
-      } else {
-        setResponse({
-          status: 0,
-          statusText: 'Error',
-          headers: {},
-          body: 'Invalid response',
-          duration: 0,
-        });
-      }
-    } catch (error) {
-      setResponse({
-        status: 0,
-        statusText: 'Error',
-        headers: {},
-        body: error instanceof Error ? error.message : 'Request failed',
-        duration: 0,
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleCancel = () => {
-    setIsTryMode(false);
-    setResponse(null);
-    setParamValues({});
-    setBodyValue('');
-  };
+  const {
+    isTryMode,
+    isLoading,
+    response,
+    paramValues,
+    bodyValue,
+    hasBody,
+    parameters,
+    handleTryItOut,
+    handleExecute,
+    handleCancel,
+    handleGenerateCurl,
+    setParamValues,
+    setBodyValue,
+  } = useTryItOut(endpoint);
 
   if (!isTryMode) {
     return (
@@ -111,7 +52,7 @@ export function TryItOut({ endpoint, translations }: TryItOutProps) {
   return (
     <Stack gap={6}>
       <TryItOutParams
-        parameters={endpoint.parameters ?? []}
+        parameters={parameters ?? []}
         paramValues={paramValues}
         onParamChange={setParamValues}
       />
@@ -141,9 +82,19 @@ export function TryItOut({ endpoint, translations }: TryItOutProps) {
             {isLoading ? 'Executing...' : translations.execute}
           </Button>
 
-          <Button {...buttons.generateCurl}>{translations.generateCurl}</Button>
+          <Button
+            {...buttons.generateCurl}
+            disabled={isLoading}
+            onClick={handleGenerateCurl}
+          >
+            {translations.generateCurl}
+          </Button>
 
-          <Button variant="ghost" onClick={handleCancel}>
+          <Button
+            {...buttons.cancel}
+            onClick={handleCancel}
+            disabled={isLoading}
+          >
             Cancel
           </Button>
         </HStack>
@@ -165,6 +116,7 @@ export function TryItOut({ endpoint, translations }: TryItOutProps) {
                   ? 'green.400'
                   : 'red.400'
               }
+              mr={2}
             >
               [{response.status} {response.statusText}]
             </Text>

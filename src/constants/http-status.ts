@@ -16,3 +16,5 @@ export const VALID_HTTP_METHODS = new Set<string>([
   'HEAD',
   'OPTIONS',
 ] as const);
+
+export const METHODS_WITH_BODY = new Set<string>(['POST', 'PUT', 'PATCH']);
