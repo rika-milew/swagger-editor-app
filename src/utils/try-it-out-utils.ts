@@ -16,7 +16,10 @@ export function buildUrl(
   let url = baseUrl + path;
 
   getParameters(parameters, 'path').forEach((parameter) => {
-    url = url.replace(`{${parameter.name}}`, values[parameter.name] || '');
+    const value = values[parameter.name];
+    if (value) {
+      url = url.replace(`{${parameter.name}}`, encodeURIComponent(value));
+    }
   });
 
   const queryString = getParameters(parameters, 'query')
@@ -44,7 +47,10 @@ export function buildHeaders(
 
   const cookies = getParameters(parameters, 'cookie')
     .filter((parameter) => values[parameter.name])
-    .map((parameter) => `${parameter.name}=${values[parameter.name]}`)
+    .map(
+      (parameter) =>
+        `${parameter.name}=${encodeURIComponent(values[parameter.name])}`,
+    )
     .join('; ');
 
   if (cookies) {
