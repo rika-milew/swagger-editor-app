@@ -6,6 +6,7 @@ import { history } from '@/theme/history';
 import { colors } from '@/theme/colors';
 import { MethodBadge } from '../method-badge/method-badge';
 import type { LogItem } from '../log-table/logs-table';
+import { useTranslations } from 'next-intl';
 
 type LogTableRowProps = {
   log: LogItem;
@@ -15,6 +16,8 @@ type LogTableRowProps = {
 export const LogTableRow = ({ log, isLast }: LogTableRowProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const hasError = !!log.error;
+
+  const t = useTranslations('HistoryPage');
 
   const cellStyles =
     isLast && !isOpen
@@ -69,7 +72,7 @@ export const LogTableRow = ({ log, isLast }: LogTableRowProps) => {
               color={isOpen ? colors.colorZinc500 : colors.destructive}
               onClick={() => setIsOpen(!isOpen)}
             >
-              {isOpen ? '- hide' : '+ view'}
+              {isOpen ? `- ${t('hide')}` : `+ ${t('view')}`}
             </Button>
           ) : (
             <Box {...history.tableEmptyError}>—</Box>

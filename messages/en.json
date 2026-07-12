@@ -143,6 +143,8 @@
     "historyDesc": "Every request executed from the viewer is recorded server side",
     "noLogsTitle": "No requests found",
     "noLogsDesc": "Your request history is currently empty. Execute some queries in the editor to see them here.",
+    "view": "view",
+    "hide": "hide",
     "columns": {
       "time": "Time",
       "method": "Method",

@@ -1,9 +1,11 @@
+'use client';
+
 import { Table } from '@chakra-ui/react';
 import { history } from '@/theme/history';
-import { getTranslations } from 'next-intl/server';
+import { useTranslations } from 'next-intl';
 
-export const LogTableHeader = async () => {
-  const t = await getTranslations('HistoryPage');
+export const LogTableHeader = () => {
+  const t = useTranslations('HistoryPage');
 
   return (
     <Table.Header>

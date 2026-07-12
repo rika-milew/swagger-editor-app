@@ -1,3 +1,5 @@
+'use client';
+
 import { Box, Table } from '@chakra-ui/react';
 import { history } from '@/theme/history';
 import type { MethodType } from '@/theme/history';
