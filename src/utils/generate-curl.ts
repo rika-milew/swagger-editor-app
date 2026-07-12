@@ -34,6 +34,14 @@ export function generateCurl({
   });
 
   if (METHODS_WITH_BODY.has(method.toUpperCase()) && bodyValue) {
+    const hasContentType = Object.keys(headers).some(
+      (key) => key.toLowerCase() === 'content-type',
+    );
+
+    if (!hasContentType) {
+      command.push("  -H 'Content-Type: application/json'");
+    }
+
     command.push(`  -d '${escapeSingleQuote(bodyValue)}'`);
   }
 
