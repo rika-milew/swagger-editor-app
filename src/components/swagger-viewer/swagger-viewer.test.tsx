@@ -62,9 +62,7 @@ describe('SwaggerViewer', () => {
 
     renderWithProviders(<SwaggerViewer />);
 
-    expect(
-      screen.getByText(mockTranslations.invalidSchema),
-    ).toBeInTheDocument();
+    expect(screen.getByText(mockTranslations.loadSchema)).toBeInTheDocument();
   });
 
   it('passes parsed schema to parseSwagger', () => {

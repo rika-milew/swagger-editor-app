@@ -27,7 +27,7 @@ export const Editor = () => {
   );
 
   const user = useUserStore((state) => state.user);
-  const { loadSchema } = useSchemaStore();
+  const { loadSchema, clearSchema } = useSchemaStore();
 
   const { extensions, handleDocChange } = useEditorLanguage(
     format,
@@ -38,6 +38,15 @@ export const Editor = () => {
   const { validSchema, errors } = useSchemaValidation(value, format);
 
   const isSchemaLoaded = useRef(false);
+
+  useEffect(() => {
+    if (!user) {
+      setValue(initialCodeValue);
+      changeFormat('yaml', false);
+      clearSchema();
+      isSchemaLoaded.current = false;
+    }
+  }, [user]);
 
   useEffect(() => {
     if (!user || isSchemaLoaded.current) {
@@ -51,6 +60,7 @@ export const Editor = () => {
         if (schema) {
           setValue(schema.schema);
           changeFormat(schema.format, false);
+          loadSchema(schema.schema, schema.format);
           isSchemaLoaded.current = true;
         }
       } catch {
@@ -66,16 +76,16 @@ export const Editor = () => {
     };
 
     void fetchSchema();
-  }, [user, setValue, changeFormat, t]);
+  }, [user, setValue, changeFormat, t, loadSchema]);
 
   useEffect(() => {
     if (!validSchema) {
-      loadSchema('', format);
+      clearSchema();
       return;
     }
 
     loadSchema(value, format);
-  }, [validSchema, value, format, loadSchema]);
+  }, [validSchema, value, format, loadSchema, clearSchema]);
 
   useSchemaAutosave(value, format, Boolean(validSchema));
 
