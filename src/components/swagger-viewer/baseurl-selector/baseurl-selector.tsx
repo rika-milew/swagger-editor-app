@@ -7,7 +7,7 @@ import { swagger } from '@/theme/swagger';
 import { useSchemaStore } from '@/store/schema-store';
 import { useTranslations } from 'next-intl';
 
-type BaseUrl = {
+export type BaseUrl = {
   url: string;
   description?: string;
 };
