@@ -7,6 +7,7 @@ import { LogTableEmpty } from '@/components/history-section/log-table-empty/log-
 import { getHistory } from '@/app/actions/history';
 import { getSession } from '@/lib/auth/get-session';
 import { formatLogs } from '@/utils/history-helpers';
+import type { Tables } from '@/types/database.types';
 
 export type LogItem = {
   id: string;
@@ -27,7 +28,7 @@ export const LogsTable = async () => {
   }
 
   const result = await getHistory();
-  const logs = result.data ?? [];
+  const logs: Tables<'request_history'>[] = result.data ?? [];
 
   if (logs.length === 0) {
     return <LogTableEmpty />;

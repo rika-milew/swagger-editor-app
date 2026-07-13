@@ -39,6 +39,25 @@ export const isValidMethod = (method: string): method is MethodType => {
   return VALID_HTTP_METHODS.has(method.toUpperCase());
 };
 
+export const toValidMethod = (method: string): MethodType => {
+  const upper = method.toUpperCase();
+  const methods: MethodType[] = [
+    'GET',
+    'POST',
+    'PUT',
+    'DELETE',
+    'PATCH',
+    'HEAD',
+    'OPTIONS',
+  ];
+  for (const m of methods) {
+    if (m === upper) {
+      return m;
+    }
+  }
+  return 'GET';
+};
+
 export const formatLogs = (
   logs: Tables<'request_history'>[] | null,
 ): LogItem[] => {
@@ -49,7 +68,7 @@ export const formatLogs = (
   return logs.map((log) => ({
     id: log.id,
     time: formatTimestamp(log.request_timestamp),
-    method: isValidMethod(log.request_method) ? log.request_method : 'GET',
+    method: toValidMethod(log.request_method),
     endpoint: log.endpoint_url,
     status: log.response_status_code ?? 0,
     duration: `${String(log.request_duration ?? 0)}ms`,

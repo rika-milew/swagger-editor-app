@@ -16,8 +16,7 @@ export const LogTableEmpty = () => {
         <Box {...history.tableEmptyStateDesc}>{t('noLogsDesc')}</Box>
         <TextLink
           href={ROUTES.HOME}
-          colorScheme="blue"
-          fontSize="lg"
+          fontSize="md"
           fontWeight="bold"
           textDecoration="underline"
         >
