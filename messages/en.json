@@ -147,7 +147,13 @@
     "schemaMustBeObject": "Schema must be an object.",
     "missingOpenApiVersion": "Missing OpenAPI version.",
     "missingInfo": "Missing required field: info.",
-    "missingPaths": "Missing required field: paths."
+    "missingPaths": "Missing required field: paths.",
+
+    "infoMustBeObject": "Field info must be an object.",
+    "pathsMustBeObject": "Field paths must be an object.",
+
+    "missingResponses": "Each operation must contain responses.",
+    "invalidHttpMethod": "Invalid HTTP method."
   },
   "FormatConverter": {
     "title": "Conversion Error",

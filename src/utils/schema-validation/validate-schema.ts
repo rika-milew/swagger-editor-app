@@ -5,6 +5,7 @@ import { parseSchema } from '@/utils/schema-validation/parse-schema';
 import { validateStructure } from '@/utils/schema-validation/validate-structure';
 import { validateSwagger } from '@/utils/schema-validation/validate-swagger';
 import { isOpenAPIV3Document } from '@/utils/schema-validation/is-openapi-v3-document';
+import { formatSwaggerError } from './format-swagger-error';
 
 import type {
   SchemaFormat,
@@ -63,7 +64,24 @@ export const validateSchema = async (
     };
   }
 
-  await validateSwagger(schema);
+  try {
+    await validateSwagger(schema);
+  } catch (error) {
+    const message =
+      error instanceof Error
+        ? formatSwaggerError(error.message, t)
+        : t('invalidStructure');
+
+    return {
+      schema: null,
+      errors: [
+        {
+          path: 'root',
+          message,
+        },
+      ],
+    };
+  }
 
   return {
     schema,

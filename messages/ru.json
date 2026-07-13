@@ -145,9 +145,15 @@
     "lineColumn": "Строка {line}, столбец {column}.",
 
     "schemaMustBeObject": "Схема должна быть объектом.",
-    "missingOpenApiVersion": "Отсутствует поле: openapi.",
+    "missingOpenApiVersion": "Отсутствует версия OpenAPI.",
     "missingInfo": "Отсутствует обязательное поле: info.",
-    "missingPaths": "Отсутствует обязательное поле: paths."
+    "missingPaths": "Отсутствует обязательное поле: paths.",
+
+    "infoMustBeObject": "Поле info должно быть объектом.",
+    "pathsMustBeObject": "Поле paths должно быть объектом.",
+
+    "missingResponses": "Каждая операция должна содержать раздел responses.",
+    "invalidHttpMethod": "Недопустимый HTTP-метод."
   },
   "FormatConverter": {
     "title": "Ошибка конвертации",
