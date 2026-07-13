@@ -31,7 +31,7 @@ export const EditorErrors = ({ errors }: EditorErrorsProps) => {
       fontFamily="monospace"
       fontSize="13px"
     >
-      <Text color="red.400" mb={3} fontWeight="bold">
+      <Text as="h3" color="red.400" mb={3} fontWeight="bold">
         {t('validationErrors', { count: errors.length })}
       </Text>
 

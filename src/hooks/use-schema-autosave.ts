@@ -34,6 +34,13 @@ export const useSchemaAutosave = (
 
         if (result.error) {
           console.error(t('schemaErrors.saveError'));
+
+          toaster.create({
+            type: 'error',
+            title: 'Error',
+            description: t('schemaErrors.saveError'),
+            closable: true,
+          });
         }
       } catch {
         console.error(t('schemaErrors.saveError'));

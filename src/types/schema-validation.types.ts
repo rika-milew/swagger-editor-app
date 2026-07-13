@@ -14,5 +14,5 @@ export type ValidatedSchema = OpenAPIV3.Document;
 
 export type UseSchemaValidationReturn = {
   errors: ValidationError[];
-  validSchema: OpenAPIV3.Document | null;
+  validSchema: ValidatedSchema | null;
 };
