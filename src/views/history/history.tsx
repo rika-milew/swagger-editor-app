@@ -1,5 +1,3 @@
-'use client';
-
 import { Box, Stack } from '@chakra-ui/react';
 import { history } from '@/theme/history';
 import { HeroSection } from '@/components/history-section/hero-section/hero-section';

@@ -146,6 +146,7 @@
     "noLogsDesc": "Your request history is currently empty. Execute some queries in the editor to see them here.",
     "view": "view",
     "hide": "hide",
+    "goToEditor": "Go to Editor",
     "columns": {
       "time": "Time",
       "method": "Method",

@@ -1,7 +1,8 @@
 import { colors } from './colors';
 import { fontWeights } from './font';
 
-export type MethodType = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+export type MethodType =
+  'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'HEAD' | 'OPTIONS';
 
 const HTTP_STATUS = {
   OK: 200,
@@ -85,6 +86,27 @@ export const history = {
     borderRadius: 'xl',
     p: '2',
     overflowX: 'auto',
+
+    scrollbarWidth: 'auto',
+    scrollbarColor: `${colors.colorZinc600} transparent`,
+
+    '&::-webkit-scrollbar': {
+      width: '3px',
+      height: '3px',
+    },
+    '&::-webkit-scrollbar-track': {
+      background: 'transparent',
+    },
+    '&::-webkit-scrollbar-thumb': {
+      backgroundColor: colors.colorZinc600,
+      borderRadius: '999px',
+    },
+    '&::-webkit-scrollbar-thumb:hover': {
+      backgroundColor: colors.colorZinc500,
+    },
+    '&::-webkit-scrollbar-corner': {
+      background: 'transparent',
+    },
   },
   tableHeaderCell: {
     color: colors.colorZinc500,
@@ -107,6 +129,7 @@ export const history = {
     borderColor: colors.border,
     py: '3.5',
     px: '5',
+    whiteSpace: 'nowrap',
   },
   methodBadge: {
     color: colors.background,
@@ -188,6 +211,8 @@ export const history = {
       PUT: colors.methodPut,
       PATCH: colors.methodPatch,
       DELETE: colors.methodDelete,
+      HEAD: colors.methodDefault,
+      OPTIONS: colors.methodDefault,
     };
     return bgColors[method] || colors.methodDefault;
   },
