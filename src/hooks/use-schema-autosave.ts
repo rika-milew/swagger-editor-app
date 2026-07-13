@@ -33,8 +33,6 @@ export const useSchemaAutosave = (
         });
 
         if (result.error) {
-          console.error(t('schemaErrors.saveError'));
-
           toaster.create({
             type: 'error',
             title: 'Error',
@@ -43,8 +41,6 @@ export const useSchemaAutosave = (
           });
         }
       } catch {
-        console.error(t('schemaErrors.saveError'));
-
         toaster.create({
           type: 'error',
           title: 'Error',

@@ -31,8 +31,7 @@ export async function createServerClient(): Promise<SupabaseClient<Database>> {
         },
       },
     });
-  } catch (error) {
-    console.error('Error creating server client:', error);
+  } catch {
     throw new Error('Failed to create Supabase server client');
   }
 }

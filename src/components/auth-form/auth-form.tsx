@@ -55,7 +55,6 @@ export function AuthForm<T extends FieldValues>({
 
     if (actionResult.error) {
       const errorMessage = getErrorMessage({ message: actionResult.error }, t);
-      console.error('Server error:', errorMessage);
       setError('root.serverError', {
         type: 'server',
         message: errorMessage,

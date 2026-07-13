@@ -53,8 +53,7 @@ export async function updateSession(request: NextRequest): Promise<{
     ]);
 
     user = result.data?.claims ?? null;
-  } catch (error) {
-    console.error('updateSession auth check failed:', error);
+  } catch {
     user = null;
   } finally {
     if (timeoutId !== undefined) {

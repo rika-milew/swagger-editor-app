@@ -35,13 +35,11 @@ export async function getHistory(): Promise<GetHistoryResponse> {
       .order('request_timestamp', { ascending: false });
 
     if (error) {
-      console.error('Failed to load history:', error);
       return { data: null, error: 'Failed to load history' };
     }
 
     return { data, error: null };
-  } catch (error) {
-    console.error('Failed to load history:', error);
+  } catch {
     return { data: null, error: 'Failed to load history' };
   }
 }
@@ -59,7 +57,6 @@ export async function saveToHistory(
     const result = requestSchema.safeParse(request);
 
     if (!result.success) {
-      console.error('Validation failed:', result.error.issues);
       return { data: null, error: 'Invalid request data' };
     }
 
@@ -75,14 +72,12 @@ export async function saveToHistory(
       .single();
 
     if (error) {
-      console.error('Failed to save history:', error);
       return { data: null, error: 'Failed to save history' };
     }
 
     revalidatePath(ROUTES.HISTORY);
     return { data, error: null };
-  } catch (error) {
-    console.error('Failed to save history:', error);
+  } catch {
     return { data: null, error: 'Failed to save history' };
   }
 }
@@ -117,6 +112,6 @@ export async function recordHistory(params: {
   try {
     await saveToHistory(entry);
   } catch (error) {
-    console.error('Failed to save history:', error);
+    void error;
   }
 }

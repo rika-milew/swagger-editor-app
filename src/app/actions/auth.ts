@@ -37,8 +37,7 @@ export async function signIn(
     if (error) {
       return { error: toErrorKeyDTO(error) };
     }
-  } catch (error) {
-    console.error('Sign in failed:', error);
+  } catch {
     return { error: 'serverErrors.default' };
   }
 
@@ -66,8 +65,7 @@ export async function signUp(
     if (error) {
       return { error: toErrorKeyDTO(error) };
     }
-  } catch (error) {
-    console.error('Sign up failed:', error);
+  } catch {
     return { error: 'serverErrors.default' };
   }
 
@@ -83,10 +81,10 @@ export async function signOut(locale?: string): Promise<void> {
     const { error } = await supabase.auth.signOut();
 
     if (error) {
-      console.error('Sign out error:', toErrorKeyDTO(error));
+      void error;
     }
   } catch (error) {
-    console.error('Sign out failed:', error);
+    void error;
   }
 
   redirect(`/${userLocale}${ROUTES.HOME}`);

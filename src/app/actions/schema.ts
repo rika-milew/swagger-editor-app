@@ -25,7 +25,6 @@ export async function saveSchema(
 
   const result = endpointsSchema.safeParse(data);
   if (!result.success) {
-    console.error('Validation failed:', result.error.issues);
     return { error: 'Invalid schema data' };
   }
 
@@ -49,8 +48,7 @@ export async function saveSchema(
     }
 
     return { success: true };
-  } catch (error) {
-    console.error('Save schema failed:', error);
+  } catch {
     return { error: 'Failed to save schema' };
   }
 }
@@ -71,7 +69,6 @@ export async function getSchema(): Promise<SavedSchema> {
       .maybeSingle();
 
     if (error) {
-      console.error('Get latest schema query failed:', error);
       return null;
     }
 
@@ -92,8 +89,7 @@ export async function getSchema(): Promise<SavedSchema> {
     }
 
     return null;
-  } catch (error) {
-    console.error('Get latest schema failed:', error);
+  } catch {
     return null;
   }
 }
