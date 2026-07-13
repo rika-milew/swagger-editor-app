@@ -70,6 +70,7 @@ export const Editor = () => {
 
   useEffect(() => {
     if (!validSchema) {
+      loadSchema('', format);
       return;
     }
 

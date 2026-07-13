@@ -54,7 +54,7 @@ export function SwaggerViewer() {
 
   const servers = schema?.servers ?? [];
 
-  if (!code) {
+  if (!code || !schema) {
     return (
       <Box {...swagger.swaggerContainer}>
         <Flex flex={1} align="center" justify="center">
@@ -62,10 +62,6 @@ export function SwaggerViewer() {
         </Flex>
       </Box>
     );
-  }
-
-  if (!schema) {
-    return <Text color={colors.destructive}>{t('invalidSchema')}</Text>;
   }
 
   if (endpoints.length === 0) {
