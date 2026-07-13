@@ -6,7 +6,7 @@ import {
   formatLogs,
 } from './history-helpers';
 import type { Tables } from '@/types/database.types';
-import { VALID_HTTP_METHODS } from '@/constants/http-status';
+import { HTTP_STATUS, VALID_HTTP_METHODS } from '@/constants/http-status';
 
 const VALID_METHOD = [...VALID_HTTP_METHODS][0] ?? 'GET';
 
@@ -161,7 +161,7 @@ describe('formatLogs', () => {
     });
     const result = formatLogs([mockLog]);
 
-    const expectedStatusCode = 0;
+    const expectedStatusCode = HTTP_STATUS.BAD_GATEWAY;
     const expectedDuration = '0ms';
     const expectedSize = '0 B';
 

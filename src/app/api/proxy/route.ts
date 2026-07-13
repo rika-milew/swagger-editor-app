@@ -145,7 +145,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         targetUrl: url,
         method,
         body,
-        responseStatus: null,
+        responseStatus: HTTP_STATUS.BAD_GATEWAY,
         responseBody: null,
         duration,
         errorDetails: error instanceof Error ? error.message : 'Request failed',

@@ -13,7 +13,10 @@ export function buildUrl(
   parameters: SwaggerParameter[],
   values: Record<string, string>,
 ): string {
-  let url = baseUrl + path;
+  const cleanBase = baseUrl.replace(/\/+$/, '');
+  const cleanPath = path.replace(/^\/+/, '');
+
+  let url = cleanPath ? `${cleanBase}/${cleanPath}` : cleanBase;
 
   getParameters(parameters, 'path').forEach((parameter) => {
     const value = values[parameter.name];

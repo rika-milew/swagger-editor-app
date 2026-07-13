@@ -1,7 +1,7 @@
 import type { MethodType } from '@/theme/history';
 import type { Tables } from '@/types/database.types';
 import type { LogItem } from '@/components/history-section/log-table/logs-table';
-import { VALID_HTTP_METHODS } from '@/constants/http-status';
+import { VALID_HTTP_METHODS, HTTP_STATUS } from '@/constants/http-status';
 
 export const formatTimestamp = (timestamp: string): string => {
   const date = new Date(timestamp);
@@ -70,7 +70,7 @@ export const formatLogs = (
     time: formatTimestamp(log.request_timestamp),
     method: toValidMethod(log.request_method),
     endpoint: log.endpoint_url,
-    status: log.response_status_code ?? 0,
+    status: log.response_status_code ?? HTTP_STATUS.BAD_GATEWAY,
     duration: `${String(log.request_duration ?? 0)}ms`,
     req: formatBytes(log.request_size),
     res: formatBytes(log.response_size),
