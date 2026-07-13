@@ -6,7 +6,6 @@ import { ChakraUIProvider } from '@/providers/chakra-provider';
 import { UserProvider } from '@/providers/user-provider';
 import { Toaster } from '@/components/toaster/toaster';
 import { getSession } from '@/lib/auth/get-session';
-import { getErrorMessage } from '@/utils/get-error-message';
 
 const inter = Inter({
   variable: '--font-inter',
@@ -34,7 +33,7 @@ export default async function RootLayout({
   try {
     user = await getSession();
   } catch (error) {
-    console.error('Failed to get session:', getErrorMessage(error));
+    void error;
   }
 
   return (

@@ -223,10 +223,5 @@ describe('recordHistory', () => {
     mockSingle.mockRejectedValue(saveError);
 
     await expect(recordHistory(validParams)).resolves.toBeUndefined();
-
-    expect(console.error).toHaveBeenCalledWith(
-      'Failed to save history:',
-      saveError,
-    );
   });
 });

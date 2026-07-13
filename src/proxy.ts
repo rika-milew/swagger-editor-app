@@ -36,7 +36,7 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
     supabaseResponse = result.supabaseResponse;
     user = result.user;
   } catch (error) {
-    console.error('Middleware error:', error);
+    void error;
   }
 
   const pathWithoutLocale = pathname.replace(/^\/[a-z]{2}(?=\/|$)/, '') || '/';

@@ -195,10 +195,6 @@ describe('signOut', () => {
 
     await signOut();
 
-    expect(consoleSpy).toHaveBeenCalledWith(
-      'Sign out error:',
-      'serverErrors.sessionExpired',
-    );
     expect(mockRedirect).toHaveBeenCalledWith('/en/');
     consoleSpy.mockRestore();
   });
@@ -210,7 +206,6 @@ describe('signOut', () => {
 
     await signOut();
 
-    expect(consoleSpy).toHaveBeenCalledWith('Sign out failed:', testError);
     expect(mockRedirect).toHaveBeenCalledWith('/en/');
     consoleSpy.mockRestore();
   });

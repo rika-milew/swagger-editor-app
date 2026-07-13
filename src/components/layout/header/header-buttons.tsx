@@ -29,7 +29,7 @@ export default function HeaderButtons({
       await signOut(locale);
     } catch (error) {
       if (!(error instanceof Error && error.message === 'NEXT_REDIRECT')) {
-        console.error('Failed to sign out:', error);
+        void error;
       }
     } finally {
       clearUser();

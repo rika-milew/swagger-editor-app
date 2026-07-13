@@ -64,8 +64,6 @@ export const Editor = () => {
           isSchemaLoaded.current = true;
         }
       } catch {
-        console.error(t('schemaErrors.loadError'));
-
         toaster.create({
           type: 'error',
           title: 'Error',
