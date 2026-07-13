@@ -161,7 +161,7 @@ describe('formatLogs', () => {
     });
     const result = formatLogs([mockLog]);
 
-    const expectedStatusCode = 0;
+    const expectedStatusCode = HTTP_STATUS.BAD_GATEWAY;
     const expectedDuration = '0ms';
     const expectedSize = '0 B';
 
