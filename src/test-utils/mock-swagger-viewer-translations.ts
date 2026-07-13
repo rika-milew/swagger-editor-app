@@ -3,6 +3,7 @@ export const mockTranslations = {
   endpoints: 'Endpoints',
   noEndpoints: 'No endpoints found',
   invalidSchema: 'Invalid OpenAPI schema',
+  loadSchema: 'Enter a valid OpenAPI schema to view its endpoints.',
 
   parameters: 'Parameters',
   requestBody: 'Request body',
