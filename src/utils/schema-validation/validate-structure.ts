@@ -1,14 +1,19 @@
 import type { ValidationError } from '@/types/schema-validation.types';
 
+type Translator = (key: string) => string;
+
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null;
 
-export const validateStructure = (schema: unknown): ValidationError[] => {
+export const validateStructure = (
+  schema: unknown,
+  t: Translator,
+): ValidationError[] => {
   if (!isRecord(schema)) {
     return [
       {
         path: 'root',
-        message: 'Schema must be an object.',
+        message: t('schemaMustBeObject'),
       },
     ];
   }
@@ -18,21 +23,21 @@ export const validateStructure = (schema: unknown): ValidationError[] => {
   if (!schema.openapi && !schema.swagger) {
     errors.push({
       path: 'openapi',
-      message: 'Missing OpenAPI version.',
+      message: t('missingOpenApiVersion'),
     });
   }
 
   if (!schema.info) {
     errors.push({
       path: 'info',
-      message: 'Missing required field: info.',
+      message: t('missingInfo'),
     });
   }
 
   if (!schema.paths) {
     errors.push({
       path: 'paths',
-      message: 'Missing required field: paths.',
+      message: t('missingPaths'),
     });
   }
 

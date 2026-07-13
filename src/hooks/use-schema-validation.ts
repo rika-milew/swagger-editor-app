@@ -2,14 +2,11 @@ import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import type { OpenAPIV3 } from 'openapi-types';
 
-import { parseSchema } from '@/utils/schema-validation/parse-schema';
-import { validateStructure } from '@/utils/schema-validation/validate-structure';
-import { validateSwagger } from '@/utils/schema-validation/validate-swagger';
-import { isOpenAPIV3Document } from '@/utils/schema-validation/is-openapi-v3-document';
-
 import type { SchemaFormat } from '@/types/schema-validation.types';
 import type { ValidationError } from '@/types/schema-validation.types';
 import type { UseSchemaValidationReturn } from '@/types/schema-validation.types';
+import { validateSchema } from '@/utils/schema-validation/validate-schema';
+import { formatParserError } from '@/utils/schema-validation/format-parser-error';
 
 export const VALIDATION_DELAY = 500;
 export const EMPTY_DELAY = 0;
@@ -40,41 +37,16 @@ export const useSchemaValidation = (
 
       const validate = async (): Promise<void> => {
         try {
-          const schema = parseSchema(cleaned, format);
+          const result = await validateSchema(cleaned, format, t);
 
-          if (typeof schema !== 'object' || schema === null) {
-            setErrors([
-              {
-                path: 'root',
-                message: t('invalidStructure'),
-              },
-            ]);
+          if (result.errors.length > 0) {
+            setErrors(result.errors);
             setValidSchema(null);
             return;
           }
-          const structureErrors = validateStructure(schema);
-
-          if (structureErrors.length > 0) {
-            setErrors(structureErrors);
-            setValidSchema(null);
-            return;
-          }
-          if (!isOpenAPIV3Document(schema)) {
-            setErrors([
-              {
-                path: 'root',
-                message: t('invalidStructure'),
-              },
-            ]);
-
-            setValidSchema(null);
-            return;
-          }
-
-          await validateSwagger(schema);
 
           setErrors([]);
-          setValidSchema(schema);
+          setValidSchema(result.schema);
         } catch (error) {
           setValidSchema(null);
 
@@ -82,7 +54,7 @@ export const useSchemaValidation = (
             setErrors([
               {
                 path: 'root',
-                message: error.message,
+                message: formatParserError(error.message, t),
               },
             ]);
 

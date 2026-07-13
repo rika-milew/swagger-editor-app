@@ -139,7 +139,15 @@
   },
   "SchemaValidation": {
     "invalidStructure": "Invalid structure",
-    "invalidSyntax": "Invalid syntax structure"
+    "invalidSyntax": "Invalid syntax structure",
+
+    "syntaxError": "Syntax error.",
+    "lineColumn": "Line {line}, column {column}.",
+
+    "schemaMustBeObject": "Schema must be an object.",
+    "missingOpenApiVersion": "Missing OpenAPI version.",
+    "missingInfo": "Missing required field: info.",
+    "missingPaths": "Missing required field: paths."
   },
   "FormatConverter": {
     "title": "Conversion Error",

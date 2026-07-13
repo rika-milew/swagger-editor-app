@@ -139,7 +139,15 @@
   },
   "SchemaValidation": {
     "invalidStructure": "Неверная структура",
-    "invalidSyntax": "Неверная синтаксическая структура"
+    "invalidSyntax": "Неверная синтаксическая структура",
+
+    "syntaxError": "Синтаксическая ошибка.",
+    "lineColumn": "Строка {line}, столбец {column}.",
+
+    "schemaMustBeObject": "Схема должна быть объектом.",
+    "missingOpenApiVersion": "Отсутствует поле: openapi.",
+    "missingInfo": "Отсутствует обязательное поле: info.",
+    "missingPaths": "Отсутствует обязательное поле: paths."
   },
   "FormatConverter": {
     "title": "Ошибка конвертации",
