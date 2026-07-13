@@ -28,6 +28,10 @@ export const LogsTable = async () => {
   }
 
   const result = await getHistory();
+  if (result.error) {
+    return <LogTableEmpty />;
+  }
+
   const logs: Tables<'request_history'>[] = result.data ?? [];
 
   if (logs.length === 0) {
