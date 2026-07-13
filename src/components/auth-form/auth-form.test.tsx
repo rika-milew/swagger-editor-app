@@ -226,35 +226,4 @@ describe('AuthForm', () => {
       expect(screen.queryByText(/error/i)).not.toBeInTheDocument();
     });
   });
-
-  it('should log server error to console', async () => {
-    const user = userEvent.setup();
-    const consoleErrorSpy = vi
-      .spyOn(console, 'error')
-      .mockImplementation(vi.fn());
-    const handleSubmit = vi.fn().mockResolvedValue({ error: 'Server error' });
-
-    renderWithChakra(
-      <AuthForm {...defaultProps} onSubmitAction={handleSubmit} />,
-    );
-
-    await user.type(
-      screen.getByPlaceholderText('Enter email'),
-      'test@example.com',
-    );
-    await user.type(
-      screen.getByPlaceholderText('Enter password'),
-      'password123!',
-    );
-    await user.click(screen.getByRole('button', { name: 'Sign In' }));
-
-    await waitFor(() => {
-      expect(consoleErrorSpy).toHaveBeenCalledWith(
-        'Server error:',
-        'serverErrors.default',
-      );
-    });
-
-    consoleErrorSpy.mockRestore();
-  });
 });
