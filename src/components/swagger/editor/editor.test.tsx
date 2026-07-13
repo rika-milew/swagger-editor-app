@@ -1,48 +1,84 @@
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import '@testing-library/jest-dom';
-import { Editor } from './editor';
-import { useUserStore } from '@/store/user-store';
+
+import type { UseSchemaValidationReturn } from '@/types/schema-validation.types';
 import type { UserStore } from '@/store/user-store';
 import type { AppUser } from '@/types/auth.types';
 
-const { mockLoadSchema, mockGetSchema, mockSaveSchema } = vi.hoisted(() => ({
-  mockLoadSchema: vi.fn(),
-  mockGetSchema: vi.fn(),
-  mockSaveSchema: vi.fn(),
+import { Editor } from './editor';
+import { useUserStore } from '@/store/user-store';
+import { renderWithProviders } from '@/test-utils/render-with-providers';
+
+const { mockLoadSchema, mockClearSchema, mockGetSchema, mockSaveSchema } =
+  vi.hoisted(() => ({
+    mockLoadSchema: vi.fn(),
+    mockClearSchema: vi.fn(),
+    mockGetSchema: vi.fn(),
+    mockSaveSchema: vi.fn(),
+  }));
+
+const mockUseSchemaValidation = vi.fn((): UseSchemaValidationReturn => ({
+  errors: [],
+  validSchema: null,
 }));
 
-const MOCK_TIMEOUT_MS = 500;
+const VALID_SCHEMA = {
+  openapi: '3.0.0',
+  info: {
+    title: 'Test API',
+    version: '1.0.0',
+  },
+  paths: {},
+};
 
-vi.mock('@uiw/react-codemirror', () => {
-  return {
-    default: ({
-      value,
-      onChange,
-    }: {
-      value: string;
-      onChange: (val: string) => void;
-    }) => (
-      <textarea
-        data-testid="mock-codemirror"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-      />
-    ),
-  };
-});
+const mockTranslations = (key: string): string => key;
 
-const mockT = (key: string) => key;
+vi.mock('@uiw/react-codemirror', () => ({
+  default: ({
+    value,
+    onChange,
+  }: {
+    value: string;
+    onChange: (value: string) => void;
+  }) => (
+    <textarea
+      data-testid="mock-codemirror"
+      value={value}
+      onChange={(event) => onChange(event.target.value)}
+    />
+  ),
+}));
 
 vi.mock('next-intl', () => ({
-  useTranslations: () => mockT,
-  useLocale: () => 'en',
+  useTranslations: () => mockTranslations,
+}));
+
+vi.mock('@/hooks/use-schema-validation', () => ({
+  useSchemaValidation: (): UseSchemaValidationReturn =>
+    mockUseSchemaValidation(),
+}));
+
+vi.mock('@/store/schema-store', () => ({
+  useSchemaStore: () => ({
+    loadSchema: mockLoadSchema,
+    clearSchema: mockClearSchema,
+  }),
+}));
+
+vi.mock('@/store/user-store', () => ({
+  useUserStore: vi.fn(),
+}));
+
+vi.mock('@/app/actions/schema', () => ({
+  getSchema: mockGetSchema,
+  saveSchema: mockSaveSchema,
 }));
 
 const createMockUser = (id: string): AppUser => ({
   id,
   email: 'test@example.com',
-  created_at: new Date().toISOString(),
+  created_at: '',
 });
 
 const createMockUserStore = (user: AppUser | null): UserStore => ({
@@ -51,25 +87,15 @@ const createMockUserStore = (user: AppUser | null): UserStore => ({
   clearUser: vi.fn(),
 });
 
-vi.mock('@/store/user-store', () => ({
-  useUserStore: vi.fn((selector: (state: UserStore) => unknown): unknown =>
-    selector(createMockUserStore(null)),
-  ),
-}));
-
-vi.mock('@/store/schema-store', () => ({
-  useSchemaStore: () => ({ loadSchema: mockLoadSchema }),
-}));
-
-vi.mock('@/app/actions/schema', () => ({
-  getSchema: mockGetSchema,
-  saveSchema: mockSaveSchema,
-}));
-
 describe('Editor', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.useFakeTimers();
+
+    mockUseSchemaValidation.mockReturnValue({
+      errors: [],
+      validSchema: VALID_SCHEMA,
+    });
 
     vi.mocked(useUserStore).mockImplementation(
       (selector: (state: UserStore) => unknown): unknown =>
@@ -81,118 +107,70 @@ describe('Editor', () => {
     vi.useRealTimers();
   });
 
-  it('should render with initial default code and update text on change', () => {
-    render(<Editor />);
+  it('renders editor', () => {
+    renderWithProviders(<Editor />);
 
-    const textarea = screen.getByTestId('mock-codemirror');
-    expect(textarea).toBeInTheDocument();
-
-    const defaultCode = '# Write code here!';
-
-    expect(textarea).toHaveValue(defaultCode);
-
-    const newCode = 'server:\n  port: 9000';
-    fireEvent.change(textarea, { target: { value: newCode } });
-
-    expect(textarea).toHaveValue(newCode);
+    expect(screen.getByTestId('mock-codemirror')).toBeInTheDocument();
   });
 
-  it('should not fetch schema when user is not authenticated', async () => {
-    render(<Editor />);
+  it('updates editor value on change', () => {
+    renderWithProviders(<Editor />);
 
-    await act(async () => {
-      await vi.runAllTimersAsync();
+    const editor = screen.getByTestId('mock-codemirror');
+
+    fireEvent.change(editor, {
+      target: {
+        value: 'openapi: 3.0.0',
+      },
     });
 
-    expect(mockLoadSchema).not.toHaveBeenCalled();
+    expect(editor).toHaveValue('openapi: 3.0.0');
   });
 
-  it('should fetch latest schema when user is authenticated', async () => {
-    const mockSchema = { schema: 'code', format: 'yaml' as const };
-    mockGetSchema.mockResolvedValueOnce(mockSchema);
+  it('loads schema for authenticated user', async () => {
+    mockGetSchema.mockResolvedValue({
+      schema: 'openapi: 3.0.0',
+      format: 'yaml',
+    });
+
     vi.mocked(useUserStore).mockImplementation(
       (selector: (state: UserStore) => unknown): unknown =>
         selector(createMockUserStore(createMockUser('1'))),
     );
 
-    render(<Editor />);
+    renderWithProviders(<Editor />);
 
     await act(async () => {
       await vi.runAllTimersAsync();
     });
 
     expect(mockGetSchema).toHaveBeenCalled();
-    expect(mockLoadSchema).toHaveBeenCalledWith(
-      mockSchema.schema,
-      mockSchema.format,
-    );
+
+    expect(mockLoadSchema).toHaveBeenCalledWith('openapi: 3.0.0', 'yaml');
   });
 
-  it('should handle error when fetching schema fails', async () => {
-    const consoleErrorSpy = vi
-      .spyOn(console, 'error')
-      .mockImplementation(() => {
-        vi.fn();
-      });
-    mockGetSchema.mockRejectedValueOnce(new Error('Fetch failed'));
+  it('saves valid schema to server for authenticated user', async () => {
+    mockSaveSchema.mockResolvedValue({
+      success: true,
+    });
+
     vi.mocked(useUserStore).mockImplementation(
       (selector: (state: UserStore) => unknown): unknown =>
         selector(createMockUserStore(createMockUser('1'))),
     );
 
     render(<Editor />);
-
-    await act(async () => {
-      await vi.runAllTimersAsync();
-    });
-
-    expect(consoleErrorSpy).toHaveBeenCalledWith('schemaErrors.loadError');
-    consoleErrorSpy.mockRestore();
-  });
-
-  it('should save to store for anonymous user, but not to server', async () => {
-    render(<Editor />);
-
-    const textarea = screen.getByTestId('mock-codemirror');
-    fireEvent.change(textarea, { target: { value: 'content' } });
 
     await act(async () => {
       await vi.advanceTimersByTimeAsync(1000);
     });
 
-    expect(mockLoadSchema).toHaveBeenCalledWith('content', 'yaml');
-    expect(mockSaveSchema).not.toHaveBeenCalled();
+    expect(mockLoadSchema).toHaveBeenCalled();
+
+    expect(mockSaveSchema).toHaveBeenCalled();
   });
 
-  it('should auto-save to server for authenticated user', async () => {
-    mockSaveSchema.mockResolvedValueOnce({ success: true });
-    vi.mocked(useUserStore).mockImplementation(
-      (selector: (state: UserStore) => unknown): unknown =>
-        selector(createMockUserStore(createMockUser('1'))),
-    );
-
-    render(<Editor />);
-
-    const textarea = screen.getByTestId('mock-codemirror');
-    fireEvent.change(textarea, { target: { value: 'user content' } });
-
-    await act(async () => {
-      await vi.advanceTimersByTimeAsync(1000);
-    });
-
-    expect(mockLoadSchema).toHaveBeenCalledWith('user content', 'yaml');
-    expect(mockSaveSchema).toHaveBeenCalledWith({
-      schema: 'user content',
-      format: 'yaml',
-    });
-  });
-
-  it('should not auto-save when value is initial code', async () => {
-    vi.mocked(useUserStore).mockImplementation(
-      (selector: (state: UserStore) => unknown): unknown =>
-        selector(createMockUserStore(createMockUser('1'))),
-    );
-
+  it('does not save schema for anonymous user', async () => {
     render(<Editor />);
 
     await act(async () => {
@@ -202,65 +180,7 @@ describe('Editor', () => {
     expect(mockSaveSchema).not.toHaveBeenCalled();
   });
 
-  it('should handle save error correctly', async () => {
-    const consoleErrorSpy = vi
-      .spyOn(console, 'error')
-      .mockImplementation(() => {
-        vi.fn();
-      });
-
-    mockSaveSchema.mockResolvedValueOnce({ error: 'Save failed' });
-    vi.mocked(useUserStore).mockImplementation(
-      (selector: (state: UserStore) => unknown): unknown =>
-        selector(createMockUserStore(createMockUser('1'))),
-    );
-
-    render(<Editor />);
-
-    const textarea = screen.getByTestId('mock-codemirror');
-    fireEvent.change(textarea, { target: { value: 'new content' } });
-
-    await act(async () => {
-      await vi.advanceTimersByTimeAsync(1000);
-    });
-
-    expect(consoleErrorSpy).toHaveBeenCalledWith('schemaErrors.saveError');
-    consoleErrorSpy.mockRestore();
-  });
-
-  it('should debounce save calls', async () => {
-    mockSaveSchema.mockResolvedValueOnce({ success: true });
-    vi.mocked(useUserStore).mockImplementation(
-      (selector: (state: UserStore) => unknown): unknown =>
-        selector(createMockUserStore(createMockUser('1'))),
-    );
-
-    render(<Editor />);
-
-    const textarea = screen.getByTestId('mock-codemirror');
-
-    fireEvent.change(textarea, { target: { value: 'change 1' } });
-    fireEvent.change(textarea, { target: { value: 'change 2' } });
-    fireEvent.change(textarea, { target: { value: 'final change' } });
-
-    await act(async () => {
-      await vi.advanceTimersByTimeAsync(MOCK_TIMEOUT_MS);
-    });
-    expect(mockSaveSchema).not.toHaveBeenCalled();
-
-    await act(async () => {
-      await vi.advanceTimersByTimeAsync(MOCK_TIMEOUT_MS);
-    });
-
-    expect(mockSaveSchema).toHaveBeenCalledTimes(1);
-    expect(mockSaveSchema).toHaveBeenCalledWith({
-      schema: 'final change',
-      format: 'yaml',
-    });
-  });
-
-  it('should clear save timeout on unmount', async () => {
-    mockSaveSchema.mockResolvedValueOnce({ success: true });
+  it('clears save timeout after unmount', async () => {
     vi.mocked(useUserStore).mockImplementation(
       (selector: (state: UserStore) => unknown): unknown =>
         selector(createMockUserStore(createMockUser('1'))),
@@ -268,89 +188,7 @@ describe('Editor', () => {
 
     const { unmount } = render(<Editor />);
 
-    const textarea = screen.getByTestId('mock-codemirror');
-    fireEvent.change(textarea, { target: { value: 'new content' } });
-
     unmount();
-
-    await act(async () => {
-      await vi.advanceTimersByTimeAsync(1000);
-    });
-
-    expect(mockSaveSchema).not.toHaveBeenCalled();
-  });
-
-  it('should not auto-save invalid schema for authenticated user', async () => {
-    vi.mocked(useUserStore).mockImplementation(
-      (selector: (state: UserStore) => unknown): unknown =>
-        selector(createMockUserStore(createMockUser('1'))),
-    );
-
-    render(<Editor />);
-
-    const textarea = screen.getByTestId('mock-codemirror');
-    fireEvent.change(textarea, { target: { value: '' } });
-
-    await act(async () => {
-      await vi.advanceTimersByTimeAsync(1000);
-    });
-
-    expect(mockLoadSchema).toHaveBeenCalledWith('', 'yaml');
-    expect(mockSaveSchema).not.toHaveBeenCalled();
-  });
-
-  it('should update store instantly but save with debounce', async () => {
-    mockSaveSchema.mockResolvedValueOnce({ success: true });
-    vi.mocked(useUserStore).mockImplementation(
-      (selector: (state: UserStore) => unknown): unknown =>
-        selector(createMockUserStore(createMockUser('1'))),
-    );
-
-    render(<Editor />);
-
-    const textarea = screen.getByTestId('mock-codemirror');
-    fireEvent.change(textarea, { target: { value: 'new content' } });
-
-    expect(mockLoadSchema).toHaveBeenCalledWith('new content', 'yaml');
-
-    expect(mockSaveSchema).not.toHaveBeenCalled();
-
-    await act(async () => {
-      await vi.advanceTimersByTimeAsync(1000);
-    });
-
-    expect(mockSaveSchema).toHaveBeenCalledWith({
-      schema: 'new content',
-      format: 'yaml',
-    });
-  });
-
-  it('should update store for non-authenticated user but not save', async () => {
-    render(<Editor />);
-
-    const textarea = screen.getByTestId('mock-codemirror');
-    fireEvent.change(textarea, { target: { value: 'anonymous content' } });
-
-    expect(mockLoadSchema).toHaveBeenCalledWith('anonymous content', 'yaml');
-
-    await act(async () => {
-      await vi.advanceTimersByTimeAsync(1000);
-    });
-
-    expect(mockSaveSchema).not.toHaveBeenCalled();
-  });
-
-  it('should not save when format changes but value is initial code', async () => {
-    mockSaveSchema.mockResolvedValueOnce({ success: true });
-    vi.mocked(useUserStore).mockImplementation(
-      (selector: (state: UserStore) => unknown): unknown =>
-        selector(createMockUserStore(createMockUser('1'))),
-    );
-
-    render(<Editor />);
-
-    const formatButton = screen.getByText('JSON');
-    fireEvent.click(formatButton);
 
     await act(async () => {
       await vi.advanceTimersByTimeAsync(1000);

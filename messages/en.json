@@ -48,7 +48,7 @@
     "endpoints": "Endpoints",
     "noEndpoints": "No endpoints found.",
     "invalidSchema": "Invalid OpenAPI schema",
-    "loadSchema": "Enter an OpenAPI schema to view its endpoints.",
+    "loadSchema": "Enter a valid OpenAPI schema to view its endpoints.",
 
     "parameters": "Parameters",
     "requestBody": "Request body",
@@ -133,11 +133,41 @@
       "default": "Something went wrong. Please try again."
     }
   },
+  "EditorHeader": {
+    "validOpenApi": "Valid OpenAPI 3.0",
+    "save": "Save"
+  },
+  "SchemaValidation": {
+    "invalidStructure": "Invalid structure",
+    "invalidSyntax": "Invalid syntax structure",
+
+    "syntaxError": "Syntax error.",
+    "lineColumn": "Line {line}, column {column}.",
+
+    "schemaMustBeObject": "Schema must be an object.",
+    "missingOpenApiVersion": "Missing OpenAPI version.",
+    "missingInfo": "Missing required field: info.",
+    "missingPaths": "Missing required field: paths.",
+
+    "infoMustBeObject": "Field info must be an object.",
+    "pathsMustBeObject": "Field paths must be an object.",
+
+    "missingResponses": "Each operation must contain responses.",
+    "invalidHttpMethod": "Invalid HTTP method."
+  },
+  "FormatConverter": {
+    "title": "Conversion Error",
+    "invalidSyntax": "Invalid syntax format"
+  },
   "Editor": {
     "schemaErrors": {
       "saveError": "Failed to save schema",
       "loadError": "Failed to load schema"
     }
+  },
+  "EditorErrors": {
+    "validationErrors": "Validation Errors ({count})",
+    "line": "Line {line}"
   },
   "HistoryPage": {
     "historyTitle": "History & Analytics",

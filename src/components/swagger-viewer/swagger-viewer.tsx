@@ -9,6 +9,7 @@ import { parseSchema } from '@/utils/parse-schema';
 import { parseSwagger } from '@/utils/parse-swagger';
 import { colors } from '@/theme/colors';
 import { swagger } from '@/theme/swagger';
+import { useSwaggerServers } from '@/hooks/use-swagger-servers';
 
 import { EndpointList } from './endpoint-list';
 import { BaseUrlSelector } from './baseurl-selector/baseurl-selector';
@@ -52,9 +53,9 @@ export function SwaggerViewer() {
     return parseSwagger(schema);
   }, [schema]);
 
-  const servers = schema?.servers ?? [];
+  const servers = useSwaggerServers(schema);
 
-  if (!code) {
+  if (!code || !schema) {
     return (
       <Box {...swagger.swaggerContainer}>
         <Flex flex={1} align="center" justify="center">
@@ -64,24 +65,8 @@ export function SwaggerViewer() {
     );
   }
 
-  if (!schema) {
-    return (
-      <Box {...swagger.swaggerContainer}>
-        <Flex flex={1} align="center" justify="center">
-          <Text color={colors.destructive}>{t('invalidSchema')}</Text>
-        </Flex>
-      </Box>
-    );
-  }
-
   if (endpoints.length === 0) {
-    return (
-      <Box {...swagger.swaggerContainer}>
-        <Flex flex={1} align="center" justify="center">
-          <Text color={colors.mutedForeground}>{t('noEndpoints')}</Text>
-        </Flex>
-      </Box>
-    );
+    return <Text color={colors.mutedForeground}>{t('noEndpoints')}</Text>;
   }
 
   return (

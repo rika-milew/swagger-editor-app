@@ -3,6 +3,12 @@ import { describe, it, expect, vi } from 'vitest';
 import HomeRoute from './[lang]/page';
 import { renderWithProviders } from '@/test-utils/render-with-providers';
 
+const mockTranslations = (key: string): string => key;
+
+vi.mock('next-intl', () => ({
+  useTranslations: () => mockTranslations,
+}));
+
 vi.mock('next-intl/server', () => ({
   setRequestLocale: vi.fn(),
 }));

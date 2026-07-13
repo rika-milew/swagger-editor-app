@@ -30,6 +30,7 @@
     ]
   },
   "dependencies": {
+    "@apidevtools/swagger-parser": "^12.1.0",
     "@chakra-ui/react": "^3.36.0",
     "@codemirror/lang-json": "^6.0.2",
     "@codemirror/lang-yaml": "^6.1.3",

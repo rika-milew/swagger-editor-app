@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import * as yaml from 'js-yaml';
+import { useTranslations } from 'next-intl';
 import { toaster } from '@/components/toaster/toaster';
 import type { EditorFormat } from '@/types/editor.types';
 
@@ -27,6 +28,7 @@ export const useFormatConverter = (
   initialValue: string,
   initialFormat: EditorFormat = 'yaml',
 ): UseFormatConverterReturn => {
+  const t = useTranslations('FormatConverter');
   const [value, setValue] = useState<string>(initialValue);
   const [format, setFormat] = useState<EditorFormat>(initialFormat);
   const toastIdRef = useRef<string | undefined>(undefined);
@@ -70,10 +72,10 @@ export const useFormatConverter = (
       }
 
       const message =
-        error instanceof Error ? error.message : 'Invalid syntax format';
+        error instanceof Error ? error.message : t('invalidSyntax');
 
       toastIdRef.current = toaster.create({
-        title: 'Conversion Error',
+        title: t('title'),
         description: message,
         type: 'error',
         duration: Infinity,
