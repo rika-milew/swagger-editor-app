@@ -1,0 +1,132 @@
+import { describe, it, expect, vi } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { ChakraProvider, defaultSystem } from '@chakra-ui/react';
+import type { ReactElement } from 'react';
+import { AuthInput } from './auth-input';
+
+const mockTranslations = (key: string) => key;
+
+vi.mock('next-intl', () => ({
+  useTranslations: () => mockTranslations,
+}));
+
+const renderWithChakra = (ui: ReactElement) => {
+  return render(<ChakraProvider value={defaultSystem}>{ui}</ChakraProvider>);
+};
+
+describe('AuthInput', () => {
+  const defaultProps = {
+    label: 'Email',
+    type: 'email' as const,
+    placeholder: 'Enter your email',
+  };
+
+  it('should render with label and input', () => {
+    renderWithChakra(<AuthInput {...defaultProps} />);
+
+    const label = screen.getByText('Email');
+    const input = screen.getByPlaceholderText('Enter your email');
+
+    expect(label).toBeInTheDocument();
+    expect(input).toBeInTheDocument();
+    expect(input).toHaveAttribute('type', 'email');
+    expect(label).toHaveAttribute('for', input.id);
+  });
+
+  it('should render different input types', () => {
+    const { rerender } = renderWithChakra(
+      <AuthInput {...defaultProps} type="password" />,
+    );
+
+    let input = screen.getByPlaceholderText('Enter your email');
+    expect(input).toHaveAttribute('type', 'password');
+
+    rerender(
+      <ChakraProvider value={defaultSystem}>
+        <AuthInput {...defaultProps} type="text" />
+      </ChakraProvider>,
+    );
+
+    input = screen.getByPlaceholderText('Enter your email');
+    expect(input).toHaveAttribute('type', 'text');
+  });
+
+  it('should not show error when error prop is not provided', () => {
+    renderWithChakra(<AuthInput {...defaultProps} />);
+
+    const errorElement = screen.queryByRole('alert');
+    expect(errorElement).not.toBeInTheDocument();
+  });
+
+  it('should display error message when error prop is provided', () => {
+    renderWithChakra(
+      <AuthInput {...defaultProps} error="Invalid email address" />,
+    );
+
+    const errorMessage = screen.getByText('Invalid email address');
+    expect(errorMessage).toBeInTheDocument();
+  });
+
+  it('should mark field as invalid when error exists', () => {
+    renderWithChakra(
+      <AuthInput {...defaultProps} error="Invalid email address" />,
+    );
+
+    const input = screen.getByPlaceholderText('Enter your email');
+    expect(input).toHaveAttribute('aria-invalid', 'true');
+  });
+
+  it('should allow user to type in input', async () => {
+    const user = userEvent.setup();
+    renderWithChakra(<AuthInput {...defaultProps} />);
+
+    const input = screen.getByPlaceholderText('Enter your email');
+
+    await user.type(input, 'test@example.com');
+
+    expect(input).toHaveValue('test@example.com');
+  });
+
+  it('should not render toggle button for non-password inputs', () => {
+    renderWithChakra(<AuthInput {...defaultProps} type="email" />);
+
+    const toggleButton = screen.queryByRole('button');
+    expect(toggleButton).not.toBeInTheDocument();
+  });
+
+  it('should toggle password visibility and icon on click', async () => {
+    const user = userEvent.setup();
+    renderWithChakra(<AuthInput {...defaultProps} type="password" />);
+
+    const input = screen.getByPlaceholderText('Enter your email');
+    const toggleButton = screen.getByRole('button');
+
+    expect(input).toHaveAttribute('type', 'password');
+    expect(toggleButton).toHaveAttribute('aria-label', 'fields.password.show');
+    expect(toggleButton.innerHTML).toContain('svg');
+
+    await user.click(toggleButton);
+
+    expect(input).toHaveAttribute('type', 'text');
+    expect(toggleButton).toHaveAttribute('aria-label', 'fields.password.hide');
+
+    await user.click(toggleButton);
+
+    expect(input).toHaveAttribute('type', 'password');
+    expect(toggleButton).toHaveAttribute('aria-label', 'fields.password.show');
+  });
+
+  it('should preserve input value when toggling visibility', async () => {
+    const user = userEvent.setup();
+    renderWithChakra(<AuthInput {...defaultProps} type="password" />);
+
+    const input = screen.getByPlaceholderText('Enter your email');
+    const toggleButton = screen.getByRole('button');
+
+    await user.type(input, 'test123!');
+    await user.click(toggleButton);
+
+    expect(input).toHaveValue('test123!');
+  });
+});

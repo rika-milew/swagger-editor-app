@@ -1,0 +1,191 @@
+{
+  "Metadata": {
+    "title": "Swagger Editor App",
+    "description": "Онлайн редактор и просмотр Swagger/OpenAPI"
+  },
+  "AboutPage": {
+    "heroTitle": "О проекте",
+    "heroHeading": "Swagger Editor App",
+    "heroDescr": "Swagger Editor App — выпускной проект RS School: полнофункциональный редактор Swagger/OpenAPI с интерактивным просмотром, выполнением API-запросов и аналитикой, созданный на базе Next.js, React и TypeScript.",
+    "stackTitle": "Используемые технологии",
+    "schoolTitle": "Выпускной проект курса React RS School",
+    "schoolDescr": "Это приложение было разработано как финальный командный проект в рамках курса <course>RS School React course</course>. Наша цель — создать современный инструмент для разработчиков с удобным и интуитивно понятным интерфейсом для работы с OpenAPI-спецификациями",
+    "teamTitle": "Команда"
+  },
+  "Header": {
+    "navigationMenu": "Меню навигации",
+    "openMenu": "Открыть меню",
+    "closeMenu": "Закрыть меню"
+  },
+  "Navigation": {
+    "home": "Редактор",
+    "about": "О проекте"
+  },
+  "Buttons": {
+    "login": "Войти",
+    "register": "Зарегистрироваться",
+    "logout": "Выйти",
+    "history": "История"
+  },
+  "About": {
+    "title": "О проекте",
+    "courseText": "Это приложение было создано как часть курса React.",
+    "authorText": "Автор: "
+  },
+  "NotFound": {
+    "title": "Страница не найдена",
+    "description": "Такой страницы не существует или она была перемещена.",
+    "button": "На главную"
+  },
+  "ErrorBoundary": {
+    "title": "Что-то пошло не так",
+    "description": "Произошла непредвиденная ошибка. Пожалуйста, попробуйте снова или вернитесь на главную страницу.",
+    "tryAgain": "Попробовать снова",
+    "goHome": "На главную"
+  },
+  "SwaggerViewer": {
+    "description": "Пример API, автоматически сгенерированный из загруженной спецификации. Разверните любой конечный пункт, чтобы просмотреть параметры и попробовать его.",
+    "endpoints": "Конечные точки",
+    "noEndpoints": "Конечные точки не найдены.",
+    "invalidSchema": "Недопустимая схема OpenAPI",
+    "loadSchema": "Введите валидную схему OpenAPI для просмотра.",
+
+    "parameters": "Параметры",
+    "requestBody": "Тело запроса",
+    "responses": "Ответы",
+    "required": "Обязательный",
+    "noParameters": "Параметры отсутствуют",
+    "noRequestBody": "Тело запроса отсутствует",
+    "noResponses": "Ответы отсутствуют",
+
+    "tryItOut": "Попробовать",
+    "execute": "Выполнить",
+    "executing": "Выполняется...",
+    "cancel": "Отмена",
+    "generateCurl": "Сгенерировать cURL",
+
+    "response": "Ответ",
+    "headers": "Заголовки",
+    "body": "Тело ответа",
+    "baseUrl": "Базовый URL",
+
+    "addRequestBody": "Добавьте тело запроса",
+    "enterRequestBody": "Введите данные запроса в формате JSON",
+
+    "curlTitle": "cURL команда",
+    "copyCurl": "Копировать",
+    "copied": "Скопировано!"
+  },
+  "Unauthorized": {
+    "title": "Нет доступа",
+    "description": "У вас нет прав для доступа к этой странице.",
+    "redirectMessage": "Перенаправление на главную..."
+  },
+  "Auth": {
+    "fields": {
+      "email": {
+        "label": "Электронная почта"
+      },
+      "password": {
+        "label": "Пароль",
+        "show": "Показать пароль",
+        "hide": "Скрыть пароль"
+      },
+      "confirmPassword": {
+        "label": "Подтвердить пароль"
+      }
+    },
+    "loading": "Загрузка...",
+    "signIn": {
+      "title": "С возвращением",
+      "subtitle": "Войдите в аккаунт чтобы продолжить",
+      "submitLabel": "Войти",
+      "noAccount": "Нет аккаунта?",
+      "createAccount": "Создать"
+    },
+    "signUp": {
+      "title": "Создать аккаунт",
+      "subtitle": "Сохраняйте схемы и просматривайте историю запросов",
+      "submitLabel": "Зарегистрироваться",
+      "passwordHint": "Минимум 8 символов, хотя бы одна буква, одна цифра и один специальный символ.",
+      "hasAccount": "Уже есть аккаунт?",
+      "signIn": "Войти"
+    },
+    "validationErrors": {
+      "default": "Ошибка валидации",
+      "emailRequired": "Электронная почта обязательна",
+      "invalidEmail": "Введите корректный адрес почты",
+      "passwordRequired": "Пароль обязателен",
+      "passwordMinLength": "Пароль должен быть не менее 8 символов",
+      "passwordLetter": "Пароль должен содержать хотя бы одну букву",
+      "passwordDigit": "Пароль должен содержать хотя бы одну цифру",
+      "passwordSpecial": "Пароль должен содержать хотя бы один спецсимвол",
+      "confirmRequired": "Подтвердите пароль",
+      "passwordsMatch": "Пароли не совпадают"
+    },
+    "serverErrors": {
+      "invalidCredentials": "Неверный адрес электронной почты или пароль",
+      "invalidEmail": "Некорректный адрес почты",
+      "emailTaken": "Пользователь с такой почтой уже существует",
+      "weakPassword": "Слишком слабый пароль",
+      "tooManyRequests": "Слишком много попыток. Попробуйте позже.",
+      "sessionExpired": "Сессия истекла. Войдите снова.",
+      "default": "Что-то пошло не так. Попробуйте снова."
+    }
+  },
+  "EditorHeader": {
+    "validOpenApi": "Валидно OpenAPI 3.0",
+    "save": "Сохранить"
+  },
+  "SchemaValidation": {
+    "invalidStructure": "Неверная структура",
+    "invalidSyntax": "Неверная синтаксическая структура",
+
+    "syntaxError": "Синтаксическая ошибка.",
+    "lineColumn": "Строка {line}, столбец {column}.",
+
+    "schemaMustBeObject": "Схема должна быть объектом.",
+    "missingOpenApiVersion": "Отсутствует версия OpenAPI.",
+    "missingInfo": "Отсутствует обязательное поле: info.",
+    "missingPaths": "Отсутствует обязательное поле: paths.",
+
+    "infoMustBeObject": "Поле info должно быть объектом.",
+    "pathsMustBeObject": "Поле paths должно быть объектом.",
+
+    "missingResponses": "Каждая операция должна содержать раздел responses.",
+    "invalidHttpMethod": "Недопустимый HTTP-метод."
+  },
+  "FormatConverter": {
+    "title": "Ошибка конвертации",
+    "invalidSyntax": "Неверный синтаксический формат"
+  },
+  "HistoryPage": {
+    "historyTitle": "История и Аналитика",
+    "historyDesc": "Каждый запрос сделанный пользователем сохраняется на стороне сервера",
+    "noLogsTitle": "История запросов пуста",
+    "noLogsDesc": "Вы еще не сделали ни одного запроса. Выполните запросы в редакторе чтобы они отобразились здесь.",
+    "view": "показать",
+    "hide": "скрыть",
+    "goToEditor": "Перейти в редактор",
+    "columns": {
+      "time": "Время",
+      "method": "Метод",
+      "endpoint": "Эндпоинт",
+      "status": "Статус",
+      "duration": "Длительность",
+      "req": "Запрос",
+      "res": "Ответ",
+      "error": "Ошибка"
+    }
+  },
+  "Editor": {
+    "schemaErrors": {
+      "saveError": "Не удалось сохранить схему",
+      "loadError": "Не удалось загрузить схему"
+    }
+  },
+  "EditorErrors": {
+    "validationErrors": "Ошибки валидации ({count})",
+    "line": "Строка {line}"
+  }
+}

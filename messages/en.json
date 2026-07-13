@@ -1,0 +1,191 @@
+{
+  "Metadata": {
+    "title": "Swagger Editor App",
+    "description": "Online Swagger/OpenAPI editor and viewer"
+  },
+  "AboutPage": {
+    "heroTitle": "About",
+    "heroHeading": "Swagger Editor App",
+    "heroDescr": "Swagger Editor App is the RS School graduation project — a full-featured Swagger/OpenAPI editor with an interactive viewer, API request execution and analytics, built with Next.js, React and TypeScript.",
+    "stackTitle": "Stack",
+    "schoolTitle": "RS School React Course Graduation Project",
+    "schoolDescr": "This application was created as the final team project during the <course>RS School React course</course>. Our goal was to build a modern developer tool with an intuitive interface for working with OpenAPI specifications.",
+    "teamTitle": "Team"
+  },
+  "Header": {
+    "navigationMenu": "Navigation menu",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "Navigation": {
+    "home": "Editor",
+    "about": "About"
+  },
+  "Buttons": {
+    "login": "Sign In",
+    "register": "Sign Up",
+    "logout": "Sign Out",
+    "history": "History"
+  },
+  "About": {
+    "title": "About this project",
+    "courseText": "This application was created as part of the React course.",
+    "authorText": "Author: "
+  },
+  "NotFound": {
+    "title": "Page not found",
+    "description": "The page you're looking for doesn't exist or has been moved.",
+    "button": "Back to Home"
+  },
+  "ErrorBoundary": {
+    "title": "Something went wrong",
+    "description": "An unexpected error occurred. Please try again or return to the home page.",
+    "tryAgain": "Try Again",
+    "goHome": "Go Home"
+  },
+  "SwaggerViewer": {
+    "description": "Sample API auto-rendered from the loaded specification. Expand any endpoint to inspect parameters and try it out.",
+    "endpoints": "Endpoints",
+    "noEndpoints": "No endpoints found.",
+    "invalidSchema": "Invalid OpenAPI schema",
+    "loadSchema": "Enter a valid OpenAPI schema to view its endpoints.",
+
+    "parameters": "Parameters",
+    "requestBody": "Request body",
+    "responses": "Responses",
+    "required": "Required",
+    "noParameters": "No parameters available",
+    "noRequestBody": "No request body",
+    "noResponses": "No responses available",
+
+    "tryItOut": "Try it out",
+    "execute": "Execute",
+    "executing": "Executing...",
+    "cancel": "Cancel",
+    "generateCurl": "Generate cURL",
+
+    "response": "Response",
+    "headers": "Headers",
+    "body": "Body",
+    "baseUrl": "Base URL",
+
+    "addRequestBody": "Add request body",
+    "enterRequestBody": "Enter request data in JSON format",
+
+    "curlTitle": "cURL Command",
+    "copyCurl": "Copy to clipboard",
+    "copied": "Copied!"
+  },
+  "Unauthorized": {
+    "title": "Unauthorized",
+    "description": "You're not authorized to access this page.",
+    "redirectMessage": "Redirecting to home page..."
+  },
+  "Auth": {
+    "fields": {
+      "email": {
+        "label": "Email"
+      },
+      "password": {
+        "label": "Password",
+        "show": "Show password",
+        "hide": "Hide password"
+      },
+      "confirmPassword": {
+        "label": "Confirm Password"
+      }
+    },
+    "loading": "Please wait...",
+    "signIn": {
+      "title": "Welcome Back",
+      "subtitle": "Sign in to your account to continue",
+      "submitLabel": "Sign In",
+      "noAccount": "No account?",
+      "createAccount": "Create one"
+    },
+    "signUp": {
+      "title": "Create Account",
+      "subtitle": "Save schemas and access request history",
+      "submitLabel": "Sign Up",
+      "passwordHint": "Min 8 characters, at least one letter, one digit and one special character.",
+      "hasAccount": "Already have an account?",
+      "signIn": "Sign in"
+    },
+    "validationErrors": {
+      "default": "Validation error",
+      "emailRequired": "Email is required",
+      "invalidEmail": "Please enter a valid email address",
+      "passwordRequired": "Password is required",
+      "passwordMinLength": "Password must be at least 8 characters",
+      "passwordLetter": "Password must contain at least one letter",
+      "passwordDigit": "Password must contain at least one digit",
+      "passwordSpecial": "Password must contain at least one special character",
+      "confirmRequired": "Please confirm your password",
+      "passwordsMatch": "Passwords don't match"
+    },
+    "serverErrors": {
+      "invalidCredentials": "Invalid email or password",
+      "invalidEmail": "Invalid email address",
+      "emailTaken": "User with this email already exists",
+      "weakPassword": "Password is too weak",
+      "tooManyRequests": "Too many attempts. Please try again later.",
+      "sessionExpired": "Session expired. Please sign in again.",
+      "default": "Something went wrong. Please try again."
+    }
+  },
+  "EditorHeader": {
+    "validOpenApi": "Valid OpenAPI 3.0",
+    "save": "Save"
+  },
+  "SchemaValidation": {
+    "invalidStructure": "Invalid structure",
+    "invalidSyntax": "Invalid syntax structure",
+
+    "syntaxError": "Syntax error.",
+    "lineColumn": "Line {line}, column {column}.",
+
+    "schemaMustBeObject": "Schema must be an object.",
+    "missingOpenApiVersion": "Missing OpenAPI version.",
+    "missingInfo": "Missing required field: info.",
+    "missingPaths": "Missing required field: paths.",
+
+    "infoMustBeObject": "Field info must be an object.",
+    "pathsMustBeObject": "Field paths must be an object.",
+
+    "missingResponses": "Each operation must contain responses.",
+    "invalidHttpMethod": "Invalid HTTP method."
+  },
+  "FormatConverter": {
+    "title": "Conversion Error",
+    "invalidSyntax": "Invalid syntax format"
+  },
+  "Editor": {
+    "schemaErrors": {
+      "saveError": "Failed to save schema",
+      "loadError": "Failed to load schema"
+    }
+  },
+  "EditorErrors": {
+    "validationErrors": "Validation Errors ({count})",
+    "line": "Line {line}"
+  },
+  "HistoryPage": {
+    "historyTitle": "History & Analytics",
+    "historyDesc": "Every request executed from the viewer is recorded server side",
+    "noLogsTitle": "No requests found",
+    "noLogsDesc": "Your request history is currently empty. Execute some queries in the editor to see them here.",
+    "view": "view",
+    "hide": "hide",
+    "goToEditor": "Go to Editor",
+    "columns": {
+      "time": "Time",
+      "method": "Method",
+      "endpoint": "Endpoint",
+      "status": "Status",
+      "duration": "Duration",
+      "req": "Req",
+      "res": "Res",
+      "error": "Error"
+    }
+  }
+}
