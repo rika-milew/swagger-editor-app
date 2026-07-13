@@ -153,7 +153,7 @@ describe('formatLogs', () => {
 
   it('should handle null optional fields with defaults', () => {
     const mockLog = createMockLog({
-      response_status_code: HTTP_STATUS.BAD_GATEWAY,
+      response_status_code: null,
       request_duration: null,
       request_size: undefined,
       response_size: null,
