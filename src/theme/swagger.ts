@@ -7,10 +7,6 @@ export const swagger = {
     minW: 0,
     display: 'flex',
     flexDirection: 'column',
-    /*bg: colors.background,
-    border: '1px solid',
-    borderColor: colors.border,
-    borderRadius: 'xl',*/
     p: 8,
   },
 
