@@ -1,6 +1,7 @@
 'use client';
 
 import { Box, Text } from '@chakra-ui/react';
+import { useTranslations } from 'next-intl';
 
 export type ValidationError = {
   path: string;
@@ -13,6 +14,8 @@ type EditorErrorsProps = {
 };
 
 export const EditorErrors = ({ errors }: EditorErrorsProps) => {
+  const t = useTranslations('EditorErrors');
+
   if (errors.length === 0) {
     return null;
   }
@@ -29,7 +32,7 @@ export const EditorErrors = ({ errors }: EditorErrorsProps) => {
       fontSize="13px"
     >
       <Text color="red.400" mb={3} fontWeight="bold">
-        Validation Errors ({errors.length})
+        {t('validationErrors', { count: errors.length })}
       </Text>
 
       <Box as="ul" p={0} m={0} listStyle="none">
@@ -37,7 +40,7 @@ export const EditorErrors = ({ errors }: EditorErrorsProps) => {
           <Box as="li" key={`${error.path}-${String(index)}`} mb={2}>
             {typeof error.line === 'number' && (
               <Text as="span" color="orange.400" mr={2}>
-                Line {error.line}:
+                {t('line', { line: error.line })}:
               </Text>
             )}
 

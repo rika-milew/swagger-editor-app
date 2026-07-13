@@ -164,5 +164,9 @@
       "saveError": "Failed to save schema",
       "loadError": "Failed to load schema"
     }
+  },
+  "EditorErrors": {
+    "validationErrors": "Validation Errors ({count})",
+    "line": "Line {line}"
   }
 }
