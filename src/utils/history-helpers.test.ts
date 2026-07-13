@@ -6,7 +6,7 @@ import {
   formatLogs,
 } from './history-helpers';
 import type { Tables } from '@/types/database.types';
-import { VALID_HTTP_METHODS } from '@/constants/http-status';
+import { HTTP_STATUS, VALID_HTTP_METHODS } from '@/constants/http-status';
 
 const VALID_METHOD = [...VALID_HTTP_METHODS][0] ?? 'GET';
 
@@ -153,7 +153,7 @@ describe('formatLogs', () => {
 
   it('should handle null optional fields with defaults', () => {
     const mockLog = createMockLog({
-      response_status_code: null,
+      response_status_code: HTTP_STATUS.BAD_GATEWAY,
       request_duration: null,
       request_size: undefined,
       response_size: null,
