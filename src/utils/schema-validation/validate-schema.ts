@@ -1,10 +1,10 @@
-import type { OpenAPIV3 } from 'openapi-types';
+import type { OpenAPIV3, OpenAPIV2 } from 'openapi-types';
 import type { useTranslations } from 'next-intl';
 
 import { parseSchema } from '@/utils/schema-validation/parse-schema';
 import { validateStructure } from '@/utils/schema-validation/validate-structure';
 import { validateSwagger } from '@/utils/schema-validation/validate-swagger';
-import { isOpenAPIV3Document } from '@/utils/schema-validation/is-openapi-v3-document';
+import { isOpenAPIDocument } from '@/utils/schema-validation/is-openapi-document';
 import { formatSwaggerError } from './format-swagger-error';
 
 import type {
@@ -15,7 +15,7 @@ import type {
 type Translator = ReturnType<typeof useTranslations>;
 
 type ValidateSchemaResult = {
-  schema: OpenAPIV3.Document | null;
+  schema: OpenAPIV3.Document | OpenAPIV2.Document | null;
   errors: ValidationError[];
 };
 
@@ -52,7 +52,7 @@ export const validateSchema = async (
     };
   }
 
-  if (!isOpenAPIV3Document(schema)) {
+  if (!isOpenAPIDocument(schema)) {
     return {
       schema: null,
       errors: [

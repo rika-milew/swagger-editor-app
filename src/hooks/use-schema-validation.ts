@@ -1,6 +1,6 @@
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
-import type { OpenAPIV3 } from 'openapi-types';
+import type { OpenAPIV3, OpenAPIV2 } from 'openapi-types';
 
 import type { SchemaFormat } from '@/types/schema-validation.types';
 import type { ValidationError } from '@/types/schema-validation.types';
@@ -19,9 +19,9 @@ export const useSchemaValidation = (
 
   const [errors, setErrors] = useState<ValidationError[]>([]);
 
-  const [validSchema, setValidSchema] = useState<OpenAPIV3.Document | null>(
-    null,
-  );
+  const [validSchema, setValidSchema] = useState<
+    OpenAPIV3.Document | OpenAPIV2.Document | null
+  >(null);
 
   useEffect(() => {
     const cleaned = value.trim();
